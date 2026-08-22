@@ -1,0 +1,1285 @@
+{
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB47FB289A67378A55EA8FCCAB0FC1D7D3232461DE93C6640BF282BAF04BA1F0A8D01EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
+    "botRequest": {
+        "name": "GreenHub_Whatsapp",
+        "channel": "WHATSAPP",
+        "language": "ENGLISH",
+        "sessionTimeout": 5,
+        "voiceSettings": {
+            "voiceEnabled": false,
+            "textToSpeechSettings": {},
+            "speechToTextSettings": {}
+        },
+        "sendCallbackDataInPublicAnswersEvents": false,
+        "senders": [],
+        "senderConfiguration": {},
+        "botType": "CHATBOT",
+        "sendTypingIndicator": true
+    },
+    "dialogRequests": [
+        {
+            "internalId": 1,
+            "botId": 561570,
+            "type": "DEFAULT",
+            "name": "Welcome",
+            "diagramX": 12,
+            "diagramY": 118,
+            "intentId": 1,
+            "elements": [
+                {
+                    "id": 1,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "contentId": "77e2e47e-daad-4ce0-92c5-8398f46a6cc6.jpg",
+                                "caption": "",
+                                "url": "https://d1ygi81q02zqx0.cloudfront.net/infobip-bots/77e2e47e-daad-4ce0-92c5-8398f46a6cc6.jpg?Expires=2410680447&Signature=QTUdBCN3wcG65FLQZaP6l5CbYtvQBUgy29QbiOTBoBnO8~p8DJp5d-B4PDm1Pzfx5WBvgkhLHMLAASXreFdthu7tHkKPCQzdh-5J-UMri~8CkefNvybPAddwImMFDDduL5DXQHPhREfPC4v9PynfK-MF9NL4sL68vyN9mzjjT10YLlcUhhMzfVoTaCcVtInwZQe6efxZuz-OLgS~mYmZ0I1i4CP-W2uhYi14~qti6NBV0dLufN9RE27fBBKrkPhJQ~HMvIWDDvu0PN-vxjhTr2FgNpVOIbMi2pftARMTZnQJKW0aiYH6gL4bW-f~k~~5kdVj-wmP7gQ3-~A0Wwa3LA__&Key-Pair-Id=APKAJYKFVWTTAQLYS7LA",
+                                "type": "IMAGE"
+                            }
+                        ],
+                        "nextElementId": 3,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Welcome to GreenHub! 🌱\nHow can I help you?",
+                                "showUrlPreview": false,
+                                "type": "TEXT"
+                            },
+                            {
+                                "message": "Variation 1",
+                                "showUrlPreview": false,
+                                "type": "TEXT"
+                            },
+                            {
+                                "message": "https://www.venicemarathon.it/it/10k/informazioni10k",
+                                "showUrlPreview": false,
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 2,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "body": "Here there are our services.\nChoose the service that you would like to benefit from.",
+                                "footer": "try",
+                                "buttons": [
+                                    {
+                                        "id": "261631",
+                                        "itemType": "SINGLE",
+                                        "title": "Catalog",
+                                        "postback": "catalog"
+                                    },
+                                    {
+                                        "id": "661236",
+                                        "itemType": "SINGLE",
+                                        "title": "Find shop ",
+                                        "postback": "find shop"
+                                    }
+                                ],
+                                "type": "BUTTON"
+                            }
+                        ],
+                        "nextElementId": 4,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "PROCESS_USER_INPUT",
+                    "action": {
+                        "rules": [
+                            {
+                                "condition": {
+                                    "keywordId": 783421,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 5
+                            },
+                            {
+                                "condition": {
+                                    "keywordId": 221042,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 6
+                            }
+                        ],
+                        "nlpEnabled": true,
+                        "repeat": {
+                            "count": 2,
+                            "messages": [
+                                {
+                                    "text": "Please choose an option ( repeat message )"
+                                },
+                                {
+                                    "text": "Make a choice!"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 214280,
+                            "messages": [
+                                {
+                                    "text": "Please, choose one options to explore our service"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "timeout": {
+                            "isEnabled": true,
+                            "inputType": "INPUT_VALUE",
+                            "durationSeconds": 20
+                        },
+                        "timeoutFallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 214280,
+                            "messages": [
+                                {
+                                    "text": "Oh, there's a timeout. Hurry up!"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "type": "PROCESS_USER_INPUT"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 943568,
+                        "shareAttributes": true,
+                        "attributeIds": [
+                            555459,
+                            572524
+                        ],
+                        "type": "GO_TO_DIALOG"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 236780,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 1,
+            "order": 0,
+            "restricted": false,
+            "aiGenerated": false
+        },
+        {
+            "internalId": 943568,
+            "botId": 561570,
+            "type": "REGULAR",
+            "name": "View catalog dialog",
+            "diagramX": 464,
+            "diagramY": 89,
+            "elements": [
+                {
+                    "id": 1,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "header": "",
+                                "body": "This is the GreenHub's Catalog 🌷\nSelect the option that matches your interest and explore our products!",
+                                "footer": "FOOTER TEXT",
+                                "button": "Catalog",
+                                "sections": [
+                                    {
+                                        "title": "Types of products",
+                                        "items": [
+                                            {
+                                                "id": "1",
+                                                "title": "Outdoor Plants",
+                                                "description": "",
+                                                "postback": "outdoor plants"
+                                            },
+                                            {
+                                                "id": "444968",
+                                                "itemType": "SINGLE",
+                                                "title": "Indoor Plants",
+                                                "description": "",
+                                                "postback": "indoor plants"
+                                            },
+                                            {
+                                                "id": "796376",
+                                                "itemType": "SINGLE",
+                                                "title": "Try 3",
+                                                "description": "Description item 3",
+                                                "postback": "{{userDistance}}"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "title": "type of idk",
+                                        "items": [
+                                            {
+                                                "id": "758697",
+                                                "itemType": "SINGLE",
+                                                "title": "item 1",
+                                                "description": "description item 1",
+                                                "postback": "menu"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "type": "LIST_PICKER"
+                            }
+                        ],
+                        "nextElementId": 2,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "PROCESS_USER_INPUT",
+                    "action": {
+                        "rules": [
+                            {
+                                "condition": {
+                                    "keywordId": 384864,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 5
+                            },
+                            {
+                                "condition": {
+                                    "keywordId": 642683,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 6
+                            }
+                        ],
+                        "nlpEnabled": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 943568,
+                            "sendAsVoice": false
+                        },
+                        "type": "PROCESS_USER_INPUT"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Sorry, this product is not available now.",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 7,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 7,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "CLOSE_SESSION",
+                    "action": {
+                        "type": "CLOSE_SESSION"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 856250,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 1,
+            "order": 1,
+            "restricted": false,
+            "aiGenerated": false
+        },
+        {
+            "internalId": 236780,
+            "botId": 561570,
+            "type": "REGULAR",
+            "name": "Find shop dialog",
+            "diagramX": 1816,
+            "diagramY": 189,
+            "elements": [
+                {
+                    "id": 1,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "HI! \nSend your GPS position to find the nearest shop!",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 10,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 10,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "DELAY",
+                    "action": {
+                        "delayInSeconds": 1,
+                        "nextElementId": 2,
+                        "type": "DELAY"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "WHATSAPP_LOCATION_REQUEST",
+                    "action": {
+                        "body": "Please share your real time posititon so that I can guide you to our nearest shop!",
+                        "attributeId": 39731,
+                        "repeat": {
+                            "count": 1,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 214280,
+                            "messages": [
+                                {
+                                    "text": "Please, share your location. Otherwise type menu to go back."
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "timeout": {
+                            "isEnabled": true,
+                            "inputType": "INPUT_VALUE",
+                            "durationSeconds": 20
+                        },
+                        "timeoutFallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 236780,
+                            "messages": [
+                                {
+                                    "text": "TIMEOUTTT!"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 3,
+                        "type": "WHATSAPP_LOCATION_REQUEST"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "API_CALL",
+                    "action": {
+                        "url": "https://mocki.io/v1/3369103e-5d37-4d45-a6b0-b77e2301ecff",
+                        "method": "GET",
+                        "headers": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "contentType": "JSON",
+                        "bodyType": "KEY_VALUE",
+                        "bodyItems": [],
+                        "responseCodeAttributeId": 684223,
+                        "collectHeaderAttributes": [
+                            {
+                                "attributeId": 887448,
+                                "extractionPath": "Try"
+                            }
+                        ],
+                        "collectAttributes": [
+                            {
+                                "attributeId": 572524,
+                                "extractionPath": "$.distance_km"
+                            },
+                            {
+                                "attributeId": 555459,
+                                "extractionPath": "$.store_name"
+                            }
+                        ],
+                        "urlEscapingEnabled": false,
+                        "nextElementId": 4,
+                        "timeoutSeconds": 10,
+                        "maxRetryCount": 2,
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 236780,
+                            "messages": [
+                                {
+                                    "text": "Retry to send your location"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "type": "API_CALL"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "EVALUATE_ATTRIBUTE",
+                    "action": {
+                        "rules": [
+                            {
+                                "condition": {
+                                    "operator": "OR",
+                                    "conditions": [
+                                        {
+                                            "operator": "AND",
+                                            "conditions": [
+                                                {
+                                                    "attributeId": 572524,
+                                                    "operator": "LESS_THAN",
+                                                    "value": "5",
+                                                    "type": "ATTRIBUTE_COMPARE"
+                                                }
+                                            ],
+                                            "type": "LOGICAL"
+                                        }
+                                    ],
+                                    "type": "LOGICAL"
+                                },
+                                "nextElementId": 5,
+                                "name": "Nearby"
+                            },
+                            {
+                                "condition": {
+                                    "operator": "OR",
+                                    "conditions": [
+                                        {
+                                            "operator": "AND",
+                                            "conditions": [
+                                                {
+                                                    "attributeId": 572524,
+                                                    "operator": "GREATER_OR_EQUAL",
+                                                    "value": "5",
+                                                    "type": "ATTRIBUTE_COMPARE"
+                                                }
+                                            ],
+                                            "type": "LOGICAL"
+                                        }
+                                    ],
+                                    "type": "LOGICAL"
+                                },
+                                "nextElementId": 6,
+                                "name": "Far"
+                            }
+                        ],
+                        "elseElementId": 7,
+                        "type": "EVALUATE_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Find! The {{shopName}} is only {{userDistance}}away from you!",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 8,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 8,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "CLOSE_SESSION",
+                    "action": {
+                        "type": "CLOSE_SESSION"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Sorry, the nearest shop is {{shopName}} and is {{userDistance}}away. You can order online if you want.",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 9,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 9,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "CLOSE_SESSION",
+                    "action": {
+                        "type": "CLOSE_SESSION"
+                    }
+                },
+                {
+                    "id": 7,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 214280,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 1,
+            "order": 2,
+            "restricted": false,
+            "aiGenerated": false
+        },
+        {
+            "internalId": 214280,
+            "botId": 561570,
+            "type": "REGULAR",
+            "name": "Menu fallback",
+            "diagramX": 1365,
+            "diagramY": 166,
+            "intentId": 819949,
+            "elements": [
+                {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Hi, please choose an option from those below. We can offer these services",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 2,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "body": "Choose one of the following options",
+                                "buttons": [
+                                    {
+                                        "id": "525841",
+                                        "itemType": "SINGLE",
+                                        "title": "Catalog",
+                                        "postback": "catalog"
+                                    },
+                                    {
+                                        "id": "608773",
+                                        "itemType": "SINGLE",
+                                        "title": "Find shop",
+                                        "postback": "find shop"
+                                    }
+                                ],
+                                "type": "BUTTON"
+                            }
+                        ],
+                        "nextElementId": 3,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "PROCESS_USER_INPUT",
+                    "action": {
+                        "rules": [
+                            {
+                                "condition": {
+                                    "keywordId": 783421,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 4
+                            },
+                            {
+                                "condition": {
+                                    "keywordId": 221042,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 5
+                            }
+                        ],
+                        "nlpEnabled": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 214280,
+                            "messages": [
+                                {
+                                    "text": "Please, choose one options to explore our services"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "type": "PROCESS_USER_INPUT"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 943568,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 236780,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 6,
+            "order": 3,
+            "restricted": false,
+            "aiGenerated": false
+        },
+        {
+            "internalId": 856250,
+            "botId": 561570,
+            "type": "REGULAR",
+            "name": "Indoor plants dialog",
+            "diagramX": 914,
+            "diagramY": 89,
+            "elements": [
+                {
+                    "id": 1,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "DELAY",
+                    "action": {
+                        "delayInSeconds": 2,
+                        "nextElementId": 2,
+                        "type": "DELAY"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "modifyTry",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "contentId": "63d9e1b7-eae2-442e-807e-0f45f2f89649.jpg",
+                                "url": "https://d1ygi81q02zqx0.cloudfront.net/infobip-bots/63d9e1b7-eae2-442e-807e-0f45f2f89649.jpg?Expires=2408255240&Signature=J2S6HkEcsDrg5x7USu51777LGyjTHN6mp-VjNlKi9rm4I3U0XGDOXNWO7JXOg9JelXyds3hufE1CMOU9-f~AgYx9DQOV4JJv72gkcKXVv3rmLNOmRgZiQ1lQqVuOoEXTV19tcjap6r08pFlncT4aJnXB9kHr-QIUBDkrKLxvwHjEc-gcyuJyWEz6hEVqU6vRdmTmKO8O21nCpCghnydZh9m2eZnNQQlY72SmK2-o8J1d1r0FVwSFSi32cT9BUrp8wHrcr2Rm~Hr2aJrMvQ4Chj4UPqjHuTvaBLYSl4mSSBp7aF878ZOJFYY6SZecmgWKRrrQwS8Z1bssvS~LW1vFRQ__&Key-Pair-Id=APKAJYKFVWTTAQLYS7LA",
+                                "type": "IMAGE"
+                            }
+                        ],
+                        "nextElementId": 4,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "body": "Ficus Benjamina - 15 euro\nPurchase the item or type menu to choose another service",
+                                "buttons": [
+                                    {
+                                        "id": "91160",
+                                        "itemType": "SINGLE",
+                                        "title": "Purchase",
+                                        "postback": "purchase"
+                                    }
+                                ],
+                                "type": "BUTTON"
+                            }
+                        ],
+                        "nextElementId": 5,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "PROCESS_USER_INPUT",
+                    "action": {
+                        "rules": [
+                            {
+                                "condition": {
+                                    "keywordId": 362237,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 6
+                            },
+                            {
+                                "condition": {
+                                    "keywordId": 684197,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 7
+                            }
+                        ],
+                        "nlpEnabled": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 214280,
+                            "sendAsVoice": false
+                        },
+                        "type": "PROCESS_USER_INPUT"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 677961,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                },
+                {
+                    "id": 7,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 214280,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 1,
+            "order": 4,
+            "restricted": false,
+            "aiGenerated": false
+        },
+        {
+            "internalId": 677961,
+            "botId": 561570,
+            "type": "REGULAR",
+            "name": "Purchase dialog",
+            "diagramX": 1365,
+            "diagramY": 12,
+            "elements": [
+                {
+                    "id": 1,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Nice choice!",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 2,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "skipIfAttributeFilled": true,
+                        "questions": [
+                            {
+                                "text": "How many plants do you want?"
+                            },
+                            {
+                                "text": "Insert the quantity of the plant you desire"
+                            }
+                        ],
+                        "attributeId": 887448,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 1,
+                            "messages": [
+                                {
+                                    "text": "Sorry, I didn't understad. Can you repeat the quantity?"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 677961,
+                            "messages": [
+                                {
+                                    "text": ""
+                                },
+                                {
+                                    "text": ""
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "timeout": {
+                            "isEnabled": true,
+                            "inputType": "INPUT_VALUE",
+                            "durationSeconds": 15
+                        },
+                        "timeoutFallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 856250,
+                            "messages": [
+                                {
+                                    "text": "TIMEOUT!"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 3,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Perfect, purchase completed",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 4,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "CLOSE_SESSION",
+                    "action": {
+                        "type": "CLOSE_SESSION"
+                    }
+                }
+            ],
+            "startElementId": 1,
+            "order": 5,
+            "restricted": false,
+            "aiGenerated": false
+        }
+    ],
+    "dialogGroupRequests": [],
+    "intentRequests": [
+        {
+            "internalId": 1,
+            "botId": 561570,
+            "name": "Welcome",
+            "phrases": [
+                "Hello, I’m looking for assistance with something.",
+                "Hi",
+                "Hi there!",
+                "Hello! Nice to meet you.",
+                "Hi, how are you?",
+                "Hello, I just joined this chat.",
+                "Hi, what's your name?",
+                "Hi, can you assist me?",
+                "Hi there, I need some information.",
+                "Hi, I’m looking for guidance.",
+                "Hello, I want to get started.",
+                "Hello, I'm looking for some help.",
+                "Hello, I'm here for the first time.",
+                "Hello",
+                "Hi, I'm new here.",
+                "Hello, my name is Sarah.",
+                "Hi, can you tell me what you do?",
+                "Hello! I'm interested in learning more.",
+                "Hi, pleased to meet you!",
+                "Hello, my name is John."
+            ],
+            "importantWords": [],
+            "attributeIds": [],
+            "default": true
+        },
+        {
+            "internalId": 819949,
+            "botId": 561570,
+            "name": "GreenHub services",
+            "phrases": [
+                "What services do you have available?",
+                "I want to know all the services you offer.",
+                "List the services you provide.",
+                "Show me other services you offer.",
+                "Are there other services I can use?",
+                "What kinds of services can I choose from?",
+                "I want to see the different services.",
+                "I would like to change the service I’m using now.",
+                "Help me explore your services options.",
+                "Can you show me alternative services?",
+                "How can I change the service I’m using?",
+                "What options do I have for services?",
+                "I want to switch to a different service.",
+                "How do I select a different service?",
+                "Let me see all the services I can choose from.",
+                "Can you show me the services you offer?",
+                "Can I change my current service?",
+                "Tell me more about your services.",
+                "Please provide the service options available.",
+                "Show me the full list of services."
+            ],
+            "importantWords": [],
+            "attributeIds": [],
+            "default": false
+        },
+        {
+            "internalId": 952246,
+            "botId": 561570,
+            "name": "Find shop",
+            "phrases": [
+                "Is there a GreenHub store near where I live?",
+                "Where can I find a GreenHub store close to where I am?",
+                "Where is the closest GreenHub store?",
+                "Find the nearest GreenHub shop to my address.",
+                "Find a GreenHub store nearby so I can come by.",
+                "Can you direct me to the closest GreenHub shop?",
+                "do you have a shop nearby?",
+                "Show me where the nearest GreenHub plant shop is located.",
+                "Show me the closest GreenHub shop around here.",
+                "Nearest GreenHub location please.",
+                "How can I find the nearest GreenHub store?",
+                "What is the closest GreenHub shop I can go to?",
+                "I’d like to visit a GreenHub shop near my place.",
+                "I want to see plants at the nearest GreenHub shop.",
+                "Help me find a GreenHub plant shop near me.",
+                "Locate the nearest GreenHub physical store for me.",
+                "What is the nearest location for a GreenHub plant shop?",
+                "Are there any GreenHub plant shops near me?",
+                "Hi, i want to find the nearest shop",
+                "Help me locate a GreenHub shop close to my current location.",
+                "Is there a GreenHub shop within a short distance?",
+                "I’d like to find a GreenHub store nearby to check out the plants.",
+                "Where can I go to find a GreenHub store in my vicinity?",
+                "Is there a GreenHub shop nearby?",
+                "I want to buy plants, where is the closest GreenHub shop?",
+                "Do you have a GreenHub store in my area?",
+                "Can you help me find a GreenHub physical store nearby?",
+                "nearest shop please",
+                "i want to go to the nearest shop",
+                "I’m looking for a GreenHub store close to me.",
+                "Where is the nearest place I can visit a GreenHub plant shop?",
+                "I want to visit a GreenHub shop near me.",
+                "Are there any GreenHub shops near my location?",
+                "Can you tell me the nearest GreenHub shop location?"
+            ],
+            "importantWords": [],
+            "attributeIds": [],
+            "default": false
+        }
+    ],
+    "attributeRequests": [
+        {
+            "internalId": 887448,
+            "botId": 561570,
+            "name": "quantity",
+            "dataType": "NUMBER",
+            "scope": "LOCAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "value": {
+                "number": 1,
+                "type": "NUMBER"
+            },
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 39731,
+            "botId": 561570,
+            "name": "userPosition",
+            "dataType": "MO_LOCATION",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 572524,
+            "botId": 561570,
+            "name": "userDistance",
+            "dataType": "NUMBER",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 555459,
+            "botId": 561570,
+            "name": "shopName",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "value": {
+                "text": "GreenHub",
+                "type": "TEXT"
+            },
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 684223,
+            "botId": 561570,
+            "name": "response_code",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        }
+    ],
+    "keywordRequests": [
+        {
+            "internalId": 783421,
+            "botId": 561570,
+            "name": "Catalog",
+            "synonyms": {
+                "data": [
+                    "type of plants",
+                    "plants",
+                    "list"
+                ]
+            }
+        },
+        {
+            "internalId": 221042,
+            "botId": 561570,
+            "name": "Shop",
+            "synonyms": {
+                "data": [
+                    "FInd shop",
+                    "place",
+                    "plants seller"
+                ]
+            }
+        },
+        {
+            "internalId": 562340,
+            "botId": 561570,
+            "name": "subscription",
+            "synonyms": {
+                "data": [
+                    "subscribe"
+                ]
+            }
+        },
+        {
+            "internalId": 384864,
+            "botId": 561570,
+            "name": "Outdoor plants",
+            "synonyms": {
+                "data": [
+                    "garden plants"
+                ]
+            }
+        },
+        {
+            "internalId": 642683,
+            "botId": 561570,
+            "name": "Indoor Plants",
+            "synonyms": {
+                "data": [
+                    "house plants",
+                    "inside"
+                ]
+            }
+        },
+        {
+            "internalId": 604006,
+            "botId": 561570,
+            "name": "Vases",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 695704,
+            "botId": 561570,
+            "name": "Fertilizer",
+            "synonyms": {
+                "data": [
+                    "manure",
+                    "compost"
+                ]
+            }
+        },
+        {
+            "internalId": 684197,
+            "botId": 561570,
+            "name": "Menu",
+            "synonyms": {
+                "data": [
+                    "other products"
+                ]
+            }
+        },
+        {
+            "internalId": 362237,
+            "botId": 561570,
+            "name": "Purchase",
+            "synonyms": {
+                "data": [
+                    "take",
+                    "buy",
+                    "buy now"
+                ]
+            }
+        }
+    ],
+    "customAttributeTypes": [],
+    "testCases": [],
+    "dependencies": {
+        "conversationTags": [],
+        "extensionElements": [],
+        "exchangeElements": []
+    }
+}

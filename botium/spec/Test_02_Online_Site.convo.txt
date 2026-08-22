@@ -1,0 +1,28 @@
+Test_02_Online_Site
+
+#me
+Hi
+
+#bot
+Welcome to Green Hub
+
+#bot
+How can I help you?: [Plant Advices | Online Site]
+
+#me
+Online site
+
+#bot
+You can also order from our site
+
+#bot
+No API found
+
+#bot
+Thanks for choosing GreenHUB!
+
+#bot
+*How would you rate the service?*
+
+#me
+5
