@@ -8,10 +8,10 @@ def main():
     # Caricamento file json
     print("Lettura del file JSON in corso...")
     try:
-        with open('chatbots/GreenHub_OpenChannel.json', 'r', encoding='utf-8') as f:
+        with open('chatbots/GreenHub_Chatbot1.json', 'r', encoding='utf-8') as f:
             json_data = json.load(f)
     except FileNotFoundError:
-        print("Errore: Impossibile trovare il file GreenHub_OpenChannel.json!")
+        print("Errore: Impossibile trovare il file GreenHub_Chatbot1.json!")
         return
 
     # Inizializzazione Parser

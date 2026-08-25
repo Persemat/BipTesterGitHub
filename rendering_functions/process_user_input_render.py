@@ -24,6 +24,27 @@ def render_whatsapp_location(content):
         return f'<TR><TD><FONT POINT-SIZE="10"><I>&quot;{body_cleaned}&quot;</I></FONT></TD></TR>'
     return ''
 
+def render_csat_survey(content):
+    """Rendering specifico per il nodo CSAT (Customer Satisfaction)"""
+    question = content.get("question", "")
+    
+    html = ''
+    if question:
+        # Sanitizzazione stringa stile progetto
+        question_cleaned = str(question).replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+        # Tronchiamo per evitare etichette giganti nel grafo
+        short_question = question_cleaned[:100] + "..." if len(question_cleaned) > 100 else question_cleaned
+        html += f'<TR><TD><FONT POINT-SIZE="10"><B>Question:</B> <I>&quot;{short_question}&quot;</I></FONT></TD></TR>'
+    
+    scale_type = content.get("scale_type", "UNKNOWN")
+    html += f'<TR><TD BGCOLOR="#F5F5F5"><FONT POINT-SIZE="10">Scale: {scale_type}</FONT></TD></TR>'
+    
+    fallback = content.get("fallback")
+    if fallback:
+        fallback_cleaned = str(fallback).replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+        html += f'<TR><TD><FONT COLOR="gray" POINT-SIZE="10">Fallback: {fallback_cleaned}</FONT></TD></TR>'
+        
+    return html
 
 def render_process_user_input_node(node_data, attributes_dict=None):
     """
@@ -48,6 +69,8 @@ def render_process_user_input_node(node_data, attributes_dict=None):
         html += render_get_attribute(content)
     elif spec_type == "WHATSAPP_LOCATION_REQUEST":
         html += render_whatsapp_location(content)
+    elif spec_type == "CSAT":
+        html += render_csat_survey(content)
 
     # Informazioni sulle variabili salvate (comune a Get Attribute e Location)
     attrs_defined = node_data.get("attributes_defined", [])
@@ -67,3 +90,4 @@ def render_process_user_input_node(node_data, attributes_dict=None):
             
     html += '</TABLE>>'
     return html
+

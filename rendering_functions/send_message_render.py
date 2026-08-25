@@ -70,6 +70,27 @@ def render_send_message_node(node_data, **kwargs):
         if "footer" in content:
             safe_footer = escape(content["footer"])
             html_str += f'<TR><TD><FONT COLOR="gray" POINT-SIZE="10"> Footer: {safe_footer}</FONT></TD></TR>'
+
+    elif specific_type == "JSON":
+        # Gestione specifica per i componenti JSON
+        body = escape(content.get("body", "Custom JSON Component"))
+        short_body = body[:100] + "..." if len(body) > 100 else body
+        html_str += f'<TR><TD>{short_body}</TD></TR>'
+        
+        # Estraiamo le opzioni (se strutturate come dizionari)
+        options = content.get("options", [])
+        # Estraiamo i bottoni (se strutturati come lista di stringhe)
+        buttons = content.get("buttons", [])
+        
+        if options:
+            for opt in options:
+                title = escape(opt.get("title", ""))
+                payload = escape(opt.get("payload", ""))
+                html_str += f'<TR><TD BGCOLOR="#E3F2FD"><I>🔘 {title} ({payload})</I></TD></TR>'
+        elif buttons:
+            for btn in buttons:
+                safe_btn = escape(str(btn))
+                html_str += f'<TR><TD BGCOLOR="#E3F2FD"><I>🔘 {safe_btn}</I></TD></TR>'
     
     html_str += '</TABLE>>'
     return html_str
