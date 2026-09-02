@@ -6,7 +6,7 @@ def map_send_message(d_id, e_id, element):
     Sotto modulo di mapping per la macro categoria SEND_MESSAGE.
     Prende l'elemento JSON grezzo e lo standardizza in un dizionario per il grafo.
     """
-    # Navighiamo la struttura del JSON di infobip
+
     action = element.get("action", {})
     messages = action.get("messages", [])
 
@@ -14,11 +14,11 @@ def map_send_message(d_id, e_id, element):
     attr_used = []
     content = {}
 
-    # Verifichiamo che la lista dei messggi non sia vuota
+    # Verify if the list of messages is not empty 
     if len(messages) > 0:
         sub_type = messages[0].get("type", "TEXT")
-        
-        # --- CARATTERIZZAZIONE PER SOTTOTIPO --- #
+
+        # --- Extraction of content based on the subtype ---
 
         if sub_type == "TEXT":
             messages_list = []
@@ -70,9 +70,9 @@ def map_send_message(d_id, e_id, element):
             header = messages[0].get("header", "")
             footer = messages[0].get("footer", "")
             body = messages[0].get("body", "")
-            menu_button = messages[0].get("button", "") # Siamo sicuri che ci serva? Ha solo scopo grafico, non influisce sul testing
+            menu_button = messages[0].get("button", "") # Only for the rendering
 
-           # Ciclo per estrazione di titolo, postback e eventualmente descrizione di ciascun item in section
+           # Title and descrpiton extraction cicle 
             options_data = []
             for section in messages[0].get("sections",[]):
                 for item in section.get("items", []):
@@ -100,45 +100,23 @@ def map_send_message(d_id, e_id, element):
             raw_payload = messages[0].get("json", "")
 
             try:
-                # Decodifichiamo se è una stringa, altrimenti lo teniamo così com'è
+                # Decoding if it is a string, otherwise keep it as is (dict)
                 payload = json.loads(raw_payload) if isinstance(raw_payload, str) else raw_payload
             except json.JSONDecodeError:
                 payload = raw_payload
 
-            # Inizializziamo il content di base per avere comunque traccia del payload originale
+            # If the payload is a dictionary, we can extract the custom_type and content for further processing
             content = {
                 "raw_payload": raw_payload, 
                 "payload": payload
             }
-
-            # --- GESTIONE DEL CONTRATTO CUSTOM JSON ---
-            if isinstance(payload, dict) and "custom_type" in payload:
-                custom_type = payload.get("custom_type")
-                custom_content = payload.get("content", {})
-                
-                # Sovrascriviamo il sub_type (es diventerà "CUSTOM_BUTTON_GROUP" o "CUSTOM_LIST_PICKER")
-                # Questo aiuterà moltissimo in fase di generazione del test
-                sub_type = f"CUSTOM_{custom_type}"
-                
-                # Estraiamo i dati in modo strutturato
-                if custom_type in ["BUTTON", "LIST_PICKER"]:
-                    content["body"] = custom_content.get("text", "")
-                    content["options"] = custom_content.get("options", [])
-                    
-                    # Creiamo una lista piatta di soli titoli per renderla identica a come 
-                    # gestisci i bottoni nativi di WhatsApp, facilitando la vita al test generator
-                    content["buttons"] = [opt.get("title", "") for opt in custom_content.get("options", [])]
-
-                if custom_type == "IMAGE":
-                    content["url"] = custom_content.get("url", "No URL")
-                    content["caption"] = custom_content.get("caption", "")
-
+            
         # Applichiamo la Regex a tutti i valori del content per estrarre le variabili usate
         # La regex cerca pattern del tipo {{variabile}} e li estrae in una lista
         attr_used = extract_placeholders(content)
 
 
-    # --- LOGICA NAVIGAZIONE GRAFO ( ARCHI ) --- 
+    # --- GRAPH SEARCH LOGIC (EDGES) --- 
 
     next_elem = action.get("nextElementId")
     next_combined_id = f"{d_id}_{next_elem}" if next_elem else None 
@@ -151,8 +129,8 @@ def map_send_message(d_id, e_id, element):
         "specific_type": sub_type,
         "content": content,
         "next_element": next_combined_id,
-        "attributes_defined": [],  # Un messaggio non scrive mai variabili nello stato del bot
-        "attributes_used": attr_used  # Contiene le variabili estratte via Regex (es. ["shopName", "userDistance"])
+        "attributes_defined": [],  
+        "attributes_used": attr_used  
     }
 
 def extract_placeholders(data):

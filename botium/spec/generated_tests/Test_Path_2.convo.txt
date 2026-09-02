@@ -1,0 +1,38 @@
+Test_Path_2
+
+#me
+Any random string
+
+#bot
+*Welcome to Green Hub*
+
+#bot
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"}]}}*
+
+#me
+Plant advice
+
+#bot
+*Our experts are here! Which plant are we talking about?*
+
+#bot
+*Write the type of the plant*
+
+#me
+Ficus
+
+#bot
+*The plant is Ficus*
+
+#bot
+*Thanks for choosing GreenHUB!
+-> Ficus*
+
+#bot
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*

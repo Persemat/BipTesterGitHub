@@ -1,5 +1,5 @@
 {
-    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242140D3BCDA1957CA190A5F5D05709D28ADC8DB8B6F0FB355D93A6FDF2C7C479EC986B6B50C88F9CE33C59ABEEF513414EA47CE2F087ACDBCC4714080C2399B6CDBE3F571F07326C7A4D53DBFAA0D6E14BFC2174AABFD106069183EF556542B6B2B1E0116A68D1BCA5157A3ECE07EA2AFF896D34952740F25C3C55BA4B922BDAC3",
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242140D3BCDA1957CA190A5F5D05709D28ADC8DB8B6F0FB355D93A6FDF2C7C479EC52901CBA4C812D816D956F530ED05C52E0D75069294E14C06B09414A97CAD33A16012E0AAADE7B3139B90759A6BB72B1FC2174AABFD106069183EF556542B6B2B1E0116A68D1BCA5157A3ECE07EA2AFF896D34952740F25C3C55BA4B922BDAC3",
     "botRequest": {
         "name": "GreenHub ",
         "channel": "OPEN_CHANNEL",
@@ -62,7 +62,7 @@
                     "action": {
                         "messages": [
                             {
-                                "json": "{\r\n  \"custom_type\": \"BUTTON\",\r\n  \"content\": {\r\n    \"text\": \"How can I help you?:\",\r\n    \"options\": [\r\n      {\r\n        \"title\": \"Plant Advices\",\r\n        \"payload\": \"Plant advices\"\r\n      },\r\n      {\r\n        \"title\": \"Online Site\",\r\n        \"payload\": \"Online site\"\r\n      }\r\n    ]\r\n  }\r\n}",
+                                "json": "{\r\n  \"custom_type\": \"BUTTON\",\r\n  \"content\": {\r\n    \"text\": \"How can I help you?:\",\r\n    \"options\": [\r\n      {\r\n        \"title\": \"Plant Advice\",\r\n        \"payload\": \"Plant advice\"\r\n      },\r\n      {\r\n        \"title\": \"Online Site\",\r\n        \"payload\": \"Online site\"\r\n      }\r\n    ]\r\n  }\r\n}",
                                 "type": "JSON"
                             }
                         ],
@@ -180,15 +180,72 @@
                         },
                         "fallback": {
                             "fallbackAction": "GO_TO_DIALOG",
-                            "goToDialogId": 106448,
+                            "goToDialogId": 1,
                             "sendAsVoice": false
                         },
-                        "nextElementId": 3,
+                        "nextElementId": 5,
                         "type": "GET_ATTRIBUTE"
                     }
                 },
                 {
-                    "id": 3,
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "EVALUATE_ATTRIBUTE",
+                    "action": {
+                        "rules": [
+                            {
+                                "condition": {
+                                    "operator": "OR",
+                                    "conditions": [
+                                        {
+                                            "operator": "AND",
+                                            "conditions": [
+                                                {
+                                                    "attributeId": 130528,
+                                                    "operator": "EQUAL",
+                                                    "value": "Ficus",
+                                                    "type": "ATTRIBUTE_COMPARE"
+                                                }
+                                            ],
+                                            "type": "LOGICAL"
+                                        }
+                                    ],
+                                    "type": "LOGICAL"
+                                },
+                                "nextElementId": 6,
+                                "name": "Condition 1"
+                            },
+                            {
+                                "condition": {
+                                    "operator": "OR",
+                                    "conditions": [
+                                        {
+                                            "operator": "AND",
+                                            "conditions": [
+                                                {
+                                                    "attributeId": 130528,
+                                                    "operator": "EQUAL",
+                                                    "value": "Rose",
+                                                    "type": "ATTRIBUTE_COMPARE"
+                                                }
+                                            ],
+                                            "type": "LOGICAL"
+                                        }
+                                    ],
+                                    "type": "LOGICAL"
+                                },
+                                "nextElementId": 7,
+                                "name": "Condition 2"
+                            }
+                        ],
+                        "elseElementId": 8,
+                        "type": "EVALUATE_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 6,
                     "name": "",
                     "diagramX": -200,
                     "diagramY": 100,
@@ -196,23 +253,90 @@
                     "action": {
                         "messages": [
                             {
-                                "message": "Response saved: {{PlantType}} Wait for our expert.",
+                                "message": "The plant is {{PlantType}}",
                                 "type": "TEXT"
                             }
                         ],
-                        "nextElementId": 4,
+                        "nextElementId": 11,
                         "type": "SEND_OPEN_CHANNEL"
                     }
                 },
                 {
-                    "id": 4,
+                    "id": 11,
                     "name": "",
                     "diagramX": -200,
                     "diagramY": 100,
                     "type": "GO_TO_DIALOG",
                     "action": {
                         "dialogId": 149577,
-                        "shareAttributes": false,
+                        "shareAttributes": true,
+                        "attributeIds": [
+                            130528
+                        ],
+                        "type": "GO_TO_DIALOG"
+                    }
+                },
+                {
+                    "id": 7,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "The plant is {{PlantType}}",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 10,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 10,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 149577,
+                        "shareAttributes": true,
+                        "attributeIds": [
+                            130528
+                        ],
+                        "type": "GO_TO_DIALOG"
+                    }
+                },
+                {
+                    "id": 8,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "No plants available",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 9,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 9,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 149577,
+                        "shareAttributes": true,
+                        "attributeIds": [
+                            130528
+                        ],
                         "type": "GO_TO_DIALOG"
                     }
                 }
@@ -319,7 +443,7 @@
                     "action": {
                         "messages": [
                             {
-                                "message": "Thanks for choosing GreenHUB!",
+                                "message": "Thanks for choosing GreenHUB!\n-> {{PlantType}}",
                                 "type": "TEXT"
                             }
                         ],
@@ -465,13 +589,31 @@
             "botId": 561569,
             "name": "Advice",
             "synonyms": {
-                "data": []
+                "data": [
+                    "Plant advice"
+                ]
             }
         },
         {
             "internalId": 463327,
             "botId": 561569,
             "name": "Online Site",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 817371,
+            "botId": 561569,
+            "name": "Ficus",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 193091,
+            "botId": 561569,
+            "name": "Rose",
             "synonyms": {
                 "data": []
             }

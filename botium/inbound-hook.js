@@ -10,19 +10,18 @@ module.exports = ({ botMsg, botMsgRoot }) => {
     // 2. Se è il vero webhook di Infobip, estraiamo il testo
     if (payload && payload.message && payload.message.body) {
         const body = payload.message.body;
-        
+    
         if (body.type === 'TEXT' && body.text) {
             botMsg.messageText = body.text;
             console.log(`[HOOK] Testo estratto con successo: "${botMsg.messageText}"`);
         } 
         else if (body.type === 'JSON' && body.json) {
-            let extractedText = body.json.content.text || "";
-            if (body.json.content.options) {
-                const buttonTitles = body.json.content.options.map(opt => opt.title).join(" | ");
-                extractedText += " [" + buttonTitles + "]";
-            }
-            botMsg.messageText = extractedText;
-            console.log(`[HOOK] Custom JSON estratto con successo: "${botMsg.messageText}"`);
+            // SCALABILITÀ PURA: Prendiamo l'intero oggetto JSON e lo trasformiamo in stringa.
+            // Niente formattazioni custom, niente estrazioni specifiche.
+            const jsonString = JSON.stringify(body.json);
+
+            botMsg.messageText = jsonString;
+            console.log(`[HOOK] JSON estratto e serializzato: '${botMsg.messageText}'`);
         }
     }
 };

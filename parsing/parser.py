@@ -90,6 +90,12 @@ class ChatbotParser:
             intent_id = dialog.get("intentId")
             if intent_id and intent_id in self.intents:
                 intent_data = self.intents[intent_id]
+                
+                # --- FIX: Ignoriamo gli intenti fantasma vuoti generati da Infobip ---
+                if not intent_data.get("phrases"):
+                    # Se non ci sono frasi, non creiamo l'arco dell'intento
+                    continue
+                
                 edge_data = {
                     "condition_type": "INTENT",
                     "intent_name": intent_data["name"],
@@ -144,8 +150,10 @@ class ChatbotParser:
                             if edge_data.get("condition_type") == "KEYWORD_COMPARE":
                                 kw_id = edge_data.get("keywordId")
                                 if kw_id in self.keywords:
-                                    edge_data["synonyms"] = self.keywords[kw_id]
-                        
+                                    kw_data = self.keywords[kw_id]
+                                    edge_data["keyword_name"] = kw_data["name"]
+                                    edge_data["synonyms"] = kw_data["synonyms"]
+
                             self.G.add_edge(node_id, target, **edge_data)
 
 
@@ -156,9 +164,13 @@ class ChatbotParser:
 
         for kw in keyword_list:
             kw_id = kw["internalId"]
+            kw_name = kw.get("name", f"Keyword_{kw_id}")
             synonyms = kw.get("synonyms", {}).get("data",[])
 
-            keywords[kw_id] = synonyms
+            keywords[kw_id] = {
+                "name": kw_name,
+                "synonyms": synonyms
+            }
 
         return keywords
     

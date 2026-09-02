@@ -4,123 +4,75 @@ digraph {
 	node [fontname=Helvetica shape=plaintext]
 	USER_ENTRY [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8"><TR><TD BGCOLOR="#80CBC4"><B> USER_ENTRY </B><BR/><FONT POINT-SIZE="10">WhatsApp Chat Opened</FONT></TD></TR></TABLE>>]
 	subgraph cluster_1 {
-		color=blue fontname=Helvetica label="Welcome - 1" style=dashed
-		"1_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">IMAGE</FONT></TD></TR><TR><TD> https://d1ygi81q02zqx0.cloudfront.net/infobip-bots/77e2e47e-daad-4ce0-92c5-8398f46a6cc6.jpg?Expires=... </TD></TR></TABLE>>]
-		"1_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Welcome to GreenHub! 🌱
-How can I help you?</TD></TR><TR><TD>Variation 1</TD></TR><TR><TD>https://www.venicemarathon.it/it/10k/informazioni10k</TD></TR></TABLE>>]
-		"1_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">BUTTON</FONT></TD></TR><TR><TD>Here there are our services.
-Choose the service that you would like to benefit from.</TD></TR><TR><TD BGCOLOR="#F5F5F5"><I> Catalog</I></TD></TR><TR><TD BGCOLOR="#F5F5F5"><I> Find shop </I></TD></TR><TR><TD><FONT COLOR="gray" POINT-SIZE="10">Footer: try</FONT></TD></TR></TABLE>>]
-		"1_4" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">PROCESS_USER_INPUT</FONT></TD></TR><TR><TD>NLP Enabled: False</TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="10">Max Repeats: 2</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="10">Repeat Messages:<BR/>&#8226; Please choose an option ( repeat message )<BR/>&#8226; Make a choice!</FONT></TD></TR></TABLE>>]
-		"1_5" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>943568</B></TD></TR></TABLE>>]
-		"1_6" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>236780</B></TD></TR></TABLE>>]
+		color=blue fontname=Helvetica label="Default - 1" style=dashed
+		"1_6" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Welcome to Green Hub</TD></TR></TABLE>>]
+		"1_9" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">DELAY</FONT></TD></TR><TR><TD>Waits for: <B>2 sec</B></TD></TR></TABLE>>]
+		"1_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">JSON</FONT></TD></TR><TR><TD>Custom JSON Component</TD></TR></TABLE>>]
+		"1_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">PROCESS_USER_INPUT</FONT></TD></TR><TR><TD>NLP Enabled: False</TD></TR></TABLE>>]
+		"1_4" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>106448</B></TD></TR></TABLE>>]
+		"1_8" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>395954</B></TD></TR></TABLE>>]
 	}
-	subgraph cluster_214280 {
-		color=blue fontname=Helvetica label="Menu fallback - 214280" style=dashed
-		"214280_6" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Hi, please choose an option from those below. We can offer these services</TD></TR></TABLE>>]
-		"214280_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">BUTTON</FONT></TD></TR><TR><TD>Choose one of the following options</TD></TR><TR><TD BGCOLOR="#F5F5F5"><I> Catalog</I></TD></TR><TR><TD BGCOLOR="#F5F5F5"><I> Find shop</I></TD></TR></TABLE>>]
-		"214280_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">PROCESS_USER_INPUT</FONT></TD></TR><TR><TD>NLP Enabled: False</TD></TR></TABLE>>]
-		"214280_4" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>943568</B></TD></TR></TABLE>>]
-		"214280_5" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>236780</B></TD></TR></TABLE>>]
+	subgraph cluster_106448 {
+		color=blue fontname=Helvetica label="Plant Advices - 106448" style=dashed
+		"106448_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Our experts are here! Which plant are we talking about?</TD></TR></TABLE>>]
+		"106448_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">GET_ATTRIBUTE</FONT></TD></TR><TR><TD><FONT POINT-SIZE="10"><I>&quot;Write the type of the plant&quot;</I></FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Attributes defined: [PlantType 🌐]</FONT></TD></TR></TABLE>>]
+		"106448_5" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">EVALUATE_ATTRIBUTE</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Evaluates: [PlantType 🌐]</FONT></TD></TR></TABLE>>]
+		"106448_6" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>The plant is {{PlantType}}</TD></TR></TABLE>>]
+		"106448_7" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>The plant is {{PlantType}}</TD></TR></TABLE>>]
+		"106448_8" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>No plants available</TD></TR></TABLE>>]
+		"106448_11" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>149577</B></TD></TR></TABLE>>]
+		"106448_10" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>149577</B></TD></TR></TABLE>>]
+		"106448_9" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>149577</B></TD></TR></TABLE>>]
 	}
-	subgraph cluster_943568 {
-		color=blue fontname=Helvetica label="View catalog dialog - 943568" style=dashed
-		"943568_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">LIST_PICKER</FONT></TD></TR><TR><TD>This is the GreenHub&#x27;s Catalog 🌷
-Select the option that matches your interest and explore our p...</TD></TR><TR><TD BGCOLOR="#F5F5F5"><I>Menu Button: Catalog</I></TD></TR><TR><TD><B>Outdoor Plants</B> -  (Postback: outdoor plants)</TD></TR><TR><TD><B>Indoor Plants</B> -  (Postback: indoor plants)</TD></TR><TR><TD><B>Try 3</B> - Description item 3 (Postback: {{userDistance}})</TD></TR><TR><TD><B>item 1</B> - description item 1 (Postback: menu)</TD></TR><TR><TD><FONT COLOR="gray" POINT-SIZE="10"> Footer: FOOTER TEXT</FONT></TD></TR></TABLE>>]
-		"943568_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">PROCESS_USER_INPUT</FONT></TD></TR><TR><TD>NLP Enabled: False</TD></TR></TABLE>>]
-		"943568_5" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Sorry, this product is not available now.</TD></TR></TABLE>>]
-		"943568_6" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>856250</B></TD></TR></TABLE>>]
-		"943568_7" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#C9CCD2"><B>END FLOW</B><BR/><FONT POINT-SIZE="10">Close Session</FONT></TD></TR></TABLE>>]
+	subgraph cluster_395954 {
+		color=blue fontname=Helvetica label="Online Site - 395954" style=dashed
+		"395954_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>You can also order from our site</TD></TR></TABLE>>]
+		"395954_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">API_CALL</FONT></TD></TR><TR><TD><B>GET</B> Request</TD></TR></TABLE>>]
+		"395954_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>No API found</TD></TR></TABLE>>]
+		"395954_4" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>149577</B></TD></TR></TABLE>>]
 	}
-	subgraph cluster_236780 {
-		color=blue fontname=Helvetica label="Find shop dialog - 236780" style=dashed
-		"236780_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>HI! 
-Send your GPS position to find the nearest shop!</TD></TR></TABLE>>]
-		"236780_10" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">DELAY</FONT></TD></TR><TR><TD>Waits for: <B>1 sec</B></TD></TR></TABLE>>]
-		"236780_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">WHATSAPP_LOCATION_REQUEST</FONT></TD></TR><TR><TD><FONT POINT-SIZE="10"><I>&quot;Please share your real time posititon so that I can guide you to our nearest shop!&quot;</I></FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Attributes defined: [userPosition 🌐]</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="10">Max Repeats: 1</FONT></TD></TR></TABLE>>]
-		"236780_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">API_CALL</FONT></TD></TR><TR><TD><B>GET</B> Request</TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Attributes defined: [quantity , shopName 🌐, userDistance 🌐, response_code 🌐]</FONT></TD></TR></TABLE>>]
-		"236780_4" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">EVALUATE_ATTRIBUTE</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Evaluates: [userDistance 🌐]</FONT></TD></TR></TABLE>>]
-		"236780_5" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Find! The {{shopName}} is only {{userDistance}}away from you!</TD></TR></TABLE>>]
-		"236780_6" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Sorry, the nearest shop is {{shopName}} and is {{userDistance}}away. You can order online if you wan...</TD></TR></TABLE>>]
-		"236780_7" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>214280</B></TD></TR></TABLE>>]
-		"236780_8" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#C9CCD2"><B>END FLOW</B><BR/><FONT POINT-SIZE="10">Close Session</FONT></TD></TR></TABLE>>]
-		"236780_9" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#C9CCD2"><B>END FLOW</B><BR/><FONT POINT-SIZE="10">Close Session</FONT></TD></TR></TABLE>>]
+	subgraph cluster_149577 {
+		color=blue fontname=Helvetica label="Feedback - 149577" style=dashed
+		"149577_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Thanks for choosing GreenHUB!
+-&gt; {{PlantType}}</TD></TR></TABLE>>]
+		"149577_4" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">DELAY</FONT></TD></TR><TR><TD>Waits for: <B>2 sec</B></TD></TR></TABLE>>]
+		"149577_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">CSAT</FONT></TD></TR><TR><TD><FONT POINT-SIZE="10"><B>Question:</B> <I>&quot;How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good&quot;</I></FONT></TD></TR><TR><TD BGCOLOR="#F5F5F5"><FONT POINT-SIZE="10">Scale: SCORING_1_5</FONT></TD></TR><TR><TD><FONT COLOR="gray" POINT-SIZE="10">Fallback: Please rate the service</FONT></TD></TR></TABLE>>]
+		"149577_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#C9CCD2"><B>END FLOW</B><BR/><FONT POINT-SIZE="10">Close Session</FONT></TD></TR></TABLE>>]
 	}
-	subgraph cluster_856250 {
-		color=blue fontname=Helvetica label="Indoor plants dialog - 856250" style=dashed
-		"856250_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">DELAY</FONT></TD></TR><TR><TD>Waits for: <B>2 sec</B></TD></TR></TABLE>>]
-		"856250_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">IMAGE</FONT></TD></TR><TR><TD> https://d1ygi81q02zqx0.cloudfront.net/infobip-bots/63d9e1b7-eae2-442e-807e-0f45f2f89649.jpg?Expires=... </TD></TR></TABLE>>]
-		"856250_4" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">BUTTON</FONT></TD></TR><TR><TD>Ficus Benjamina - 15 euro
-Purchase the item or type menu to choose another service</TD></TR><TR><TD BGCOLOR="#F5F5F5"><I> Purchase</I></TD></TR></TABLE>>]
-		"856250_5" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">PROCESS_USER_INPUT</FONT></TD></TR><TR><TD>NLP Enabled: False</TD></TR></TABLE>>]
-		"856250_6" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>677961</B></TD></TR></TABLE>>]
-		"856250_7" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>214280</B></TD></TR></TABLE>>]
-	}
-	subgraph cluster_677961 {
-		color=blue fontname=Helvetica label="Purchase dialog - 677961" style=dashed
-		"677961_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Nice choice!</TD></TR></TABLE>>]
-		"677961_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">GET_ATTRIBUTE</FONT></TD></TR><TR><TD><FONT POINT-SIZE="10"><I>&quot;How many plants do you want?&quot;</I></FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Attributes defined: [quantity ]</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="10">Max Repeats: 1</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="10">Repeat Messages:<BR/>&#8226; Sorry, I didn't understad. Can you repeat the quantity?</FONT></TD></TR></TABLE>>]
-		"677961_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Perfect, purchase completed</TD></TR></TABLE>>]
-		"677961_4" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#C9CCD2"><B>END FLOW</B><BR/><FONT POINT-SIZE="10">Close Session</FONT></TD></TR></TABLE>>]
-	}
-	USER_ENTRY -> "1_1" [label="Default Dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
-	USER_ENTRY -> "1_1" [label="NLP Match:
-[Welcome]" color=dodgerblue fontcolor=dodgerblue fontsize=10 style=bold]
-	USER_ENTRY -> "214280_6" [label="NLP Match:
-[GreenHub services]" color=dodgerblue fontcolor=dodgerblue fontsize=10 style=bold]
-	"1_1" -> "1_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"214280_6" -> "214280_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"1_3" -> "1_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"1_2" -> "1_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"1_4" -> "214280_6" [label=Fallback color=gray fontcolor=gray fontsize=10 style=dashed]
-	"1_4" -> "214280_6" [label="Timeout: 20s" color=gray fontcolor=gray fontsize=10 style=dashed]
-	"1_4" -> "1_5" [label="User input:
-[type of plants | plants | list]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"1_4" -> "1_6" [label="User input:
-[FInd shop | place | plants seller]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"1_5" -> "943568_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
-	"1_6" -> "236780_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
-	"943568_1" -> "943568_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"236780_1" -> "236780_10" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"943568_2" -> "943568_1" [label=Fallback color=gray fontcolor=gray fontsize=10 style=dashed]
-	"943568_2" -> "943568_5" [label="User input:
-[garden plants]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"943568_2" -> "943568_6" [label="User input:
-[house plants | inside]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"943568_5" -> "943568_7" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"943568_6" -> "856250_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
-	"856250_1" -> "856250_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"236780_10" -> "236780_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"236780_2" -> "236780_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"236780_2" -> "214280_6" [label=Fallback color=gray fontcolor=gray fontsize=10 style=dashed]
-	"236780_2" -> "236780_1" [label="Timeout: 20s" color=gray fontcolor=gray fontsize=10 style=dashed]
-	"236780_3" -> "236780_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"236780_3" -> "236780_1" [label=Fallback color=gray fontcolor=gray fontsize=10 style=dashed]
-	"236780_4" -> "236780_5" [label=Nearby color=gray fontcolor=gray fontsize=10 style=solid]
-	"236780_4" -> "236780_6" [label=Far color=gray fontcolor=gray fontsize=10 style=solid]
-	"236780_4" -> "236780_7" [label=Else color=gray fontcolor=gray fontsize=10 style=solid]
-	"236780_5" -> "236780_8" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"236780_6" -> "236780_9" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"236780_7" -> "214280_6" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
-	"214280_2" -> "214280_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"214280_3" -> "214280_6" [label=Fallback color=gray fontcolor=gray fontsize=10 style=dashed]
-	"214280_3" -> "214280_4" [label="User input:
-[type of plants | plants | list]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"214280_3" -> "214280_5" [label="User input:
-[FInd shop | place | plants seller]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"214280_4" -> "943568_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
-	"214280_5" -> "236780_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
-	"856250_2" -> "856250_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"856250_4" -> "856250_5" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"856250_5" -> "214280_6" [label=Fallback color=gray fontcolor=gray fontsize=10 style=dashed]
-	"856250_5" -> "856250_6" [label="User input:
-[take | buy | buy now]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"856250_5" -> "856250_7" [label="User input:
-[other products]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"856250_6" -> "677961_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
-	"856250_7" -> "214280_6" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
-	"677961_1" -> "677961_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"677961_2" -> "677961_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"677961_2" -> "677961_1" [label=Fallback color=gray fontcolor=gray fontsize=10 style=dashed]
-	"677961_2" -> "856250_1" [label="Timeout: 15s" color=gray fontcolor=gray fontsize=10 style=dashed]
-	"677961_3" -> "677961_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	USER_ENTRY -> "1_6" [label="Default Dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
+	"1_6" -> "1_9" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"1_9" -> "1_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"1_2" -> "1_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"1_3" -> "1_6" [label=Fallback color=gray fontcolor=gray fontsize=10 style=dashed]
+	"1_3" -> "1_4" [label="User input:
+[Plant advice]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"1_3" -> "1_8" [label="Keyword ID:
+463327" color=gray fontcolor=gray fontsize=10 style=solid]
+	"1_4" -> "106448_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
+	"1_8" -> "395954_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
+	"106448_1" -> "106448_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"395954_1" -> "395954_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"106448_2" -> "106448_5" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"106448_2" -> "1_6" [label=Fallback color=gray fontcolor=gray fontsize=10 style=dashed]
+	"106448_5" -> "106448_6" [label="Condition 1" color=gray fontcolor=gray fontsize=10 style=solid]
+	"106448_5" -> "106448_7" [label="Condition 2" color=gray fontcolor=gray fontsize=10 style=solid]
+	"106448_5" -> "106448_8" [label=Else color=gray fontcolor=gray fontsize=10 style=solid]
+	"106448_6" -> "106448_11" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"106448_7" -> "106448_10" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"106448_8" -> "106448_9" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"106448_11" -> "149577_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
+	"149577_1" -> "149577_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"106448_10" -> "149577_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
+	"106448_9" -> "149577_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
+	"395954_2" -> "395954_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"395954_3" -> "395954_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"395954_4" -> "149577_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
+	"149577_4" -> "149577_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"149577_3" -> "149577_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 }
