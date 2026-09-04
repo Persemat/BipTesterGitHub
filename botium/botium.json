@@ -25,7 +25,9 @@
       },
       "SIMPLEREST_INBOUND_PORT": 1234,
       "SIMPLEREST_INBOUND_ENDPOINT": "/api/botium-webhook",
-	    "SIMPLEREST_RESPONSE_HOOK": "inbound-hook.js"
+	    "SIMPLEREST_RESPONSE_HOOK": "inbound-hook.js",
+      "SIMPLEREST_INBOUND_SELECTOR_JSONPATH": "$.body.destination",
+      "SIMPLEREST_INBOUND_SELECTOR_VALUE": "{{botium.conversationId}}"
     }
   }
 }

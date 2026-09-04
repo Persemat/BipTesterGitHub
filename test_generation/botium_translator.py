@@ -211,13 +211,18 @@ class BotiumTranslator:
 
         return "\n".join(convo_lines)
 
+
+
     def generate_utterances_file(self):
         """Generates the content for the bursts.utterances.txt file."""
         lines = []
         for burst_name, phrases in self.global_utterances.items():
             lines.append(burst_name)
             for phrase in phrases:
-                lines.append(f"*{phrase}*")
-            lines.append("") # Empty line to separate utterances
+                # Format the phrase with asterisks and clean up any redundant asterisks
+                raw_formatted = f"*{phrase}*"
+                clean_phrase = re.sub(r'\*+', '*', raw_formatted)
+                lines.append(clean_phrase)
+            lines.append("") 
             
         return "\n".join(lines)

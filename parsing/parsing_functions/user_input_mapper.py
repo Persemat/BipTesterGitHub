@@ -126,7 +126,11 @@ def map_process_user_input(d_id, e_id, element):
     }
 
 
-def map_get_attribute(d_id, e_id, element):
+def map_get_attribute(d_id, e_id, element, attributes_dict = None):
+
+    if attributes_dict is None:
+        attributes_dict = {}
+
     action = element.get("action", {})
     
     transitions, content, next_combined_id = extract_common_input_logic(d_id, action)
@@ -136,7 +140,17 @@ def map_get_attribute(d_id, e_id, element):
     
     attr_defined = []
     attr_id = action.get("attributeId")
-    if attr_id: attr_defined.append(str(attr_id))
+
+    data_type = "TEXT"
+
+    if attr_id:
+        str_attr_id = str(attr_id)
+        attr_defined.append(str_attr_id)
+
+        if str_attr_id in attributes_dict:
+            data_type = attributes_dict[str_attr_id].get("type", "TEXT")
+        
+        
 
     return {
         "id": f"{d_id}_{e_id}",
@@ -146,6 +160,7 @@ def map_get_attribute(d_id, e_id, element):
         "content": content,
         "next_element": next_combined_id,
         "transitions": transitions, 
+        "data_type" : data_type,
         "attributes_used": [],      
         "attributes_defined": attr_defined,
     }

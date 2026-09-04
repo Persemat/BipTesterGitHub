@@ -10,24 +10,6 @@ Any random string
 *{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"}]}}*
 
 #me
-Plant advice
-
-#bot
-*Our experts are here! Which plant are we talking about?*
-
-#bot
-*Write the type of the plant*
-
-#me
-Test_Invalid_Input_For_Fallback
-
-#bot
-*Welcome to Green Hub*
-
-#bot
-*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"}]}}*
-
-#me
 Online Site
 
 #bot

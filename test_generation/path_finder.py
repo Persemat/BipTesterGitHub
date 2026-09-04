@@ -1,4 +1,5 @@
 import networkx as nx
+from  test_generation.utils.mock_registry import DATATYPE_MOCKS
 
 class TestPathFinder:
     def __init__(self, g_nodes, g_adj, nx_graph):
@@ -91,8 +92,25 @@ class TestPathFinder:
         # 2. EXPLORE BRANCHES
         for target_node, edges in self.adj[current_node].items():
             for edge_index, edge_data in edges.items():
-                
-                # Create the snapshot of this transition
+
+                c_type = edge_data.get("condition_type", "")
+                source_data = self.nodes.get(current_node, {})
+
+                # Skip invalid paths for GET_ATTRIBUTE nodes with no invalid mock data and no validation
+                # --- PRUNING INTELLIGENTE CON MOCK REGISTRY ---
+                if c_type == "FALLBACK" and source_data.get("specific_type") == "GET_ATTRIBUTE":
+                    
+                    # Ora source_data ha il data_type! Lo prendiamo e lo mettiamo in minuscolo
+                    data_type = source_data.get("data_type", "TEXT").lower()
+                    
+                    # Recuperiamo le regole dal Registry
+                    mock_info = DATATYPE_MOCKS.get(data_type, DATATYPE_MOCKS["text"])
+                    
+                    # Taglio dei rami morti
+                    if mock_info["invalid"] is None:
+                        print(f"[PRUNING] Ramo Fallback rimosso su '{current_node}' (Tipo '{data_type}' accetta tutto).")
+                        continue 
+
                 step = {
                     "source": current_node,
                     "target": target_node,

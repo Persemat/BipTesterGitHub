@@ -116,7 +116,12 @@ class ChatbotParser:
 
                 # qui avviene la chiamata alla funzione di mapping associata nel dispatcher, e se non la trova chiama self.map_unknown
                 mapping_function = self.dispatcher.get(element_type, self.map_unknown)
-                mapped_node = mapping_function(dialog_id, element_id, element)
+
+                if mapping_function.__name__ == "map_get_attribute":
+                    mapped_node = mapping_function(dialog_id, element_id, element, attributes_dict=self.attributes)
+                else:
+                    mapped_node = mapping_function(dialog_id, element_id, element)
+
                 mapped_node["dialog_name"] = dialog_name
                 
                 # Separazione dati e creazione nodo

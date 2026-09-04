@@ -5,7 +5,6 @@ import shutil
 # Assicurati che l'import corrisponda alla struttura delle tue cartelle
 from parsing.parser import ChatbotParser 
 from rendering.renderer import ChatbotRenderer
-from test_generation import path_finder
 from test_generation.path_finder import TestPathFinder
 from test_generation.rendering_paths import render_paths
 from test_generation.botium_translator import BotiumTranslator
