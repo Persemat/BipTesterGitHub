@@ -1,32 +1,52 @@
 Test_Path_5
 
 #me
-Any random string
+Hi, I’m new here
 
 #bot
-*Welcome to Green Hub*
+UTT_BURST_P5_T0
 
 #bot
-*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"}]}}*
+UTT_BURST_P5_T0
 
 #me
-Online Site
+Plant advice
 
 #bot
-*You can also order from our site*
+UTT_BURST_P5_T1
 
 #bot
-*No API found*
+UTT_BURST_P5_T1
+
+#me
+Low
 
 #bot
-*Thanks for choosing GreenHUB!
-->*
+*Do you have animals?*
+
+#me
+Test_Invalid_Input_For_Fallback
 
 #bot
-*How would you rate the service?
+UTT_BURST_P5_T3
 
-1 = very bad
-2 = poor
-3 = avarage
-4 = good
-5= really good*
+#bot
+UTT_BURST_P5_T3
+
+#me
+Low
+
+#bot
+*Do you have animals?*
+
+#me
+True
+
+#bot
+UTT_BURST_P5_T5
+
+#bot
+UTT_BURST_P5_T5
+
+#bot
+UTT_BURST_P5_T5

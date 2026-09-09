@@ -1,11 +1,12 @@
 {
   "botium": {
     "Capabilities": {
-      "PROJECTNAME": "Automated_Chatboot_Testing_Botium",
+      "PROJECTNAME": "Automated_Chatbot_Testing_Botium",
       "CONTAINERMODE": "simplerest",
       "SIMPLEREST_METHOD": "POST",
       "SIMPLEREST_URL": "https://2yv1z6.api.infobip.com/open-channel/1/messages/inbound",
       "WAITFORBOTTIMEOUT": 30000,
+      "SCRIPTING_MATCHING_MODE": "wildcardIgnoreCase",
       "SIMPLEREST_HEADERS_TEMPLATE": {
         "Authorization": "App 4cae1f4e3031e733506fc4564f59f9fe-5b2c5070-8c22-43f9-86d7-baf255da799c",
         "Content-Type": "application/json"

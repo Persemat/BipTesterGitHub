@@ -13,10 +13,10 @@ def main():
     # Caricamento file json
     print("Lettura del file JSON in corso...")
     try:
-        with open('chatbots/GreenHub_OpenChannel.json', 'r', encoding='utf-8') as f:
+        with open('chatbots/GreenHub_OpenChannel_Complex.json', 'r', encoding='utf-8') as f:
             json_data = json.load(f)
     except FileNotFoundError:
-        print("Errore: Impossibile trovare il file GreenHub_OpenChannel.json!")
+        print("Errore: Impossibile trovare il file GreenHub_OpenChannel_Complex.json!")
         return
 
     # Inizializzazione Parser
@@ -116,7 +116,8 @@ def main():
 
     utterances_content = translator.generate_utterances_file()
     utterances_path = os.path.join(output_folder, "bursts.utterances.txt")
-    with open(utterances_path, "w", encoding="utf-8") as f:
+
+    with open(utterances_path, "w", encoding="utf-8", newline='\n') as f:
         f.write(utterances_content)
 
     print(f"✅ Generazione completata! Creati {len(paths_found)} file .convo.txt e 1 file .utterances.txt.")

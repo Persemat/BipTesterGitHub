@@ -1,0 +1,1214 @@
+{
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB470EC3CBC9B6F221C57DC2A801E5611D2F310E3044AB4D7E18A5CA0C9E66BFDE2E1EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
+    "botRequest": {
+        "name": "GreenHub ",
+        "channel": "OPEN_CHANNEL",
+        "language": "ENGLISH",
+        "sessionTimeout": 5,
+        "voiceSettings": {
+            "voiceEnabled": false,
+            "textToSpeechSettings": {},
+            "speechToTextSettings": {}
+        },
+        "sendCallbackDataInPublicAnswersEvents": false,
+        "senders": [],
+        "senderConfiguration": {},
+        "botType": "CHATBOT",
+        "sendTypingIndicator": false
+    },
+    "dialogRequests": [
+        {
+            "internalId": 1,
+            "botId": 561569,
+            "type": "DEFAULT",
+            "name": "Default",
+            "intentId": 1,
+            "elements": [
+                {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Welcome to Green Hub. How can I help you?",
+                                "type": "TEXT"
+                            },
+                            {
+                                "message": "Hi! Ready to make your house greener? Choose an option",
+                                "type": "TEXT"
+                            },
+                            {
+                                "message": "Hello there! Green thumb or a wanna be one? Tell me what you are looking for!",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 2,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "json": "{\r\n  \"custom_type\": \"BUTTON\",\r\n  \"content\": {\r\n    \"text\": \"\",\r\n    \"options\": [\r\n      {\r\n        \"title\": \"Advice\",\r\n        \"payload\": \"Advice\"\r\n      },\r\n      {\r\n        \"title\": \"Purchase\",\r\n        \"payload\": \"Purchase\"\r\n      },\r\n      {\r\n        \"title\": \"Help\",\r\n        \"payload\": \"Help\"\r\n      }\r\n    ]\r\n  }\r\n}",
+                                "type": "JSON"
+                            }
+                        ],
+                        "nextElementId": 3,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "PROCESS_USER_INPUT",
+                    "action": {
+                        "rules": [
+                            {
+                                "condition": {
+                                    "keywordId": 50178,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 4
+                            },
+                            {
+                                "condition": {
+                                    "keywordId": 712882,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 8
+                            },
+                            {
+                                "condition": {
+                                    "keywordId": 385360,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 9
+                            }
+                        ],
+                        "nlpEnabled": true,
+                        "repeat": {
+                            "count": 1,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 1,
+                            "messages": [
+                                {
+                                    "text": "Please, follow the istructions"
+                                },
+                                {
+                                    "text": "Input not valid\n"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "type": "PROCESS_USER_INPUT"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 106448,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                },
+                {
+                    "id": 8,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 395954,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                },
+                {
+                    "id": 9,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 12195,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 6,
+            "order": 0,
+            "restricted": false
+        },
+        {
+            "internalId": 106448,
+            "botId": 561569,
+            "type": "REGULAR",
+            "name": "Plant Advices",
+            "intentId": 646330,
+            "elements": [
+                {
+                    "id": 1,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Our experts are here! Answer to these questions",
+                                "type": "TEXT"
+                            },
+                            {
+                                "message": "Answer to these questions please!",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 2,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [
+                            {
+                                "text": "How much light is there in the room?"
+                            }
+                        ],
+                        "attributeId": 130528,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 1,
+                            "messages": [
+                                {
+                                    "text": "Please answers to the question with High or Low"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 1,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 12,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 12,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [
+                            {
+                                "text": "Do you have animals?"
+                            }
+                        ],
+                        "attributeId": 36655,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 1,
+                            "messages": [
+                                {
+                                    "text": "Please answer to the question with True or False"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 106448,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 5,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "EVALUATE_ATTRIBUTE",
+                    "action": {
+                        "rules": [
+                            {
+                                "condition": {
+                                    "operator": "OR",
+                                    "conditions": [
+                                        {
+                                            "operator": "AND",
+                                            "conditions": [
+                                                {
+                                                    "attributeId": 130528,
+                                                    "operator": "EQUAL",
+                                                    "value": "Low",
+                                                    "type": "ATTRIBUTE_COMPARE"
+                                                },
+                                                {
+                                                    "attributeId": 36655,
+                                                    "operator": "EQUAL",
+                                                    "value": "True",
+                                                    "type": "ATTRIBUTE_COMPARE"
+                                                }
+                                            ],
+                                            "type": "LOGICAL"
+                                        }
+                                    ],
+                                    "type": "LOGICAL"
+                                },
+                                "nextElementId": 6,
+                                "name": "Condition 1"
+                            },
+                            {
+                                "condition": {
+                                    "operator": "OR",
+                                    "conditions": [
+                                        {
+                                            "operator": "AND",
+                                            "conditions": [
+                                                {
+                                                    "attributeId": 130528,
+                                                    "operator": "EQUAL",
+                                                    "value": "High",
+                                                    "type": "ATTRIBUTE_COMPARE"
+                                                },
+                                                {
+                                                    "attributeId": 36655,
+                                                    "operator": "EQUAL",
+                                                    "value": "False",
+                                                    "type": "ATTRIBUTE_COMPARE"
+                                                }
+                                            ],
+                                            "type": "LOGICAL"
+                                        }
+                                    ],
+                                    "type": "LOGICAL"
+                                },
+                                "nextElementId": 7,
+                                "name": "Condition 2"
+                            }
+                        ],
+                        "elseElementId": 8,
+                        "type": "EVALUATE_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "I suggest a Calathea",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 11,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 11,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 149577,
+                        "shareAttributes": true,
+                        "attributeIds": [
+                            130528
+                        ],
+                        "type": "GO_TO_DIALOG"
+                    }
+                },
+                {
+                    "id": 7,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "I suggest a Monstera",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 10,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 10,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 149577,
+                        "shareAttributes": true,
+                        "attributeIds": [
+                            130528
+                        ],
+                        "type": "GO_TO_DIALOG"
+                    }
+                },
+                {
+                    "id": 8,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Its better a plastic Ficus",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 9,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 9,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 149577,
+                        "shareAttributes": true,
+                        "attributeIds": [
+                            130528
+                        ],
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 1,
+            "order": 1,
+            "restricted": false
+        },
+        {
+            "internalId": 395954,
+            "botId": 561569,
+            "type": "REGULAR",
+            "name": "Purchase",
+            "elements": [
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "json": "{\r\n  \"custom_type\": \"CAROUSEL\",\r\n  \"content\": {\r\n    \"text\": \"\",\r\n    \"options\": [\r\n      {\r\n        \"title\": \"Cactus\",\r\n        \"ImageUrl\": \"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhCz-MjXW6bbd8tdYaoQ5D3LwDdj0f6L-Wieck6zqgoQ&s=10\"\r\n        \r\n      },\r\n      {\r\n        \"title\": \"Ficus\",\r\n        \"ImageUrl\": \"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTy_KTqrGvt9fpNmoEtUu6p32rjVdkC-orITsJD8X03w&s=10\"\r\n      },\r\n      {\r\n        \"title\": \"Rose\",\r\n        \"ImageUrl\": \"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjg3VY2F835gi-JEuov31QaPuc_0LJGtowVlQ2LlieYQ&s=10\"\r\n      }\r\n    ]\r\n  }\r\n}",
+                                "type": "JSON"
+                            }
+                        ],
+                        "nextElementId": 6,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [
+                            {
+                                "text": "How many plants do you want to buy?"
+                            }
+                        ],
+                        "attributeId": 973661,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 395954,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 9,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 9,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "API_CALL",
+                    "action": {
+                        "url": "https://httpbin.org",
+                        "method": "GET",
+                        "headers": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "contentType": "JSON",
+                        "bodyType": "KEY_VALUE",
+                        "nextElementId": 10,
+                        "maxRetryCount": 0,
+                        "fallback": {
+                            "fallbackAction": "CONTINUE_DIALOG",
+                            "sendAsVoice": false
+                        },
+                        "type": "API_CALL"
+                    }
+                },
+                {
+                    "id": 10,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "DELAY",
+                    "action": {
+                        "delayInSeconds": 1,
+                        "nextElementId": 11,
+                        "type": "DELAY"
+                    }
+                },
+                {
+                    "id": 11,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Order confirmed",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 4,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 149577,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 5,
+            "order": 2,
+            "restricted": false
+        },
+        {
+            "internalId": 149577,
+            "botId": 561569,
+            "type": "REGULAR",
+            "name": "Feedback",
+            "diagramX": 917,
+            "diagramY": 89,
+            "elements": [
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "DELAY",
+                    "action": {
+                        "delayInSeconds": 1,
+                        "nextElementId": 1,
+                        "type": "DELAY"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Thanks for choosing GreenHUB!",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 4,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "",
+                    "diagramX": -600,
+                    "diagramY": 300,
+                    "type": "DELAY",
+                    "action": {
+                        "delayInSeconds": 2,
+                        "nextElementId": 3,
+                        "type": "DELAY"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "CSAT",
+                    "action": {
+                        "scoringQuestion": "How would you rate the service?\n\n1 = very bad\n2 = poor\n3 = avarage\n4 = good\n5= really good\n\n",
+                        "scale": "SCORING_1_5",
+                        "fallbackMessage": "Please rate the service",
+                        "nextElementId": 2,
+                        "type": "CSAT"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "CLOSE_SESSION",
+                    "action": {
+                        "type": "CLOSE_SESSION"
+                    }
+                }
+            ],
+            "startElementId": 5,
+            "order": 3,
+            "restricted": false
+        },
+        {
+            "internalId": 12195,
+            "botId": 561569,
+            "type": "REGULAR",
+            "name": "Help",
+            "diagramX": 465,
+            "diagramY": 320,
+            "intentId": 881727,
+            "elements": [
+                {
+                    "id": 1,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Whats the problem?\n- Sick Plant\n- Order Problem",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 2,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "PROCESS_USER_INPUT",
+                    "action": {
+                        "rules": [
+                            {
+                                "condition": {
+                                    "keywordId": 52908,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 3
+                            },
+                            {
+                                "condition": {
+                                    "keywordId": 479577,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 8
+                            }
+                        ],
+                        "nlpEnabled": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 12195,
+                            "messages": [
+                                {
+                                    "text": "Please choose "
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "type": "PROCESS_USER_INPUT"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "No problem our botanics can help you!",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 4,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [
+                            {
+                                "text": "Insert the image"
+                            }
+                        ],
+                        "attributeId": 870299,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 12195,
+                            "sendAsVoice": false
+                        },
+                        "timeout": {
+                            "isEnabled": true,
+                            "inputType": "INPUT_VALUE",
+                            "durationSeconds": 60
+                        },
+                        "timeoutFallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 149577,
+                            "messages": [
+                                {
+                                    "text": "Are you still there?"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 5,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "DELAY",
+                    "action": {
+                        "delayInSeconds": 2,
+                        "nextElementId": 6,
+                        "type": "DELAY"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Give her more water!",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 7,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 7,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "CLOSE_SESSION",
+                    "action": {
+                        "type": "CLOSE_SESSION"
+                    }
+                },
+                {
+                    "id": 8,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Insert your order number. Remember the format is GH -followed by four numbers: GH-1234",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 9,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 9,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [
+                            {
+                                "text": "Order number"
+                            }
+                        ],
+                        "attributeId": 44888,
+                        "customValidation": true,
+                        "customValidationRegex": "^GH-[0-9]{4}$",
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 12195,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 10,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 10,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "WEBHOOK",
+                    "action": {
+                        "method": "GET",
+                        "nextElementId": 11,
+                        "type": "WEBHOOK"
+                    }
+                },
+                {
+                    "id": 11,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Found!",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 12,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 12,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 149577,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 1,
+            "order": 4,
+            "restricted": false
+        }
+    ],
+    "dialogGroupRequests": [],
+    "intentRequests": [
+        {
+            "internalId": 1,
+            "botId": 561569,
+            "name": "Default",
+            "phrases": [
+                "Hi, I’m new here",
+                "Hi",
+                "Hi, what’s going on here?",
+                "Hi, how does this work?",
+                "Hey!",
+                "Hi, how are you?",
+                "Hi, what's this service about?",
+                "Hey, can you tell me more?",
+                "Hi, can you help me?",
+                "Hello, is anyone there?",
+                "Hi, what can you do?",
+                "Hello, how do I start?",
+                "Hello, what services do you offer?",
+                "Hello!",
+                "Hello, I just joined",
+                "Hey, can you assist me?",
+                "Hello",
+                "Hey there",
+                "Hey there!",
+                "Hey, I need some info"
+            ],
+            "importantWords": [],
+            "attributeIds": [],
+            "default": true
+        },
+        {
+            "internalId": 881727,
+            "botId": 561569,
+            "name": "Help",
+            "phrases": [
+                "Can you tell me why my plant is sick?",
+                "I haven’t gotten any update on my order.",
+                "How can I fix a plant that looks sick?",
+                "When will my package be delivered?",
+                "I’m worried about my sick plant, any advice?",
+                "I’m concerned about the condition of my plant.",
+                "My order is missing some items, can you help?",
+                "Can you help me with a problem related to my order?",
+                "Hello, I have a sick plant and need advice.",
+                "There is an issue with my recent order.",
+                "Hello, my plant seems unhealthy, can you help?",
+                "I need help with a plant that isn’t doing well.",
+                "I want to know the status of my order.",
+                "How do I track my order status?",
+                "I’m having a problem with my shipment.",
+                "What should I do if my plant is not healthy?",
+                "What can I do to treat my sick plant?",
+                "I received a damaged plant, what are my options?",
+                "Can you help me track an order I placed recently?",
+                "My plant looks sick, what should I do?",
+                "I have a problem with my order, can you assist?",
+                "Can someone help me with a sick plant?",
+                "My plant’s leaves are turning yellow, what’s wrong?",
+                "My order hasn’t arrived yet, what’s the delay?",
+                "I think there’s a problem with my order shipment.",
+                "There’s an issue with my order delivery.",
+                "Is there a way to check where my order is?",
+                "My order didn’t arrive as expected, can I get help?",
+                "When can I expect my order to arrive?",
+                "How do I know if my plant needs special care?"
+            ],
+            "importantWords": [],
+            "attributeIds": [],
+            "default": false
+        },
+        {
+            "internalId": 646330,
+            "botId": 561569,
+            "name": "Advice",
+            "phrases": [
+                "I live in an apartment with limited space. What plant would be best?",
+                "What kind of plant would do well in a shaded room?",
+                "Could you recommend a plant that’s pet-friendly?",
+                "I’m interested in a plant that’s easy to propagate. Any recommendations?",
+                "I need a plant that can survive with little sunlight. Any suggestions?",
+                "I want to get a plant, but I’m not sure which one is best. Any advice?",
+                "Can you help me choose a plant that’s good for air purification?",
+                "Can you recommend a good plant for someone new to gardening?",
+                "Can you suggest a plant that requires minimal care but looks attractive?",
+                "I’m looking for a flowering plant. What would you suggest?",
+                "What’s a good plant to brighten up an office desk?",
+                "I want a plant that can help improve indoor air quality. Which should I pick?",
+                "I want a plant that doesn’t need much watering. Which one should I get?",
+                "What’s a low-maintenance plant you’d suggest for indoors?",
+                "Do you have suggestions for a drought-tolerant houseplant?",
+                "Can you suggest a hardy plant that can tolerate occasional neglect?",
+                "I want a plant that grows well in humid environments. Any ideas?",
+                "I'm looking for a new plant to keep at home. Can you suggest one?",
+                "Could you advise me on a plant that’s safe for children?",
+                "I’m thinking of buying a new plant. What are some popular options for beginners?"
+            ],
+            "importantWords": [],
+            "attributeIds": [],
+            "default": false
+        }
+    ],
+    "attributeRequests": [
+        {
+            "internalId": 685948,
+            "botId": 561569,
+            "name": "kilometers",
+            "dataType": "NUMBER",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 130528,
+            "botId": 561569,
+            "name": "RoomLight",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 36655,
+            "botId": 561569,
+            "name": "HaveAnimals",
+            "dataType": "BOOLEAN",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 973661,
+            "botId": 561569,
+            "name": "NumberPlants",
+            "dataType": "NUMBER",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 870299,
+            "botId": 561569,
+            "name": "ImagePlant",
+            "dataType": "MO_IMAGE",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 44888,
+            "botId": 561569,
+            "name": "OrderNumber",
+            "dataType": "NUMBER",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        }
+    ],
+    "keywordRequests": [
+        {
+            "internalId": 269068,
+            "botId": 561569,
+            "name": "msg response OK",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 476113,
+            "botId": 561569,
+            "name": "msg response FAIL",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 937951,
+            "botId": 561569,
+            "name": "Catalog",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 246638,
+            "botId": 561569,
+            "name": "Shop",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 810973,
+            "botId": 561569,
+            "name": "Indoor_plant",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 789071,
+            "botId": 561569,
+            "name": "Outdoor_plant",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 50178,
+            "botId": 561569,
+            "name": "Advice",
+            "synonyms": {
+                "data": [
+                    "Plant advice"
+                ]
+            }
+        },
+        {
+            "internalId": 463327,
+            "botId": 561569,
+            "name": "Online Site",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 817371,
+            "botId": 561569,
+            "name": "Ficus",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 193091,
+            "botId": 561569,
+            "name": "Rose",
+            "synonyms": {
+                "data": []
+            }
+        },
+        {
+            "internalId": 385360,
+            "botId": 561569,
+            "name": "Help",
+            "synonyms": {
+                "data": [
+                    "help",
+                    "assistance"
+                ]
+            }
+        },
+        {
+            "internalId": 712882,
+            "botId": 561569,
+            "name": "Purchase",
+            "synonyms": {
+                "data": [
+                    "buy",
+                    "purchase"
+                ]
+            }
+        },
+        {
+            "internalId": 52908,
+            "botId": 561569,
+            "name": "Sick Plant",
+            "synonyms": {
+                "data": [
+                    "dying plant",
+                    "dry",
+                    "leaf",
+                    "dry plant",
+                    "sick plant"
+                ]
+            }
+        },
+        {
+            "internalId": 479577,
+            "botId": 561569,
+            "name": "Order problem",
+            "synonyms": {
+                "data": [
+                    "delivery",
+                    "delivery problem",
+                    "order problem",
+                    "order"
+                ]
+            }
+        }
+    ],
+    "customAttributeTypes": [],
+    "testCases": [],
+    "dependencies": {
+        "conversationTags": [],
+        "extensionElements": [],
+        "exchangeElements": []
+    }
+}

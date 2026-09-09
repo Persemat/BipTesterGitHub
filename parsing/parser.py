@@ -82,26 +82,32 @@ class ChatbotParser:
                 
             target_node = f"{d_id}_{start_elem}"
 
-            # Controllo se è il dialogo di Default (Nessun match NLP)
-            if dialog.get("type") == "DEFAULT":
-                self.G.add_edge("USER_ENTRY", target_node, condition_type="DEFAULT", condition="[Any other input]")
-
-            # Controllo se il dialogo ha un Intent associato (Match NLP)
             intent_id = dialog.get("intentId")
+            phrases = []
+            intent_name = "Unknown"
+            
             if intent_id and intent_id in self.intents:
                 intent_data = self.intents[intent_id]
-                
-                # --- FIX: Ignoriamo gli intenti fantasma vuoti generati da Infobip ---
-                if not intent_data.get("phrases"):
-                    # Se non ci sono frasi, non creiamo l'arco dell'intento
-                    continue
-                
+                phrases = intent_data.get("phrases", [])
+                intent_name = intent_data.get("name", "Unknown")
+
+            # Controllo se è il dialogo di Default (Nessun match NLP)
+            if dialog.get("type") == "DEFAULT":
                 edge_data = {
-                    "condition_type": "INTENT",
-                    "intent_name": intent_data["name"],
-                    "phrases": intent_data["phrases"]
+                    "condition_type": "DEFAULT",
+                    "condition" : "[Any other input]",
+                    "phrases": phrases
                 }
                 self.G.add_edge("USER_ENTRY", target_node, **edge_data)
+
+            elif intent_id and phrases:
+                edge_data = {
+                    "condition_type": "INTENT",
+                    "intent_name": intent_name,
+                    "phrases": phrases
+                }
+                self.G.add_edge("USER_ENTRY", target_node, **edge_data)
+                
 
         # ciclo normale sui nodi del grafo
         for dialog in self.data.get("dialogRequests", []):

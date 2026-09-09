@@ -1,0 +1,348 @@
+UTT_NODE_1_6
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+
+UTT_BURST_P1_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P1_T1
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P1_T3
+*No problem our botanics can help you!*
+*Insert the image*
+
+UTT_NODE_106448_1
+*Our experts are here! Answer to these questions*
+*Answer to these questions please!*
+
+UTT_BURST_P2_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P2_T1
+*Our experts are here! Answer to these questions*
+*Answer to these questions please!*
+*How much light is there in the room?*
+
+UTT_BURST_P2_T3
+*I suggest a Calathea*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P3_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P3_T1
+*Our experts are here! Answer to these questions*
+*Answer to these questions please!*
+*How much light is there in the room?*
+
+UTT_BURST_P3_T3
+*I suggest a Monstera*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P4_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P4_T1
+*Our experts are here! Answer to these questions*
+*Answer to these questions please!*
+*How much light is there in the room?*
+
+UTT_BURST_P4_T3
+*Its better a plastic Ficus*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P5_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P5_T1
+*Our experts are here! Answer to these questions*
+*Answer to these questions please!*
+*How much light is there in the room?*
+
+UTT_BURST_P5_T3
+*Our experts are here! Answer to these questions*
+*Answer to these questions please!*
+*How much light is there in the room?*
+
+UTT_BURST_P5_T5
+*I suggest a Calathea*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P6_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P6_T1
+*{"custom_type":"CAROUSEL","content":{"text":"","options":[{"title":"Cactus","ImageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhCz-MjXW6bbd8tdYaoQ5D3LwDdj0f6L-Wieck6zqgoQ&s=10"},{"title":"Ficus","ImageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTy_KTqrGvt9fpNmoEtUu6p32rjVdkC-orITsJD8X03w&s=10"},{"title":"Rose","ImageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjg3VY2F835gi-JEuov31QaPuc_0LJGtowVlQ2LlieYQ&s=10"}]}}*
+*How many plants do you want to buy?*
+
+UTT_BURST_P6_T2
+*Order confirmed*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P7_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P7_T1
+*{"custom_type":"CAROUSEL","content":{"text":"","options":[{"title":"Cactus","ImageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhCz-MjXW6bbd8tdYaoQ5D3LwDdj0f6L-Wieck6zqgoQ&s=10"},{"title":"Ficus","ImageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTy_KTqrGvt9fpNmoEtUu6p32rjVdkC-orITsJD8X03w&s=10"},{"title":"Rose","ImageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjg3VY2F835gi-JEuov31QaPuc_0LJGtowVlQ2LlieYQ&s=10"}]}}*
+*How many plants do you want to buy?*
+
+UTT_BURST_P7_T2
+*{"custom_type":"CAROUSEL","content":{"text":"","options":[{"title":"Cactus","ImageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhCz-MjXW6bbd8tdYaoQ5D3LwDdj0f6L-Wieck6zqgoQ&s=10"},{"title":"Ficus","ImageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTy_KTqrGvt9fpNmoEtUu6p32rjVdkC-orITsJD8X03w&s=10"},{"title":"Rose","ImageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjg3VY2F835gi-JEuov31QaPuc_0LJGtowVlQ2LlieYQ&s=10"}]}}*
+*How many plants do you want to buy?*
+
+UTT_BURST_P7_T3
+*Order confirmed*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P8_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P8_T3
+*No problem our botanics can help you!*
+*Insert the image*
+
+UTT_BURST_P9_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P9_T2
+*No problem our botanics can help you!*
+*Insert the image*
+
+UTT_BURST_P10_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P10_T2
+*No problem our botanics can help you!*
+*Insert the image*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P11_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P11_T2
+*Insert your order number. Remember the format is GH -followed by four numbers: GH-1234*
+*Order number*
+
+UTT_BURST_P11_T3
+*Found!*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P12_T0
+*Welcome to Green Hub. How can I help you?*
+*Hi! Ready to make your house greener? Choose an option*
+*Hello there! Green thumb or a wanna be one? Tell me what you are looking for!*
+*{"custom_type":"BUTTON","content":{"text":"","options":[{"title":"Advice","payload":"Advice"},{"title":"Purchase","payload":"Purchase"},{"title":"Help","payload":"Help"}]}}*
+
+UTT_BURST_P12_T2
+*Insert your order number. Remember the format is GH -followed by four numbers: GH-1234*
+*Order number*
+
+UTT_BURST_P12_T4
+*No problem our botanics can help you!*
+*Insert the image*
+
+UTT_BURST_P13_T0
+*Our experts are here! Answer to these questions*
+*Answer to these questions please!*
+*How much light is there in the room?*
+
+UTT_BURST_P13_T2
+*I suggest a Calathea*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P14_T0
+*Our experts are here! Answer to these questions*
+*Answer to these questions please!*
+*How much light is there in the room?*
+
+UTT_BURST_P14_T2
+*I suggest a Monstera*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P15_T0
+*Our experts are here! Answer to these questions*
+*Answer to these questions please!*
+*How much light is there in the room?*
+
+UTT_BURST_P15_T2
+*Its better a plastic Ficus*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P16_T0
+*Our experts are here! Answer to these questions*
+*Answer to these questions please!*
+*How much light is there in the room?*
+
+UTT_BURST_P16_T2
+*Our experts are here! Answer to these questions*
+*Answer to these questions please!*
+*How much light is there in the room?*
+
+UTT_BURST_P16_T4
+*I suggest a Calathea*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P17_T2
+*No problem our botanics can help you!*
+*Insert the image*
+
+UTT_BURST_P18_T1
+*No problem our botanics can help you!*
+*Insert the image*
+
+UTT_BURST_P19_T1
+*No problem our botanics can help you!*
+*Insert the image*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P20_T1
+*Insert your order number. Remember the format is GH -followed by four numbers: GH-1234*
+*Order number*
+
+UTT_BURST_P20_T2
+*Found!*
+*Thanks for choosing GreenHUB!*
+*How would you rate the service?
+
+1 = very bad
+2 = poor
+3 = avarage
+4 = good
+5= really good*
+
+UTT_BURST_P21_T1
+*Insert your order number. Remember the format is GH -followed by four numbers: GH-1234*
+*Order number*
+
+UTT_BURST_P21_T3
+*No problem our botanics can help you!*
+*Insert the image*

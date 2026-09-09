@@ -1,0 +1,28 @@
+Test_Path_14
+
+#me
+I live in an apartment with limited space. What plant would be best?
+
+#bot
+UTT_BURST_P14_T0
+
+#bot
+UTT_BURST_P14_T0
+
+#me
+High
+
+#bot
+*Do you have animals?*
+
+#me
+False
+
+#bot
+UTT_BURST_P14_T2
+
+#bot
+UTT_BURST_P14_T2
+
+#bot
+UTT_BURST_P14_T2

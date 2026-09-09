@@ -66,7 +66,7 @@ class BotiumTranslator:
                 
         return path_constraints
 
-    def get_message(self, node_data, path_constraints=None):
+    def get_message(self, node_data, node_id, path_constraints=None):
         """Extracts the visible text from the bot's response node."""
         path_constraints = path_constraints or {}
         macro_type = node_data.get("macro_type")
@@ -76,13 +76,25 @@ class BotiumTranslator:
         if macro_type == "SEND_MESSAGE":
             if spec_type == "TEXT":
                 msgs = content.get("messages_list", [])
-                if msgs:
-                    msg = msgs[0]
-                    for attr_id, value in path_constraints.items():
-                        msg = re.sub(r'\{\{.*?\}\}', value, msg)
+                if not msgs:
+                    return None
 
-                    msg = re.sub(r'\{\{.*?\}\}', '', msg)
-                return msg
+                # Clean the messages by replacing attribute placeholders with actual values from path_constraints
+                cleaned_msgs = []
+                for msg in msgs:
+                    temp_msg = msg
+                    for attr_id, value in path_constraints.items():
+                        temp_msg = re.sub(r'\{\{.*?\}\}', value, temp_msg)
+                    temp_msg = re.sub(r'\{\{.*?\}\}', '', temp_msg)
+                    cleaned_msgs.append(temp_msg)
+
+                # If there's only one message, return it as a standard text string; if multiple, create an Utterance reference
+                if len(cleaned_msgs) == 1:
+                    return cleaned_msgs[0]
+                else:
+                    utt_name = f"UTT_NODE_{node_id}"
+                    self.global_utterances[utt_name] = cleaned_msgs
+                    return utt_name
             
             elif spec_type == "JSON":
                 payload = content.get("payload", {})
@@ -156,7 +168,11 @@ class BotiumTranslator:
             return "Test_Invalid_Input_For_Fallback"
             
         elif c_type == "DEFAULT":
-            return "Any random string"
+            phrases = edge_data.get("phrases", [])
+            if phrases:
+                return phrases[0]
+            else:
+                return "Any random string"
             
         elif c_type == "TIMEOUT":
             # Botium will wait silently. We use None to skip the #me statement.
@@ -186,7 +202,9 @@ class BotiumTranslator:
                     turns.append(current_turn)
                 current_turn = {"user": user_action, "bot_responses": []}
 
-            bot_msg = self.get_message(target_data, path_constraints)
+            target_node_id = step.get("target", "UNKNOWN")
+            bot_msg = self.get_message(target_data, target_node_id, path_constraints)
+
             if bot_msg:
                 current_turn["bot_responses"].append(bot_msg)
 
@@ -201,13 +219,19 @@ class BotiumTranslator:
                 convo_lines.append(f"#me\n{turn['user']}\n")
                 
             for response in turn["bot_responses"]:
-                clean_response = response.strip()
-                clean_response = re.sub(r' +', ' ', clean_response)
 
-                raw_formatted = f"*{clean_response}*"
-                clean_response = re.sub(r'\*+', '*', raw_formatted)
+                # Utterance check: if the response is a reference to an utterance, we format it accordingly
+                if response.startswith("UTT_NODE_"):
+                    convo_lines.append(f"#bot \n{response}\n")
+                else:
 
-                convo_lines.append(f"#bot\n{clean_response}\n")
+                    clean_response = response.strip()
+                    clean_response = re.sub(r' +', ' ', clean_response)
+
+                    raw_formatted = f"*{clean_response}*"
+                    clean_response = re.sub(r'\*+', '*', raw_formatted)
+
+                    convo_lines.append(f"#bot\n{clean_response}\n")
 
         return "\n".join(convo_lines)
 
@@ -219,7 +243,6 @@ class BotiumTranslator:
         for burst_name, phrases in self.global_utterances.items():
             lines.append(burst_name)
             for phrase in phrases:
-                # Format the phrase with asterisks and clean up any redundant asterisks
                 raw_formatted = f"*{phrase}*"
                 clean_phrase = re.sub(r'\*+', '*', raw_formatted)
                 lines.append(clean_phrase)

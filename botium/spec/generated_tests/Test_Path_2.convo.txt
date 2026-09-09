@@ -1,38 +1,37 @@
 Test_Path_2
 
 #me
-Any random string
+Hi, I’m new here
 
 #bot
-*Welcome to Green Hub*
+UTT_BURST_P2_T0
 
 #bot
-*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"}]}}*
+UTT_BURST_P2_T0
 
 #me
 Plant advice
 
 #bot
-*Our experts are here! Which plant are we talking about?*
+UTT_BURST_P2_T1
 
 #bot
-*Write the type of the plant*
+UTT_BURST_P2_T1
 
 #me
-Ficus
+Low
 
 #bot
-*The plant is Ficus*
+*Do you have animals?*
+
+#me
+True
 
 #bot
-*Thanks for choosing GreenHUB!
--> Ficus*
+UTT_BURST_P2_T3
 
 #bot
-*How would you rate the service?
+UTT_BURST_P2_T3
 
-1 = very bad
-2 = poor
-3 = avarage
-4 = good
-5= really good*
+#bot
+UTT_BURST_P2_T3
