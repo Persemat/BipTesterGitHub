@@ -1,42 +1,42 @@
 Test_Path_1
 
 #me
-Hi, I’m new here
+Any random string
 
 #bot
-UTT_BURST_P1_T0
+*Welcome to Green Hub*
 
 #bot
-UTT_BURST_P1_T0
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"}]}}*
 
 #me
 Test_Invalid_Input_For_Fallback
 
 #bot
-UTT_BURST_P1_T1
-
-#bot
-UTT_BURST_P1_T1
+UTT_REPEAT_1_4
 
 #me
-help
+Test_Invalid_Input_For_Fallback
 
 #bot
-*Whats the problem?
-- Sick Plant
-- Order Problem*
+UTT_FALLBACK_1_4
+
+#bot
+*Welcome to Green Hub*
+
+#bot
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"}]}}*
+
+PAUSE 15000
+
+#bot
+UTT_TIMEOUT_1_4
+
+#bot
+*Thanks for choosing GreenHub! ->*
+
+#bot
+*How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*
 
 #me
-dying plant
-
-#bot
-UTT_BURST_P1_T3
-
-#bot
-UTT_BURST_P1_T3
-
-#me
-Generic_Value_For_Var_870299
-
-#bot
-*Give her more water!*
+4

@@ -1,52 +1,34 @@
 Test_Path_5
 
 #me
-Hi, I’m new here
+Any random string
 
 #bot
-UTT_BURST_P5_T0
+*Welcome to Green Hub*
 
 #bot
-UTT_BURST_P5_T0
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"}]}}*
 
 #me
 Plant advice
 
 #bot
-UTT_BURST_P5_T1
+*Our experts are here! Which plant are we talking about?*
 
 #bot
-UTT_BURST_P5_T1
+*Write the type of the plant*
 
 #me
-Low
+Generic_Text_352393
 
 #bot
-*Do you have animals?*
+*No plants available*
+
+#bot
+*Thanks for choosing GreenHub! ->*
+
+#bot
+*How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*
 
 #me
-Test_Invalid_Input_For_Fallback
-
-#bot
-UTT_BURST_P5_T3
-
-#bot
-UTT_BURST_P5_T3
-
-#me
-Low
-
-#bot
-*Do you have animals?*
-
-#me
-True
-
-#bot
-UTT_BURST_P5_T5
-
-#bot
-UTT_BURST_P5_T5
-
-#bot
-UTT_BURST_P5_T5
+4

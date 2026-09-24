@@ -1,130 +1,127 @@
+"""
+Main execution module for the Automated Chatbot Testing Tool.
+
+This script orchestrates the entire pipeline:
+1. Loads the Infobip chatbot graph export (JSON).
+2. Parses the JSON into a NetworkX directed graph.
+3. Generates all possible conversational paths using a Depth-First Search (DFS) algorithm.
+4. Translates the paths into Botium-compatible test cases (.convo.txt and .utterances.txt).
+5. Renders a visual representation of the chatbot graph using Graphviz.
+"""
+
 import json
 import os
 import networkx as nx
 import shutil
-# Assicurati che l'import corrisponda alla struttura delle tue cartelle
+from test_generation.rendering_paths import render_paths
 from parsing.parser import ChatbotParser 
 from rendering.renderer import ChatbotRenderer
 from test_generation.path_finder import TestPathFinder
-from test_generation.rendering_paths import render_paths
 from test_generation.botium_translator import BotiumTranslator
 
+
 def main():
-    # Caricamento file json
-    print("Lettura del file JSON in corso...")
+    """
+    Entry point of the application. 
+    Executes the parsing, path generation, translation, and rendering phases sequentially.
+    """
+    # 1. Load the JSON export from Infobip
+    print("Reading JSON file...")
     try:
-        with open('chatbots/GreenHub_OpenChannel_Complex.json', 'r', encoding='utf-8') as f:
+        with open('chatbots/GreenHub_OpenChannel_Simple.json', 'r', encoding='utf-8') as f:
             json_data = json.load(f)
     except FileNotFoundError:
-        print("Errore: Impossibile trovare il file GreenHub_OpenChannel_Complex.json!")
+        print("Error: Could not find the file GreenHub_OpenChannel_Simple.json!")
         return
 
-    # Inizializzazione Parser
-    print("Inizializzazione del Parser...")
+    # 2. Initialize Parser and process nodes
+    print("Initializing Parser...")
     parser = ChatbotParser(json_data)
 
-    # Estrazione dei nodi
-    print("Estrazione dei nodi in corso...\n")
+    print("Extracting nodes...\n")
     parser.process_all_elements()
 
-    # Stampe verifica grafo
-    print("="*50)
-    print(f"TOTALE NODI CREATI: {parser.G.number_of_nodes()}")
-    print(f"TOTALE ARCHI CREATI : {parser.G.number_of_edges()}")
-    print("="*50)
+    # Print Graph verification metrics
+    print("=" * 50)
+    print(f"TOTAL NODES CREATED: {parser.G.number_of_nodes()}")
+    print(f"TOTAL EDGES CREATED: {parser.G.number_of_edges()}")
+    print("=" * 50)
 
-    print("\n--- CONTENUTO DI UN NODO ---")
+    print("\n--- NODE CONTENT SAMPLE ---")
     if parser.G.has_node("943568_2"):
-        dati_nodo = parser.G.nodes["943568_2"]
-        print(json.dumps(dati_nodo, indent=4))
+        node_data = parser.G.nodes["943568_2"]
+        print(json.dumps(node_data, indent=4))
     
-    print("\n--- ELENCO ARCHI E TRANSIZIONI ---")
+    print("\n--- EDGES AND TRANSITIONS ---")
     for u, v, data in parser.G.edges(data=True):
-        print(f"Arco da [{u}] a [{v}] con dati: {data}")
+        print(f"Edge from [{u}] to [{v}] with data: {data}")
 
-    #STAMPA DEI NODI E DEGLI ARCHI IN MEMORIA (G.nodes e G.adj) PER VERIFICA
-    print("\n" + "="*60)
-    print(" L'ANAGRAFE DEI NODI (G.nodes)")
-    print("="*60)
-    # Convertiamo i nodi in un dizionario Python standard per stamparli bene
+    # Print Graph memory structures for debugging
+    print("\n" + "=" * 60)
+    print(" NODES REGISTRY (G.nodes)")
+    print("=" * 60)
     nodes = dict(parser.G.nodes(data=True))
     print(json.dumps(nodes, indent=4, ensure_ascii=False))
 
-    print("\n" + "="*60)
-    print("IL DIZIONARIO DI ADIACENZA (G.adj / Archi)")
-    print("="*60)
-    # Questa funzione estrae l'esatta struttura di routing $O(1)$
+    print("\n" + "=" * 60)
+    print(" ADJACENCY DICTIONARY (G.adj / Edges)")
+    print("=" * 60)
+    # Extract exact O(1) routing structure
     adjacency_dict = nx.to_dict_of_dicts(parser.G)
     print(json.dumps(adjacency_dict, indent=4, ensure_ascii=False))
 
-    print("\n Avvio motore generazione test Botium...")
-
+    # 3. Path Generation
+    print("\nStarting Botium test generation engine...")
     nodes_dict = dict(parser.G.nodes(data=True))
     adj_dict = dict(parser.G.adj)
 
     path_finder = TestPathFinder(nodes_dict, adj_dict, parser.G)
     paths_found = path_finder.generate_paths(start_node="USER_ENTRY")
 
-    print(f"\n{'='*50}")
+    print(f"\n{'=' * 50}")
     print(f" TOTAL PATHS GENERATED: {len(paths_found)}")
-    print(f"{'='*50}")
+    print(f"{'=' * 50}")
     
-    for i, path in enumerate(paths_found, start=1):
-        print(f"\n--- Test Path {i} ---")
-        
-        for step in path:
-            source = step.get('source')
-            target = step.get('target')
-            edge = step.get('edge_data')
-            
-            # Estraiamo il tipo di condizione per rendere la stampa parlante
-            if edge:
-                condition = edge.get('condition_type', 'UNKNOWN')
-                # Dettaglio extra per le keyword testuali
-                if condition == "KEYWORD_COMPARE":
-                    condition += f" ({edge.get('keyword_name', '')})"
-            else:
-                condition = "START"
-                
-            # Identifica se il passo è il trigger del fallback e avvia la recovery
-            is_loop = step.get('is_loop', False)
-            loop_marker = " [LOOP DETECTED! -> Avvio Recovery verso la foglia]" if is_loop else ""
-            
-            print(f"  {source} --[{condition}]--> {target}{loop_marker}")
-            
-    print(f"\n{'='*50}\n")
+    # Print the paths to the terminal for observability
+    render_paths(paths_found)
+    
+    # 4. Botium Translation
 
-    test_configuration = {
-    "CSAT_DEFAULT": "4",
-    "LOCATION_DEFAULT": "Lat: 45.46, Long: 9.19"
-    }
+    translator = BotiumTranslator(nodes_dict)
 
-    translator = BotiumTranslator(nodes_dict, mock_data = test_configuration)
-
+    # Output directory management
     output_folder = os.path.join("botium", "spec", "generated_tests")
-    os.makedirs(output_folder, exist_ok=True)
-
     if os.path.exists(output_folder):
-        shutil.rmtree(output_folder)
+        shutil.rmtree(output_folder) # Clean previous test suite
     os.makedirs(output_folder, exist_ok=True)
 
-    for i, path in enumerate(paths_found, start = 1):
-        convo_text = translator.translate_path(path, i )
+    # Write Botium .convo.txt files
+    for i, path in enumerate(paths_found, start=1):
+        convo_text = translator.translate_path(path, i)
         file_path = os.path.join(output_folder, f"Test_Path_{i}.convo.txt")
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(convo_text)
 
-    utterances_content = translator.generate_utterances_file()
-    utterances_path = os.path.join(output_folder, "bursts.utterances.txt")
+    utterances_folder = os.path.join(output_folder, "utterances")
+    os.makedirs(utterances_folder, exist_ok=True)
 
-    with open(utterances_path, "w", encoding="utf-8", newline='\n') as f:
-        f.write(utterances_content)
+    # Write Botium .utterances.txt file
+    utterances_files = translator.get_utterances_files()
 
-    print(f"✅ Generazione completata! Creati {len(paths_found)} file .convo.txt e 1 file .utterances.txt.")
+    for filename, content in utterances_files.items():
+        file_path = os.path.join(utterances_folder, filename)
+        with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
+            f.write(content)
 
-    print("Avvio motore grafico Graphviz...")
+    
+
+    print(f"✅ Generation completed! Created {len(paths_found)} .convo.txt files and 1 .utterances.txt file.")
+
+    # 5. Graph Rendering
+    print("Starting Graphviz rendering engine...")
     graph = ChatbotRenderer(parser.G, parser.attributes)
     graph.render()
     graph.view("grafo prova")
+
 if __name__ == "__main__":
     main()

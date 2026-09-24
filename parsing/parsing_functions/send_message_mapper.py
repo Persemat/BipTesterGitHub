@@ -1,12 +1,12 @@
 import json
 import re
+from parsing.parsing_utils import extract_placeholders
 
 def map_send_message(d_id, e_id, element):
     """
-    Sotto modulo di mapping per la macro categoria SEND_MESSAGE.
-    Prende l'elemento JSON grezzo e lo standardizza in un dizionario per il grafo.
+    Mapping submodule for the SEND_MESSAGE macro category.
+    Takes the raw JSON element and standardizes it into a dictionary for the graph.
     """
-
     action = element.get("action", {})
     messages = action.get("messages", [])
 
@@ -26,13 +26,12 @@ def map_send_message(d_id, e_id, element):
                 text = msg.get("message", "")
                 if text:
                     messages_list.append(text)
-            content = {"messages_list" : messages_list}
+            content = {"messages_list": messages_list}
             
-
         elif sub_type == "IMAGE":
             content = {
-            "url" : messages[0].get("url", "No URL"),
-            "caption" : messages[0].get("caption", "")
+                "url": messages[0].get("url", "No URL"),
+                "caption": messages[0].get("caption", "")
             }
 
         elif sub_type == "BUTTON":
@@ -42,9 +41,8 @@ def map_send_message(d_id, e_id, element):
             
             if header:
                 header_type = header.get("type", "UNKNOWN")
-                header_data = {
-                    "type": header_type
-                    }
+                header_data = {"type": header_type}
+                
                 if header_type == "TEXT":
                     header_data["text"] = header.get("text", "")
                 if header_type == "IMAGE":
@@ -56,8 +54,8 @@ def map_send_message(d_id, e_id, element):
                     header_data["url"] = header.get("url", "")
             
             content = {
-            "body": messages[0].get("body", ""),
-            "buttons": [b.get("title", "") for b in buttons]
+                "body": messages[0].get("body", ""),
+                "buttons": [b.get("title", "") for b in buttons]
             }
 
             if header:
@@ -65,16 +63,15 @@ def map_send_message(d_id, e_id, element):
             if footer:
                 content["footer"] = footer
         
-
         elif sub_type == "LIST_PICKER":
             header = messages[0].get("header", "")
             footer = messages[0].get("footer", "")
             body = messages[0].get("body", "")
-            menu_button = messages[0].get("button", "") # Only for the rendering
+            menu_button = messages[0].get("button", "") # Only for rendering
 
-           # Title and descrpiton extraction cicle 
+            # Title and description extraction cycle 
             options_data = []
-            for section in messages[0].get("sections",[]):
+            for section in messages[0].get("sections", []):
                 for item in section.get("items", []):
                     single_item = {
                         "title": item.get("title", ""),
@@ -86,9 +83,9 @@ def map_send_message(d_id, e_id, element):
                     options_data.append(single_item)
 
             content = {
-            "body" : body,
-            "menu_button" : menu_button,
-            "options" : options_data
+                "body": body,
+                "menu_button": menu_button,
+                "options": options_data
             }
 
             if header:
@@ -105,23 +102,21 @@ def map_send_message(d_id, e_id, element):
             except json.JSONDecodeError:
                 payload = raw_payload
 
-            # If the payload is a dictionary, we can extract the custom_type and content for further processing
+            # Extract custom_type and content for further processing
             content = {
                 "raw_payload": raw_payload, 
                 "payload": payload
             }
             
-        # Applichiamo la Regex a tutti i valori del content per estrarre le variabili usate
-        # La regex cerca pattern del tipo {{variabile}} e li estrae in una lista
+        # Apply Regex to all content values to extract used variables
+        # The regex searches for patterns like {{variable}} and extracts them into a list
         attr_used = extract_placeholders(content)
 
-
     # --- GRAPH SEARCH LOGIC (EDGES) --- 
-
     next_elem = action.get("nextElementId")
     next_combined_id = f"{d_id}_{next_elem}" if next_elem else None 
 
-    return{
+    return {
         "id": f"{d_id}_{e_id}",
         "dialog_id": d_id,
         "element_id": e_id,
@@ -132,27 +127,3 @@ def map_send_message(d_id, e_id, element):
         "attributes_defined": [],  
         "attributes_used": attr_used  
     }
-
-def extract_placeholders(data):
-    """
-    Funzione ricorsiva che esplora dizionari, liste e stringhe
-    per estrarre tutti i placeholder nel formato {{variabile}}.
-    """
-    trovati = []
-
-    # Caso Base: È una stringa, applichiamo la Regex
-    if isinstance(data, str):
-        return re.findall(r'\{\{(.*?)\}\}', data)
-        
-    # Se è una lista: esploriamo ogni elemento ricorsivamente
-    elif isinstance(data, list):
-        for item in data:
-            trovati.extend(extract_placeholders(item))
-            
-    # Se è un dizionario: esploriamo ogni valore ricorsivamente
-    elif isinstance(data, dict):
-        for value in data.values():
-            trovati.extend(extract_placeholders(value))
-
-    # Restituiamo la lista rimuovendo i duplicati
-    return list(set(trovati))

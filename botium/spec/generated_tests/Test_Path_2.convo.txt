@@ -1,37 +1,24 @@
 Test_Path_2
 
 #me
-Hi, I’m new here
+Any random string
 
 #bot
-UTT_BURST_P2_T0
+*Welcome to Green Hub*
 
 #bot
-UTT_BURST_P2_T0
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"}]}}*
+
+PAUSE 15000
+
+#bot
+UTT_TIMEOUT_1_4
+
+#bot
+*Thanks for choosing GreenHub! ->*
+
+#bot
+*How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*
 
 #me
-Plant advice
-
-#bot
-UTT_BURST_P2_T1
-
-#bot
-UTT_BURST_P2_T1
-
-#me
-Low
-
-#bot
-*Do you have animals?*
-
-#me
-True
-
-#bot
-UTT_BURST_P2_T3
-
-#bot
-UTT_BURST_P2_T3
-
-#bot
-UTT_BURST_P2_T3
+4

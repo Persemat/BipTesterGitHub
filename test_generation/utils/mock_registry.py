@@ -20,5 +20,8 @@ DATATYPE_MOCKS = {
 
     # Generic types
     "message": {"valid": "Generic message input", "invalid": None},
-    "text": {"valid": "Generic text input", "invalid": None}
+    "text": {"valid": "Generic text input", "invalid": None},
+
+    # Specific conversational flows
+    "csat_feedback": {"valid": "Great support, thank you!", "invalid": None}
 }

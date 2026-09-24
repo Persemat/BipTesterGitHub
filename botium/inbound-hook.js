@@ -1,27 +1,41 @@
 module.exports = ({ botMsg, botMsgRoot }) => {
-    // botMsgRoot contiene il JSON sia della risposta immediata che del webhook
-    const payload = botMsgRoot;
+    try {
+        // Safety check: if there is no payload, skip processing
+        if (!botMsgRoot) return;
+        
+        // Secondary safety check: ignore delivery receipts just in case they bypass the Proxy
+        if (botMsgRoot.status === 'MESSAGE_ACCEPTED') return;
 
-    // 1. Se è la ricevuta sincrona di Infobip, la ignoriamo silenziosamente
-    if (payload && payload.status === 'MESSAGE_ACCEPTED') {
-        return;
-    }
+        let textToAssign = "EMPTY_OR_UNKNOWN_MESSAGE";
 
-    // 2. Se è il vero webhook di Infobip, estraiamo il testo
-    if (payload && payload.message && payload.message.body) {
-        const body = payload.message.body;
-    
-        if (body.type === 'TEXT' && body.text) {
-            botMsg.messageText = body.text;
-            console.log(`[HOOK] Testo estratto con successo: "${botMsg.messageText}"`);
-        } 
-        else if (body.type === 'JSON' && body.json) {
-            // SCALABILITÀ PURA: Prendiamo l'intero oggetto JSON e lo trasformiamo in stringa.
-            // Niente formattazioni custom, niente estrazioni specifiche.
-            const jsonString = JSON.stringify(body.json);
-
-            botMsg.messageText = jsonString;
-            console.log(`[HOOK] JSON estratto e serializzato: '${botMsg.messageText}'`);
+        // Deep extraction: navigate Infobip's proprietary JSON structure
+        if (botMsgRoot.message && botMsgRoot.message.body) {
+            const body = botMsgRoot.message.body;
+            
+            // 1. Standard text message extraction
+            if (body.type === 'TEXT' && body.text) {
+                textToAssign = body.text;
+            } 
+            // 2. Interactive JSON payload extraction (e.g., Buttons, Carousels)
+            else if (body.type === 'JSON' && body.json) {
+                textToAssign = JSON.stringify(body.json);
+            } 
+            // 3. Fallback for other media types (images, locations)
+            else {
+                textToAssign = JSON.stringify(body);
+            }
+        } else {
+            // Ultimate fallback if Infobip alters its API schema unexpectedly
+            textToAssign = JSON.stringify(botMsgRoot);
         }
+
+        // Assign the extracted string to Botium's internal message text property
+        botMsg.messageText = textToAssign;
+        console.log(`[HOOK] Extracted message: ${botMsg.messageText}`);
+
+    } catch (err) {
+        console.log(`[HOOK FATAL ERROR]: ${err.message}`);
+        // Ensure the test doesn't crash completely, but registers a verifiable failure
+        botMsg.messageText = "HOOK_CRASHED_BUT_TEST_CONTINUES";
     }
 };

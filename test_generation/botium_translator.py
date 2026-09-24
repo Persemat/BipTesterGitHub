@@ -3,15 +3,12 @@ import json
 import re
 from importlib.resources import path
 
-from matplotlib.pyplot import step
-
 class BotiumTranslator:
     def __init__(self, nodes_dict, mock_data=None):
         # Dictionary to store all discovered bursts: { "BURST_ID": ["phrase 1", "phrase 2"] }
         self.global_utterances = {}
         self.nodes = nodes_dict
         self.mock_data = mock_data or {}
-
 
     def extract_constraints_from_logic_tree(self, logic_tree):
         """
@@ -24,17 +21,17 @@ class BotiumTranslator:
 
         node_type = logic_tree.get("type")
 
-        # Caso Base: Abbiamo trovato la foglia con la condizione vera e propria!
+        # Base Case: We found the leaf with the actual condition
         if node_type == "ATTRIBUTE_COMPARE":
             attr_id = str(logic_tree.get("attributeId"))
             operator = logic_tree.get("operator")
             value = logic_tree.get("value")
 
-            # Per operatori di uguaglianza, salviamo esattamente il valore richiesto
+            # For equality operators, save the exact requested value
             if operator in ["EQUAL", "CONTAINS", "STARTS_WITH", "ENDS_WITH"]:
                 constraints[attr_id] = value
                 
-            # (Opzionale) Se hai operatori matematici in futuro, puoi gestirli qui
+            # (Optional) Handle mathematical operators here if needed in the future
             elif operator in ["GREATER_THAN", "GREATER_OR_EQUAL"]:
                 try: constraints[attr_id] = str(int(value) + 1)
                 except: constraints[attr_id] = value
@@ -42,11 +39,11 @@ class BotiumTranslator:
                 try: constraints[attr_id] = str(int(value) - 1)
                 except: constraints[attr_id] = value
 
-        # Caso Ricorsivo: È un blocco logico (AND/OR), dobbiamo scendere più a fondo
+        # Recursive Case: It's a logical block (AND/OR), dive deeper
         elif node_type == "LOGICAL":
             for sub_cond in logic_tree.get("conditions", []):
                 sub_constraints = self.extract_constraints_from_logic_tree(sub_cond)
-                # Uniamo i vincoli trovati nei rami sottostanti
+                # Merge constraints found in lower branches
                 constraints.update(sub_constraints)
 
         return constraints
@@ -111,16 +108,31 @@ class BotiumTranslator:
                 return content.get("question", "")
             elif spec_type == "GET_ATTRIBUTE":
                 questions = content.get("questions", [])
-                return questions[0] if questions else None
-            elif spec_type == "WHATSAPP_LOCATION_REQUEST":
-                body = content.get("body", [])
-                return body[0] if body else None
+                if not questions:
+                    return None
+                
+                # Clean the questions by replacing attribute placeholders with path_constraints
+                cleaned_questions = []
+                for q in questions:
+                    temp_q = q
+                    for attr_id, value in path_constraints.items():
+                        temp_q = re.sub(r'\{\{.*?\}\}', value, temp_q)
+                    temp_q = re.sub(r'\{\{.*?\}\}', '', temp_q)
+                    cleaned_questions.append(temp_q)
+
+                # Generate an utterance if there are multiple variants for the question
+                if len(cleaned_questions) == 1:
+                    return cleaned_questions[0]
+                else:
+                    utt_name = f"UTT_QUESTION_{node_id}"
+                    self.global_utterances[utt_name] = cleaned_questions
+                    return utt_name
 
         # ACTION, DELAY, or routing nodes do not produce visible text
         return None
 
     def get_user_input(self, edge_data, source_node_data, path_constraints):
-        """Translates the graph edge into a textual #me input for Botium."""
+        """Translates the graph edge into a textual #me input for Botium dynamically."""
         if not edge_data:
             return None
             
@@ -128,21 +140,36 @@ class BotiumTranslator:
 
         if source_node_data:
             spec_type = source_node_data.get("specific_type")
+            
+            # Handling component-specific default inputs to prevent validation errors
             if c_type in ["AUTO", "[Auto]", "DEFAULT"] or edge_data.get("condition") == "[Auto]": 
+                
+                if spec_type == "CSAT":
+                    return "4"  # Default valid CSAT score
         
                 if spec_type == "GET_ATTRIBUTE":
                     attrs = source_node_data.get("attributes_defined", [])
+                    data_type = source_node_data.get("data_type", "TEXT")
+                    
                     if attrs:
                         attr_id = str(attrs[0])
-
+                        
+                        # Check if a specific constraint was extracted earlier in the path; if so, use it
                         if attr_id in path_constraints:
                             return path_constraints[attr_id]
-
-                        elif attr_id in self.mock_data:
-                            return self.mock_data[attr_id]
-
-                        else:
-                            return f"Generic_Value_For_Var_{attr_id}"
+                            
+                        # Map the data type to a normalized form for lookup in the mock registry
+                        normalized_type = data_type.lower()
+                        
+                        # Retrieve the valid mock value for this data type from the mock registry
+                        mock_value = self.mock_data.get(normalized_type, {}).get("valid")
+                        
+                        if mock_value:
+                            return mock_value
+                            
+                        # If no specific mock value exists, return a generic placeholder for the attribute
+                        return f"Generic_Text_{attr_id}"
+                        
                     return "Generic_Text_Input"
 
         if c_type == "KEYWORD_COMPARE":
@@ -154,10 +181,8 @@ class BotiumTranslator:
                 return synonyms[0]
             elif kw_name:
                 return kw_name
-            elif kw_id in self.mock_data:
-                            return self.mock_data[kw_id]
             else:
-            # Use the first available synonym, otherwise a placeholder
+                # Use the first available synonym, otherwise a placeholder
                 return f"Keyword_{kw_id}"
             
         elif c_type == "INTENT":
@@ -175,18 +200,37 @@ class BotiumTranslator:
                 return "Any random string"
             
         elif c_type == "TIMEOUT":
-            # Botium will wait silently. We use None to skip the #me statement.
-            return None 
+            # Retrieve the configured timeout duration from the parser's edge metadata.
+            # The parser saves it as "duration" in the edge_data dictionary.
+            timeout_seconds = edge_data.get("duration", 20) 
+            
+            # Convert to milliseconds for Botium's #pause command
+            timeout_ms = timeout_seconds * 1000
+            
+            return f"PAUSE {timeout_ms}"
 
         # [Auto] edges and EVALUATION nodes do not require user input
         return None
 
     def translate_path(self, path, path_index):
         """
-        Translates a single path into text for the .convo.txt file.
+        Translates a graph path into a Botium script.
+        Acts as the main orchestrator, delegating logic extraction and text formatting.
         """
+        # 1. Pre-calculate path constraints for deterministic routing
         path_constraints = self.pre_scan_path_constraints(path)
+        
+        # 2. Logic Extraction: Process the path and build conversational turns
+        turns = self._process_path_logic(path, path_constraints)
+        
+        # 3. Syntax Formatting: Convert logical turns into Botium syntax rules
+        return self._format_botium_script(turns, path_index)
 
+    def _process_path_logic(self, path, path_constraints):
+        """
+        Iterates through the path, handling turn-taking, CSAT loops, and error/timeout injections.
+        Returns a structured list of conversational turns.
+        """
         turns = []
         current_turn = {"user": None, "bot_responses": []}
 
@@ -195,57 +239,155 @@ class BotiumTranslator:
             target_data = step["target_data"]
             source_data = self.nodes.get(step["source"]) if step["source"] else None
 
+            # Calculate user action required to traverse the edge
             user_action = self.get_user_input(edge, source_data, path_constraints)
             
+            # Turn-taking management: close the current turn if a new user action occurs
             if user_action:
                 if current_turn["bot_responses"] or current_turn["user"]:
                     turns.append(current_turn)
                 current_turn = {"user": user_action, "bot_responses": []}
 
+            # --- NATIVE CSAT MULTI-TURN MANAGEMENT ---
+            # Check if the user successfully exits a CSAT node
+            if source_data and source_data.get("specific_type") == "CSAT" and edge and edge.get("condition_type") in ["AUTO", "[Auto]", "DEFAULT"]:
+                csat_content = source_data.get("content", {})
+                feedback_q = csat_content.get("feedback_question")
+                thank_you = csat_content.get("thank_you_message")
+                
+                # 1. Feedback Loop: Simulate user providing textual feedback
+                if feedback_q:
+                    current_turn["bot_responses"].append(feedback_q)
+                    turns.append(current_turn)
+                    
+                    # Fetch the dynamic mock data for the feedback loop
+                    mock_feedback_text = self.mock_data.get("csat_feedback", {}).get("valid", "Great support, thank you!") 
+                    current_turn = {"user": mock_feedback_text, "bot_responses": []}
+                
+                # 2. Closure: Append thank you message to close the CSAT lifecycle
+                if thank_you:
+                    current_turn["bot_responses"].append(thank_you)
+
+            # --- ERROR AND TIMEOUT INJECTION ---
+            # Handle courtesy repeat messages, fallback messages, and timeouts
+            if edge:
+                c_type = edge.get("condition_type", "")
+                
+                if c_type == "FALLBACK":
+                    # Retrieve fallback data extracted from the parser
+                    source_content = source_data.get("content", {}) if source_data else {}
+                    repeat_count = source_content.get("repeat_count", 0)
+                    repeat_msgs = source_content.get("repeat_messages", [])
+                    fallback_msgs = edge.get("messages_list", [])
+
+                    # CSAT uses 'fallback_message' instead of the standard list
+                    csat_fallback = source_content.get("fallback_message")
+                    if csat_fallback and not repeat_msgs:
+                        repeat_msgs = [csat_fallback]
+                    
+                    # 1. REPEAT CYCLE (User makes consecutive mistakes)
+                    for _ in range(repeat_count):
+                        if repeat_msgs:    
+                            # If multiple variants exist, create an Utterance reference
+                            if len(repeat_msgs) > 1:
+                                utt_name = f"UTT_REPEAT_{step['source']}"
+                                self.global_utterances[utt_name] = repeat_msgs
+                                current_turn["bot_responses"].append(utt_name)
+                            else:
+                                current_turn["bot_responses"].append(repeat_msgs[0])
+                        
+                        turns.append(current_turn)
+                        # Prepare input for the next incorrect attempt
+                        current_turn = {"user": user_action, "bot_responses": []}
+                    
+                    # 2. DEFINITIVE FALLBACK (Attempts exhausted)
+                    if fallback_msgs:
+                        if len(fallback_msgs) > 1:
+                            utt_name = f"UTT_FALLBACK_{step['source']}"
+                            self.global_utterances[utt_name] = fallback_msgs
+                            current_turn["bot_responses"].append(utt_name)
+                        else:
+                            current_turn["bot_responses"].append(fallback_msgs[0])
+
+                elif c_type == "TIMEOUT":
+                    timeout_msgs = edge.get("messages_list", [])
+                    if timeout_msgs:
+                        if len(timeout_msgs) > 1:
+                            utt_name = f"UTT_TIMEOUT_{step['source']}"
+                            self.global_utterances[utt_name] = timeout_msgs
+                            current_turn["bot_responses"].append(utt_name)
+                        else:
+                            current_turn["bot_responses"].append(timeout_msgs[0])
+                            
+            # Calculate bot response from the target node
             target_node_id = step.get("target", "UNKNOWN")
             bot_msg = self.get_message(target_data, target_node_id, path_constraints)
 
             if bot_msg:
                 current_turn["bot_responses"].append(bot_msg)
 
+        # Close the last pending turn after the loop finishes
         if current_turn["bot_responses"] or current_turn["user"]:
             turns.append(current_turn)
+            
+        return turns
 
+    def _format_botium_script(self, turns, path_index):
+        """
+        Takes the logical turns and formats them strictly according to Botium's syntax rules.
+        Handles Markdown stripping, wildcard insertion, and system labels mapping.
+        """
         convo_name = f"Test_Path_{path_index}"
         convo_lines = [f"{convo_name}\n"]
 
         for turn in turns:
             if turn["user"]:
-                convo_lines.append(f"#me\n{turn['user']}\n")
+                user_text = str(turn["user"]).strip()
                 
-            for response in turn["bot_responses"]:
-
-                # Utterance check: if the response is a reference to an utterance, we format it accordingly
-                if response.startswith("UTT_NODE_"):
-                    convo_lines.append(f"#bot \n{response}\n")
+                # System commands handling: print standalone without the #me tag
+                if user_text.startswith("PAUSE"):
+                    convo_lines.append(f"{user_text}\n")
                 else:
-
-                    clean_response = response.strip()
-                    clean_response = re.sub(r' +', ' ', clean_response)
-
+                    convo_lines.append(f"#me\n{user_text}\n")
+                        
+            responses = turn["bot_responses"]
+            
+            for response in responses:
+                # System label references remain plain text to allow Utterance expansion
+                if response.startswith("UTT_"):
+                    convo_lines.append(f"#bot\n{response}\n")
+                else:
+                    # Clean the response text to ensure it doesn't have unwanted newlines or excessive spaces
+                    clean_response = re.sub(r'[\r\n]+', '*', response)
+                    clean_response = re.sub(r' +', ' ', clean_response).strip()
+                    
+                    # Wrap standard text in wildcards for resilient pattern matching
                     raw_formatted = f"*{clean_response}*"
                     clean_response = re.sub(r'\*+', '*', raw_formatted)
 
                     convo_lines.append(f"#bot\n{clean_response}\n")
-
+        
         return "\n".join(convo_lines)
 
-
-
-    def generate_utterances_file(self):
-        """Generates the content for the bursts.utterances.txt file."""
-        lines = []
-        for burst_name, phrases in self.global_utterances.items():
-            lines.append(burst_name)
-            for phrase in phrases:
-                raw_formatted = f"*{phrase}*"
-                clean_phrase = re.sub(r'\*+', '*', raw_formatted)
-                lines.append(clean_phrase)
-            lines.append("") 
+    def get_utterances_files(self):
+        """
+        Generates individual utterance files to completely bypass Botium's block-parsing bugs.
+        Returns a dictionary mapping filenames to their textual content.
+        """
+        files_dict = {}
+        
+        for utt_name, phrases in self.global_utterances.items():
+            clean_name = utt_name.strip()
+            # La prima riga è il nome dell'etichetta
+            lines = [clean_name]
             
-        return "\n".join(lines)
+            for phrase in phrases:
+                # Pulizia degli a capo e aggiunta wildcards
+                clean_phrase = re.sub(r'[\r\n]+', ' ', phrase).strip()
+                lines.append(f"*{clean_phrase}*")
+            
+            # Creiamo un file dedicato per ogni etichetta
+            file_name = f"{clean_name}.utterances.txt"
+            files_dict[file_name] = "\n".join(lines) + "\n"
+            
+        return files_dict

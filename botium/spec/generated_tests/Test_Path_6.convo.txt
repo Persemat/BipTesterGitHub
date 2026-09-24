@@ -1,31 +1,28 @@
 Test_Path_6
 
 #me
-Hi, I’m new here
+Any random string
 
 #bot
-UTT_BURST_P6_T0
+*Welcome to Green Hub*
 
 #bot
-UTT_BURST_P6_T0
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"}]}}*
 
 #me
-buy
+Online Site
 
 #bot
-UTT_BURST_P6_T1
+*You can also order from our site*
 
 #bot
-UTT_BURST_P6_T1
+*No API found*
+
+#bot
+*Thanks for choosing GreenHub! ->*
+
+#bot
+*How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*
 
 #me
-Generic_Value_For_Var_973661
-
-#bot
-UTT_BURST_P6_T2
-
-#bot
-UTT_BURST_P6_T2
-
-#bot
-UTT_BURST_P6_T2
+4

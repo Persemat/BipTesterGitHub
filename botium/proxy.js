@@ -3,15 +3,16 @@ const axios = require('axios');
 
 const app = express();
 
-// middleware per parsare il body come testo
+// Middleware to parse all incoming request bodies as raw text first,
+// preventing Express from stripping out unformatted data.
 app.use(express.text({ type: '*/*' }));
 
 app.post('/api/botium-webhook', async (req, res) => {
     try {
         console.log("---------------------------------------------------");
-        console.log("[PROXY] Ricevuto webhook da Infobip/Ngrok!");
+        console.log("[PROXY] Webhook received from Infobip/Ngrok");
         
-        // Prendiamo la stringa ricevuta e la convertiamo in JSON
+        // Safely attempt to parse the incoming raw string into a JSON object
         let payload;
         try {
             payload = JSON.parse(req.body);
@@ -19,32 +20,35 @@ app.post('/api/botium-webhook', async (req, res) => {
             payload = req.body;
         }
 
-        // Ignoriamo le ricevute di ritorno vuote per non intasare Botium
+        // CRITICAL FILTER: Ignore delivery receipts (ACKs) to prevent polluting Botium's queue
+        // Infobip sends 'MESSAGE_ACCEPTED' when it receives our message, but this is NOT a bot reply.
         if (payload && payload.status === 'MESSAGE_ACCEPTED') {
+            console.log("[PROXY] Delivery receipt ignored.");
             return res.status(200).send("OK");
         }
 
-        console.log(`[PROXY] Inoltro a Botium del pacchetto: ${payload?.message?.body?.type || 'UNKNOWN'}`);
+        console.log(`[PROXY] Forwarding payload to Botium. Message Type: ${payload?.message?.body?.type || 'UNKNOWN'}`);
 
-        // Inoltriamo il pacchetto a Botium (porta 1234) forzando l'header corretto
+        // Forward the actual bot message to Botium's internal listener (port 1234)
+        // enforcing the correct Content-Type header
         await axios.post('http://127.0.0.1:1234/api/botium-webhook', payload, {
             headers: { 'Content-Type': 'application/json' }
         });
         
-        console.log("[PROXY] Inoltro completato con successo!");
+        console.log("[PROXY] Forwarding successfully completed!");
         console.log("---------------------------------------------------");
         
-        // Rispondiamo a Infobip che è tutto ok
+        // Acknowledge successful processing back to Infobip
         res.status(200).send("OK");
 
     } catch (err) {
-        console.error("[PROXY] Errore durante l'elaborazione:", err.message);
-        res.status(500).send("Errore Interno");
+        console.error("[PROXY] Error during payload processing:", err.message);
+        res.status(500).send("Internal Server Error");
     }
 });
 
-// Accendiamo il Proxy sulla porta 3000
+// Start the Proxy Server
 const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(`[PROXY] Attivo e in ascolto sulla porta ${PORT}...`);
+    console.log(`[PROXY] Active and listening on port ${PORT}...`);
 });

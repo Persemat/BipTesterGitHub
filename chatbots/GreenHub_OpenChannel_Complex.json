@@ -1,5 +1,5 @@
 {
-    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB470EC3CBC9B6F221C57DC2A801E5611D2F310E3044AB4D7E18A5CA0C9E66BFDE2E1EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB4726296CE40912EA2B47B5D608D48222C32BA02D8B76D33B298812B638A721BE191EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
     "botRequest": {
         "name": "GreenHub ",
         "channel": "OPEN_CHANNEL",
@@ -22,6 +22,8 @@
             "botId": 561569,
             "type": "DEFAULT",
             "name": "Default",
+            "diagramX": 12,
+            "diagramY": 166,
             "intentId": 1,
             "elements": [
                 {
@@ -115,6 +117,16 @@
                             ],
                             "sendAsVoice": false
                         },
+                        "timeout": {
+                            "isEnabled": true,
+                            "inputType": "INPUT_VALUE",
+                            "durationSeconds": 20
+                        },
+                        "timeoutFallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 149577,
+                            "sendAsVoice": false
+                        },
                         "type": "PROCESS_USER_INPUT"
                     }
                 },
@@ -164,6 +176,8 @@
             "botId": 561569,
             "type": "REGULAR",
             "name": "Plant Advices",
+            "diagramX": 465,
+            "diagramY": 12,
             "intentId": 646330,
             "elements": [
                 {
@@ -426,6 +440,8 @@
             "botId": 561569,
             "type": "REGULAR",
             "name": "Purchase",
+            "diagramX": 465,
+            "diagramY": 166,
             "elements": [
                 {
                     "id": 5,
@@ -549,8 +565,8 @@
             "botId": 561569,
             "type": "REGULAR",
             "name": "Feedback",
-            "diagramX": 917,
-            "diagramY": 89,
+            "diagramX": 919,
+            "diagramY": 166,
             "elements": [
                 {
                     "id": 5,
@@ -673,16 +689,16 @@
                         ],
                         "nlpEnabled": false,
                         "repeat": {
-                            "count": 0,
+                            "count": 1,
                             "messages": [],
                             "sendAsVoice": false
                         },
                         "fallback": {
                             "fallbackAction": "GO_TO_DIALOG",
-                            "goToDialogId": 12195,
+                            "goToDialogId": 149577,
                             "messages": [
                                 {
-                                    "text": "Please choose "
+                                    "text": "Inout not recognised"
                                 }
                             ],
                             "sendAsVoice": false

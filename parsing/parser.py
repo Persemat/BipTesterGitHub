@@ -3,7 +3,6 @@ import networkx as nx
 from parsing.parsing_functions.send_message_mapper import map_send_message
 from parsing.parsing_functions.user_input_mapper import map_process_user_input
 from parsing.parsing_functions.user_input_mapper import map_get_attribute
-from parsing.parsing_functions.user_input_mapper import map_whatsapp_location
 from parsing.parsing_functions.bot_actions_mapper import map_go_to_dialog
 from parsing.parsing_functions.bot_actions_mapper import map_delay
 from parsing.parsing_functions.bot_actions_mapper import map_close_session
@@ -15,36 +14,45 @@ from parsing.parsing_functions.user_input_mapper import map_csat
 class ChatbotParser:
     def __init__(self, json_data):
         self.data = json_data
-        self.keywords = self.build_keyword()
-        self.intents = self.build_intent()
+        self.keywords = self._build_keyword()
+        self.intents = self._build_intent()
         self.start_element_map = {}
-        self.attributes = self.build_attribute()
+        self.attributes = self._build_attribute()
 
+        # Build a map of starting elements for each dialog
         for dialog in self.data.get("dialogRequests", []):
-             d_id = dialog["internalId"]
-             start_elem = dialog.get("startElementId")
-             if start_elem:
-                  self.start_element_map[d_id] = start_elem
+            d_id = dialog["internalId"]
+            
+            # Attempt to find the explicit startElementId
+            start_elem = dialog.get("startElementId")
+            
+            # Fallback: if missing, assume the first element in the array is the start
+            if not start_elem:
+                elements = dialog.get("elements", [])
+                if elements:
+                    start_elem = elements[0].get("id") 
+                    
+            if start_elem:
+                self.start_element_map[d_id] = start_elem
 
+        # Strategy Pattern: Maps Infobip JSON types to specific parsing functions
         self.dispatcher = {
             "SEND_MESSAGE": map_send_message,
             "PROCESS_USER_INPUT": map_process_user_input,
-            "GET_ATTRIBUTE" : map_get_attribute,
-            "WHATSAPP_LOCATION_REQUEST": map_whatsapp_location,
+            "GET_ATTRIBUTE": map_get_attribute,
             "CSAT": map_csat,
-            "GO_TO_DIALOG" : map_go_to_dialog,
-            "DELAY" : map_delay,
-            "CLOSE_SESSION" : map_close_session,
-            "EVALUATE_ATTRIBUTE" : map_evaluate_attribute,
-            "API_CALL" : map_api_call
+            "GO_TO_DIALOG": map_go_to_dialog,
+            "DELAY": map_delay,
+            "CLOSE_SESSION": map_close_session,
+            "EVALUATE_ATTRIBUTE": map_evaluate_attribute,
+            "API_CALL": map_api_call
         }
 
-    #Salvatggio default
     def map_unknown(self, d_id, e_id, element):
         """
-        Viene chiamata se il tipo non esiste nel dispatcher
+        Fallback mapping function called if the element type is not defined in the dispatcher.
         """
-        print(f"Salto o mappa temporanea per elemento di tipo: {element.get('type')}")
+        print(f"Skipping or creating temporary map for unhandled element type: {element.get('type')}")
         
         action = element.get("action", {})
         next_elem = action.get("nextElementId")
@@ -55,51 +63,62 @@ class ChatbotParser:
             "dialog_id": d_id,             
             "macro_type": "UNKNOWN",          
             "specific_type": element.get("type", "UNKNOWN"),
-            "content": {"body": "Elemento non gestito"},
-            "next_element": next_combined_id, #
-            "attributes_used": []
+            "content": {"body": "Unhandled Element"},
+            "next_element": next_combined_id, 
+            "attributes_used": [],
+            "attributes_defined": []
         }
 
     def process_all_elements(self):
+        """
+        Orchestrator function. Initializes the graph and delegates edge/node construction.
+        """
         self.G = nx.MultiDiGraph()
+        self._build_entry_point_and_intents()
+        self._build_nodes_and_edges()
 
+    def _build_entry_point_and_intents(self):
+        """
+        Creates the fictitious root node and draws edges to dialogs based on NLP or Default routing.
+        """
         self.G.add_node(
             "USER_ENTRY",
-            dialog_id = "GLOBAL",
-            macro_type = "USER_ENTRY",
-            specific_type = "INTENT_RECOGNITION",
-            content={"description": "L'utente apre WhatsApp o scrive un messaggio iniziale"},
+            dialog_id="GLOBAL",
+            macro_type="USER_ENTRY",
+            specific_type="INTENT_RECOGNITION",
+            content={"description": "User opens WhatsApp or sends initial message"},
             dialog_name="Chat Start"
-            )
+        )
 
-        # Rami NLP e default
         for dialog in self.data.get("dialogRequests", []):
             d_id = dialog["internalId"]
             start_elem = dialog.get("startElementId")
             
+            # Skip dialogs without a valid starting element
             if not start_elem:
                 continue
                 
             target_node = f"{d_id}_{start_elem}"
-
             intent_id = dialog.get("intentId")
             phrases = []
             intent_name = "Unknown"
             
+            # Extract NLP training phrases if an intent is linked
             if intent_id and intent_id in self.intents:
                 intent_data = self.intents[intent_id]
                 phrases = intent_data.get("phrases", [])
                 intent_name = intent_data.get("name", "Unknown")
 
-            # Controllo se è il dialogo di Default (Nessun match NLP)
+            # Route 1: Default fallback dialog (catches unrecognized inputs)
             if dialog.get("type") == "DEFAULT":
                 edge_data = {
                     "condition_type": "DEFAULT",
-                    "condition" : "[Any other input]",
+                    "condition": "[Any other input]",
                     "phrases": phrases
                 }
                 self.G.add_edge("USER_ENTRY", target_node, **edge_data)
 
+            # Route 2: NLP Intent matched
             elif intent_id and phrases:
                 edge_data = {
                     "condition_type": "INTENT",
@@ -107,22 +126,23 @@ class ChatbotParser:
                     "phrases": phrases
                 }
                 self.G.add_edge("USER_ENTRY", target_node, **edge_data)
-                
 
-        # ciclo normale sui nodi del grafo
+    def _build_nodes_and_edges(self):
+        """
+        Iterates through all physical nodes, maps them to a standard format, and connects them.
+        """
         for dialog in self.data.get("dialogRequests", []):
             dialog_id = dialog["internalId"]
             dialog_name = dialog.get("name", "Unnamed Dialog")
 
-        # Iteriamo per ogni Element all'interno del Dialog 
-        # e estraiamo id e tipo del nodo
-            for element in dialog.get("elements",[]):
+            for element in dialog.get("elements", []):
                 element_id = element["id"]
                 element_type = element["type"]
 
-                # qui avviene la chiamata alla funzione di mapping associata nel dispatcher, e se non la trova chiama self.map_unknown
+                # Dispatch parsing based on element type
                 mapping_function = self.dispatcher.get(element_type, self.map_unknown)
 
+                # Inject the global attributes dictionary exclusively for GET_ATTRIBUTE nodes
                 if mapping_function.__name__ == "map_get_attribute":
                     mapped_node = mapping_function(dialog_id, element_id, element, attributes_dict=self.attributes)
                 else:
@@ -130,34 +150,34 @@ class ChatbotParser:
 
                 mapped_node["dialog_name"] = dialog_name
                 
-                # Separazione dati e creazione nodo
+                # Destructive extraction: pop routing logic to leave only node metadata
                 node_id = mapped_node.pop("id")
-                # Estrazione collegamenti e rimozione dal dizionario
                 next_element = mapped_node.pop("next_element", None)
                 transitions = mapped_node.pop("transitions", [])
-
                 
+                # Add the node to the NetworkX graph with the remaining payload
                 self.G.add_node(node_id, **mapped_node)
 
+                # Add standard sequential edge
                 if next_element:
-                    self.G.add_edge(node_id, next_element, condition = "[Auto]")
+                    self.G.add_edge(node_id, next_element, condition="[Auto]")
                 
+                # Add complex branching edges (evaluations, fallbacks, keywords)
                 if transitions:
                     for trans in transitions:
                         target = trans.get("target")
                         edge_data = trans.get("edge_data", {})
                         
-                        
                         if target:
+                            # Dynamic link resolution for cross-dialog jumps
                             if edge_data.get("action") == "GO_TO_DIALOG":
                                 target_dialog_id = edge_data.get("target_dialog_id")
-
                                 if target_dialog_id:
                                     real_start_elem = self.start_element_map.get(target_dialog_id)
-
                                     if real_start_elem:
                                         target = f"{target_dialog_id}_{real_start_elem}"
                         
+                            # Enrich edge with Keyword synonyms from the global registry
                             if edge_data.get("condition_type") == "KEYWORD_COMPARE":
                                 kw_id = edge_data.get("keywordId")
                                 if kw_id in self.keywords:
@@ -167,16 +187,15 @@ class ChatbotParser:
 
                             self.G.add_edge(node_id, target, **edge_data)
 
-
-    def build_keyword(self):
+    def _build_keyword(self):
+        """Constructs a dictionary of global keywords and synonyms."""
         keywords = {}
-
         keyword_list = self.data.get("keywordRequests", [])
 
         for kw in keyword_list:
             kw_id = kw["internalId"]
             kw_name = kw.get("name", f"Keyword_{kw_id}")
-            synonyms = kw.get("synonyms", {}).get("data",[])
+            synonyms = kw.get("synonyms", {}).get("data", [])
 
             keywords[kw_id] = {
                 "name": kw_name,
@@ -185,33 +204,32 @@ class ChatbotParser:
 
         return keywords
     
-    def build_intent(self):
+    def _build_intent(self):
+        """Constructs a dictionary of global NLP intents and training phrases."""
         intents = {}
-
         intent_list = self.data.get("intentRequests", [])
 
         for intent in intent_list:
             intent_id = intent["internalId"]
-
             training_phrases = intent.get("phrases", [])
 
             intents[intent_id] = {
-                "name" : intent.get("name", "Unknown intent"),
-                "phrases" : training_phrases
+                "name": intent.get("name", "Unknown intent"),
+                "phrases": training_phrases
             }
 
         return intents
 
-    def build_attribute(self):
+    def _build_attribute(self):
         """
-        Estrae tutti gli attributi dal JSON e crea un dizionario di facile consultazione.
-        La chiave è l'internalId, il valore è un dizionario con i metadati.
+        Extracts all globally defined variables from the JSON.
+        Returns a dictionary mapping internal IDs to metadata (type, scope, sensitivity).
         """
         attributes = {}
         attribute_list = self.data.get("attributeRequests", [])
         
         for attr in attribute_list:
-            attr_id = str(attr["internalId"]) # Convertiamo in stringa per uniformità con i mapper
+            attr_id = str(attr["internalId"]) 
             
             attributes[attr_id] = {
                 "name": attr.get("name", f"Var_{attr_id}"),

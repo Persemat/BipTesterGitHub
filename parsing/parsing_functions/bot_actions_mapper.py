@@ -1,10 +1,13 @@
+import hashlib
+import json
+import re
 
+from parsing.parsing_utils import extract_attrs_from_condition
 
 def map_go_to_dialog(d_id, e_id, element):
-
     """
-    Mapper per il componente GO_TO_DIALOG
-    Rappresenta un salto esplicito verso l'inizio di un altro dialogo
+    Mapper for the GO_TO_DIALOG component.
+    Represents an explicit jump to the beginning of another dialog.
     """
     action = element.get("action", {})
     target_dialog = action.get("dialogId")
@@ -12,18 +15,16 @@ def map_go_to_dialog(d_id, e_id, element):
     attribute_ids = action.get("attributeIds", [])
 
     shared_attrs_str = [str(attr) for attr in attribute_ids]
-
     transitions = []
 
-    # mettiamo gli attributi condivisi in transition cosi da condividerli col prossimo dialogo
+    # Inject shared attributes into the transition to pass them to the next dialog
     if target_dialog:
         transitions.append({
-            "target" : f"{target_dialog}_1",
-            "edge_data":{
-                "action" : "GO_TO_DIALOG",
-                "target_dialog_id" : target_dialog,
-                "shared_attributes_ids" : shared_attrs_str
-
+            "target": f"{target_dialog}_1",
+            "edge_data": {
+                "action": "GO_TO_DIALOG",
+                "target_dialog_id": target_dialog,
+                "shared_attributes_ids": shared_attrs_str
             }
         })
 
@@ -39,16 +40,14 @@ def map_go_to_dialog(d_id, e_id, element):
             "shared_attribute_ids": shared_attrs_str
         },
         "transitions": transitions,
-        "attributes_used": shared_attrs_str,  # Il nodo "usa" queste variabili per passarle
+        "attributes_used": shared_attrs_str,  
         "attributes_defined": []
     }
 
-
-
 def map_delay(d_id, e_id, element):
     """
-    Mapper per il componente DELAY.
-    Rappresenta una pausa temporale prima di procedere al blocco successivo.
+    Mapper for the DELAY component.
+    Represents a time pause before proceeding to the next block.
     """
     action = element.get("action", {})
     delay_seconds = action.get("delayInSeconds", 0)
@@ -73,8 +72,8 @@ def map_delay(d_id, e_id, element):
 
 def map_close_session(d_id, e_id, element):
     """
-    Mapper per il componente CLOSE_SESSION.
-    Termina esplicitamente la conversazione.
+    Mapper for the CLOSE_SESSION component.
+    Explicitly terminates the conversation.
     """
     return {
         "id": f"{d_id}_{e_id}",
@@ -91,14 +90,14 @@ def map_close_session(d_id, e_id, element):
 
 def map_evaluate_attribute(d_id, e_id, element):
     """
-    Mapper per il componente EVALUATE_ATTRIBUTE
-    Biforce il flusso in base ai valori delle variabili
+    Mapper for the EVALUATE_ATTRIBUTE component.
+    Forks the conversational flow based on logic tree variables.
     """
-    action= element.get("action",{})
+    action = element.get("action", {})
     transitions = []
     attrs_used = [] 
 
-    rules = action.get("rules",[])
+    rules = action.get("rules", [])
     for rule in rules:
         target_id = rule.get("nextElementId")
         if not target_id:
@@ -107,21 +106,21 @@ def map_evaluate_attribute(d_id, e_id, element):
         rule_name = rule.get("name", "Condition")
         cond_obj = rule.get("condition", {})
 
-        #estrazione variabili usate per la valutazione
+        # Extract variables used for evaluation
         rule_attrs = extract_attrs_from_condition(cond_obj)
         attrs_used.extend(rule_attrs)
 
         edge_data = {
-            "condition_type" : "EVALUATION",
-            "condition" : rule_name,
-            "logic_tree" : cond_obj
+            "condition_type": "EVALUATION",
+            "condition": rule_name,
+            "logic_tree": cond_obj
         }
         transitions.append({
-            "target" : f"{d_id}_{target_id}",
+            "target": f"{d_id}_{target_id}",
             "edge_data": edge_data
         })
 
-    # Percorso di Default (Else)
+    # Default path (Else)
     else_elem = action.get("elseElementId")
     if else_elem:
         transitions.append({
@@ -145,8 +144,8 @@ def map_evaluate_attribute(d_id, e_id, element):
 
 def map_api_call(d_id, e_id, element):
     """
-    Mapper per il componente API_CALL.
-    Traccia l'integrazione esterna e le variabili popolate dalla risposta.
+    Mapper for the API_CALL component.
+    Tracks external integrations and variables populated by the response.
     """
     action = element.get("action", {})
     
@@ -154,7 +153,7 @@ def map_api_call(d_id, e_id, element):
         "url": action.get("url", ""),
         "method": action.get("method", "GET"),
         "timeout": action.get("timeoutSeconds", 0),
-        "content_type" : action.get("contentType", None)
+        "content_type": action.get("contentType", None)
     }
     
     attrs_defined = []
@@ -206,23 +205,3 @@ def map_api_call(d_id, e_id, element):
         "attributes_used": [], 
         "attributes_defined": list(set(attrs_defined)) 
     }
-
-
-def extract_attrs_from_condition(condition_obj):
-    """
-    Helper ricorsivo per trovare gli ID degli attributi 
-    nascosti negli alberi logici di EVALUATE_ATTRIBUTE.
-    """
-    found = []
-    c_type = condition_obj.get("type")
-    
-    if c_type == "ATTRIBUTE_COMPARE":
-        attr_id = condition_obj.get("attributeId")
-        if attr_id:
-            found.append(str(attr_id))
-            
-    elif c_type == "LOGICAL":
-        for sub_cond in condition_obj.get("conditions", []):
-            found.extend(extract_attrs_from_condition(sub_cond))
-            
-    return found
