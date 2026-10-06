@@ -51,6 +51,15 @@ class ChatbotRenderer:
         html += '</TABLE>>'
         return html
 
+    def _dispatch_node_rendering(self, node_data):
+        """
+        Helper method to dispatch the node data to the appropriate rendering function.
+        Returns the HTML string for Graphviz.
+        """
+        macro_type = node_data.get("macro_type", "UNKNOWN")
+        rendering_function = self.render_dispatcher.get(macro_type, self.render_unknown)
+        return rendering_function(node_data, attributes_dict=self.attributes)
+
     def _get_edge_formatting(self, edge_data):
         """
         Extracts styling properties (color, style, labels) for an edge 
@@ -110,12 +119,44 @@ class ChatbotRenderer:
         Traverses the NetworkX graph and orchestrates the physical drawing on the Graphviz canvas.
         Groups nodes by Dialog ID using Graphviz Clusters for logical separation.
         """
+
+        main_dialogs = {}
+        components = {}
+
         # 1. Map dialog names for clustering
-        dialogs_info = {}
+
         for node_id, node_data in self.G.nodes(data=True):
+            if node_id == "USER_ENTRY":
+                continue
+
             d_id = node_data.get('dialog_id')
-            if d_id and d_id != "GLOBAL" and d_id not in dialogs_info:
-                dialogs_info[d_id] = node_data.get('dialog_name', 'Unnamed Dialog') 
+            d_name = node_data.get('dialog_name', 'Unnamed Dialog')
+            node_id_str = str(node_id)
+            
+            # Identify nodes injected from a component
+            if node_id_str.startswith("COMP_"):
+                # Extract the component name (assuming it was prefixed in the parser)
+                if d_name.startswith("[Component] "):
+                    comp_name = d_name.replace("[Component] ", "")
+                    inner_d_name = f"Sub-Dialog {d_id}" # Fallback for internal dialogs
+                else:
+                    comp_name = "Unknown Component"
+                    inner_d_name = d_name
+                
+                # Build the nested component structure
+                if comp_name not in components:
+                    components[comp_name] = {}
+                if d_id not in components[comp_name]:
+                    components[comp_name][d_id] = {'name': inner_d_name, 'nodes': []}
+                
+                components[comp_name][d_id]['nodes'].append((node_id, node_data))
+            
+            else:
+                # Standard Main Chatbot Nodes
+                if d_id not in main_dialogs:
+                    main_dialogs[d_id] = {'name': d_name, 'nodes': []}
+                main_dialogs[d_id]['nodes'].append((node_id, node_data))
+
 
         # 2. Render the Entry Point
         if self.G.has_node("USER_ENTRY"):
@@ -124,20 +165,51 @@ class ChatbotRenderer:
             self.dot.node("USER_ENTRY", label=html_label)
         
         # 3. Render Nodes Grouped by Subgraph (Clusters)
-        for d_id, d_name in dialogs_info.items():
-            with self.dot.subgraph(name=f'cluster_{d_id}') as c:
-                c.attr(label=f'{d_name} - {d_id}', style='dashed', color='blue', fontname='Helvetica')
+        for d_id, d_info in main_dialogs.items():
+
+            if d_id == "GLOBAL":
+                continue
+            
+            with self.dot.subgraph(name=f'cluster_MAIN_{d_id}') as c:
+                c.attr(label=f'{d_info["name"]} - {d_id}', style='dashed', color='blue', fontname='Helvetica')
                 
-                for node_id, node_data in self.G.nodes(data=True):
+                for node_id, node_data in d_info['nodes']:
                     if node_data.get('dialog_id') == d_id:
                         macro_type = node_data.get("macro_type", "UNKNOWN")
                         # Dispatch rendering to the appropriate module
                         rendering_function = self.render_dispatcher.get(macro_type, self.render_unknown)
                         
                         html_label = rendering_function(node_data, attributes_dict=self.attributes)
-                        c.node(node_id, label=html_label)
+                        c.node(str(node_id), label=html_label)
+        
+        #4. Render Components as Nested chatbots
+        for comp_name, inner_dialogs in components.items():
             
-        # 4. Render Edges (Transitions)
+            # Outer Cluster: The Component Boundary
+            with self.dot.subgraph(name=f'cluster_COMP_{comp_name}') as comp_cluster:
+                # Distinct styling to visually separate sub-chatbots from regular dialogs
+                comp_cluster.attr(
+                    label=f"📦 COMPONENT: {comp_name}", 
+                    style='bold,rounded', 
+                    color='forestgreen', 
+                    fontname='Helvetica',
+                    fontsize='14',
+                    penwidth='2'
+                )
+                
+                # Inner Clusters: The individual dialogs within the Component
+                for d_id, d_info in inner_dialogs.items():
+                    with comp_cluster.subgraph(name=f'cluster_COMP_IN_{comp_name}_{d_id}') as inner_c:
+                        inner_c.attr(label=f"Dialog ID: {d_id}", style='dashed', color='blue', fontname='Helvetica', fontsize='10')
+                        
+                        for node_id, node_data in d_info['nodes']:
+                            macro_type = node_data.get("macro_type", "UNKNOWN")
+                            rendering_function = self.render_dispatcher.get(macro_type, self.render_unknown)
+                            html_label = rendering_function(node_data, attributes_dict=self.attributes)
+                            
+                            inner_c.node(str(node_id), label=html_label)
+
+        # 5. Render Edges (Transitions)
         for u, v, edge_data in self.G.edges(data=True):
             label, line_color, text_color, line_style = self._get_edge_formatting(edge_data)
 

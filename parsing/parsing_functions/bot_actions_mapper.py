@@ -1,8 +1,6 @@
-import hashlib
-import json
-import re
 
 from parsing.parsing_utils import extract_attrs_from_condition
+from parsing.parsing_utils import extract_code_attributes
 
 def map_go_to_dialog(d_id, e_id, element):
     """
@@ -142,6 +140,64 @@ def map_evaluate_attribute(d_id, e_id, element):
         "attributes_defined": []
     }
 
+def map_coding(d_id, e_id, element):
+    """
+    Mapper for the CODING component.
+    Executes custom logic. Treated as a pass-through node for the graph.
+    """
+    action = element.get("action", {})
+
+    code_string = action.get("code", "")
+    next_elem = action.get("nextElementId")
+
+    next_combined_id = f"{d_id}_{next_elem}" if next_elem else None
+
+    attrs_used, attrs_defined = extract_code_attributes(code_string)
+
+    content = {
+        "language": action.get("language", "JAVASCRIPT"),
+        "code": code_string
+    }
+
+    return {
+        "id": f"{d_id}_{e_id}",
+        "dialog_id": d_id,
+        "macro_type": "ACTION",
+        "specific_type": "CODING",
+        "content": content,
+        "next_element": next_combined_id,
+        "transitions": [],
+        "attributes_used": attrs_used,
+        "attributes_defined": attrs_defined
+    }
+
+def map_authentication(d_id, e_id, element):
+    """
+    Mapper for the AUTHENTICATION component.
+    Treated as a pass-through backend node in the current scope.
+    """
+    action = element.get("action", {})
+    
+    next_elem = action.get("nextElementId")
+    next_combined_id = f"{d_id}_{next_elem}" if next_elem else None
+
+    content = {
+        "timeout_minutes": action.get("timeoutInMinutes", 0),
+        "never_timeout": action.get("neverTimeout", False)
+    }
+
+    return {
+        "id": f"{d_id}_{e_id}",
+        "dialog_id": d_id,
+        "macro_type": "ACTION",
+        "specific_type": "AUTHENTICATION",
+        "content": content,
+        "next_element": next_combined_id,
+        "transitions": [],
+        "attributes_used": [],
+        "attributes_defined": []
+    }
+
 def map_api_call(d_id, e_id, element):
     """
     Mapper for the API_CALL component.
@@ -204,4 +260,112 @@ def map_api_call(d_id, e_id, element):
         "transitions": transitions,
         "attributes_used": [], 
         "attributes_defined": list(set(attrs_defined)) 
+    }
+
+def map_webhook(d_id, e_id, element):
+    """
+    Mapper for the WEBHOOK component.
+    Maps the async wait state and extracts timeout/fallback logic for error paths.
+    """
+    action = element.get("action", {})
+    timeout = action.get("timeout", {})
+    
+    content = {
+        "method": action.get("method", "GET"),
+        "timeout_enabled": timeout.get("isEnabled", False),
+        "timeout_duration": timeout.get("durationSeconds", 0)
+    }
+    
+    transitions = []
+    
+    # Check for timeout fallback branching
+    t_fallback = action.get("timeoutFallback", {})
+    if t_fallback:
+        f_action = t_fallback.get("fallbackAction", "UNKNOWN")
+        f_edge_data = {"condition_type": "TIMEOUT_FALLBACK", "action": f_action}
+        
+        f_msgs = [msg.get("text", "") for msg in t_fallback.get("messages", []) if msg.get("text")]
+        if f_msgs:
+            f_edge_data["messages_list"] = f_msgs
+            
+        if f_action == "GO_TO_DIALOG":
+            target_dialog = t_fallback.get("goToDialogId")
+            if target_dialog:
+                f_edge_data["target_dialog_id"] = target_dialog
+                transitions.append({
+                    "target": f"{target_dialog}_1",
+                    "edge_data": f_edge_data
+                })
+
+    next_elem = action.get("nextElementId")
+    next_combined_id = f"{d_id}_{next_elem}" if next_elem else None
+
+    return {
+        "id": f"{d_id}_{e_id}",
+        "dialog_id": d_id,
+        "macro_type": "ACTION",
+        "specific_type": "WEBHOOK",
+        "content": content,
+        "next_element": next_combined_id,
+        "transitions": transitions,
+        "attributes_used": [],
+        "attributes_defined": []
+    }
+
+def map_component(d_id, e_id, element):
+    """
+    Mapper for the COMPONENT node.
+    Represents a sub-flow. Extracts output attributes and fallback paths.
+    """
+    action = element.get("action", {})
+    
+    content = {
+        "component_sender": action.get("componentSender", ""),
+        "input_attributes": action.get("inputAttributes", []),
+        "output_attributes": action.get("outputAttributes", [])
+    }
+    
+    # Map the outputs of the sub-flow to our graph variables
+    attrs_defined = [
+        str(attr.get("attributeId")) 
+        for attr in action.get("outputAttributes", []) 
+        if attr.get("attributeId")
+    ]
+
+    attrs_used = [
+        str(attr.get("attributeId")) 
+        for attr in action.get("inputAttributes", []) 
+        if attr.get("attributeId")
+    ]
+    
+    transitions = []
+    
+    # Check for failure branching inside the component
+    fallback = action.get("fallback", {})
+    if fallback:
+        f_action = fallback.get("fallbackAction", "UNKNOWN")
+        f_edge_data = {"condition_type": "COMPONENT_FALLBACK", "action": f_action}
+        
+        if f_action == "GO_TO_DIALOG":
+            target_dialog = fallback.get("goToDialogId")
+            if target_dialog:
+                f_edge_data["target_dialog_id"] = target_dialog
+                transitions.append({
+                    "target": f"{target_dialog}_1",
+                    "edge_data": f_edge_data
+                })
+
+    next_elem = action.get("nextElementId")
+    next_combined_id = f"{d_id}_{next_elem}" if next_elem else None
+
+    return {
+        "id": f"{d_id}_{e_id}",
+        "dialog_id": d_id,
+        "macro_type": "ACTION",
+        "specific_type": "COMPONENT",
+        "content": content,
+        "next_element": next_combined_id,
+        "transitions": transitions,
+        "attributes_used": attrs_used,
+        "attributes_defined": attrs_defined
     }

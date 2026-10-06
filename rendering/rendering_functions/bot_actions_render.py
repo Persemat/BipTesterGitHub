@@ -45,7 +45,50 @@ def render_action_node(node_data, attributes_dict=None):
         if attrs_used:
             attrs_str = format_attr_list(attrs_used, attributes_dict)
             html += f'<TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Evaluates: [{attrs_str}]</FONT></TD></TR>'
+
+    elif spec_type == "CODING":
+        lang = content.get("language", "JAVASCRIPT")
+        html += f'<TR><TD>Executes <B>{lang}</B> script</TD></TR>'
         
-    # Close the HTML table
+        attrs_used = node_data.get("attributes_used", [])
+        if attrs_used:
+            attrs_str = format_attr_list(attrs_used, attributes_dict)
+            html += f'<TR><TD BGCOLOR="#E8F5E9"><FONT POINT-SIZE="9"> Reads: [{attrs_str}]</FONT></TD></TR>'
+            
+        attrs_defined = node_data.get("attributes_defined", [])
+        if attrs_defined:
+            attrs_str = format_attr_list(attrs_defined, attributes_dict)
+            html += f'<TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Writes: [{attrs_str}]</FONT></TD></TR>'
+
+    elif spec_type == "AUTHENTICATION":
+        never_timeout = content.get("never_timeout", False)
+        if never_timeout:
+            html += f'<TR><TD>Timeout: <B>Never</B></TD></TR>'
+        else:
+            t_min = content.get("timeout_minutes", 0)
+            html += f'<TR><TD>Timeout: <B>{t_min} min</B></TD></TR>'
+
+    elif spec_type == "WEBHOOK":
+        method = content.get("method", "GET")
+        timeout_enabled = content.get("timeout_enabled", False)
+        html += f'<TR><TD>Method: <B>{method}</B></TD></TR>'
+        
+        if timeout_enabled:
+            timeout = content.get("timeout_duration", 0)
+            html += f'<TR><TD><FONT POINT-SIZE="9">Timeout: {timeout}s</FONT></TD></TR>'
+
+    elif spec_type == "COMPONENT":
+        html += f'<TR><TD>Executes Sub-Flow</TD></TR>'
+        
+        attrs_used = node_data.get("attributes_used", [])
+        if attrs_used:
+            attrs_str = format_attr_list(attrs_used, attributes_dict)
+            html += f'<TR><TD BGCOLOR="#E8F5E9"><FONT POINT-SIZE="9"> Inputs: [{attrs_str}]</FONT></TD></TR>'
+            
+        attrs_defined = node_data.get("attributes_defined", [])
+        if attrs_defined:
+            attrs_str = format_attr_list(attrs_defined, attributes_dict)
+            html += f'<TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Outputs: [{attrs_str}]</FONT></TD></TR>'
+   
     html += '</TABLE>>'
     return html

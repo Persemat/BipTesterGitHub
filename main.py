@@ -18,6 +18,7 @@ from parsing.parser import ChatbotParser
 from rendering.renderer import ChatbotRenderer
 from test_generation.path_finder import TestPathFinder
 from test_generation.botium_translator import BotiumTranslator
+from parsing.parsing_utils import load_components
 
 
 def main():
@@ -34,12 +35,35 @@ def main():
         print("Error: Could not find the file GreenHub_OpenChannel_Simple.json!")
         return
 
-    # 2. Initialize Parser and process nodes
-    print("Initializing Parser...")
-    parser = ChatbotParser(json_data)
+    comp_dict = load_components(
+        mapping_file_path = "chatbots/component_registry.json",
+        components_dir = "chatbots/components"
+    )
 
-    print("Extracting nodes...\n")
+    # --- INIZIO BLOCCO DI DEBUG AGGRESSIVO ---
+    print("\n" + "!"*60)
+    print(f"DEBUG LOADER: Ho caricato {len(comp_dict)} componenti in memoria.")
+    print(f"DEBUG CHIAVI: {list(comp_dict.keys())}")
+    print("!"*60 + "\n")
+    
+    if not comp_dict:
+        raise ValueError("CRASH VOLONTARIO: Il dizionario dei componenti è vuoto! "
+                         "Il Loader non trova il file di registro o i file JSON dei componenti.")
+    # --- FINE BLOCCO DI DEBUG AGGRESSIVO ---
+
+
+
+    # Initialize Parser and process nodes
+    parser = ChatbotParser(json_data, component_jsons=comp_dict)
+    #Trigger the parsing process to build the graph and extract attributes
     parser.process_all_elements()
+
+    print("\n--- DEBUG NODI COMPONENTE ---")
+    for n_id, n_data in parser.G.nodes(data=True):
+        if str(n_id).startswith("COMP_"):
+            print(f"NODO: {n_id}")
+            print(json.dumps(n_data, indent=4))
+            print("-" * 30)
 
     # Print Graph verification metrics
     print("=" * 50)
@@ -69,7 +93,7 @@ def main():
     # Extract exact O(1) routing structure
     adjacency_dict = nx.to_dict_of_dicts(parser.G)
     print(json.dumps(adjacency_dict, indent=4, ensure_ascii=False))
-
+    """
     # 3. Path Generation
     print("\nStarting Botium test generation engine...")
     nodes_dict = dict(parser.G.nodes(data=True))
@@ -116,7 +140,7 @@ def main():
     
 
     print(f"✅ Generation completed! Created {len(paths_found)} .convo.txt files and 1 .utterances.txt file.")
-
+"""
     # 5. Graph Rendering
     print("Starting Graphviz rendering engine...")
     graph = ChatbotRenderer(parser.G, parser.attributes)

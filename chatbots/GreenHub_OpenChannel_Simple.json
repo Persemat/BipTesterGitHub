@@ -1,5 +1,5 @@
 {
-    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242140D3BCDA1957CA190A5F5D05709D28ADC8DB8B6F0FB355D93A6FDF2C7C479EC1791FE1240A92C380836739FDBB76CD49ACBC2C7C120DDC2B8A4420B2D910ADC57006869EC5FBD9BE7227502AE94E8A7FC2174AABFD106069183EF556542B6B2B1E0116A68D1BCA5157A3ECE07EA2AFF896D34952740F25C3C55BA4B922BDAC3",
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242AA85AC0D3846E83EDF72865F27C91F205EB50D2038C745C7F212C3F517F4EB47CBE5554E61D0772FCD02064EFAE34CE20A3FF13BA6CFEE3F88BFFB61F31E86951EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
     "botRequest": {
         "name": "GreenHub_simple",
         "channel": "OPEN_CHANNEL",
@@ -22,8 +22,23 @@
             "botId": 705324,
             "type": "DEFAULT",
             "name": "Default",
+            "diagramX": 12,
+            "diagramY": 89,
             "intentId": 1,
             "elements": [
+                {
+                    "id": 8,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "AUTHENTICATION",
+                    "action": {
+                        "timeoutInMinutes": 5,
+                        "neverTimeout": false,
+                        "nextElementId": 1,
+                        "type": "AUTHENTICATION"
+                    }
+                },
                 {
                     "id": 1,
                     "name": "",
@@ -62,7 +77,7 @@
                     "action": {
                         "messages": [
                             {
-                                "json": "{\"custom_type\":\"BUTTON\",\"content\":{\"text\":\"How can I help you?:\",\"options\":[{\"title\":\"Plant Advice\",\"payload\":\"Plant advice\"},{\"title\":\"Online Site\",\"payload\":\"Online site\"}]}}",
+                                "json": "{\"custom_type\":\"BUTTON\",\"content\":\n    {\n    \"text\":\"How can I help you?:\",\n    \"options\":[\n        {\n            \"title\":\"Plant Advice\",\n            \"payload\":\"Plant advice\"},\n        {\n            \"title\":\"Online Site\",\n            \"payload\":\"Online site\"},\n        {\n            \"title\":\"Track order\",\n            \"payload\":\"Track order\"\n        }    \n            ]}}",
                                 "type": "JSON"
                             }
                         ],
@@ -91,6 +106,13 @@
                                     "type": "KEYWORD_COMPARE"
                                 },
                                 "nextElementId": 6
+                            },
+                            {
+                                "condition": {
+                                    "keywordId": 976688,
+                                    "type": "KEYWORD_COMPARE"
+                                },
+                                "nextElementId": 9
                             }
                         ],
                         "nlpEnabled": false,
@@ -166,9 +188,51 @@
                         "shareAttributes": false,
                         "type": "GO_TO_DIALOG"
                     }
+                },
+                {
+                    "id": 9,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "AUTHENTICATION",
+                    "action": {
+                        "timeoutInMinutes": 5,
+                        "neverTimeout": false,
+                        "nextElementId": 10,
+                        "type": "AUTHENTICATION"
+                    }
+                },
+                {
+                    "id": 10,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Authenticated! Your order is arriving.",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 11,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 11,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 403028,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
                 }
             ],
-            "startElementId": 1,
+            "startElementId": 8,
             "order": 0,
             "restricted": false
         },
@@ -177,6 +241,8 @@
             "botId": 705324,
             "type": "REGULAR",
             "name": "Plant Advice",
+            "diagramX": 463,
+            "diagramY": 12,
             "elements": [
                 {
                     "id": 1,
@@ -219,6 +285,34 @@
                             "goToDialogId": 1,
                             "sendAsVoice": false
                         },
+                        "nextElementId": 10,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 10,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [
+                            {
+                                "text": "How many of them?"
+                            }
+                        ],
+                        "attributeId": 326820,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 403028,
+                            "sendAsVoice": false
+                        },
                         "nextElementId": 3,
                         "type": "GET_ATTRIBUTE"
                     }
@@ -250,7 +344,7 @@
                                     ],
                                     "type": "LOGICAL"
                                 },
-                                "nextElementId": 6,
+                                "nextElementId": 12,
                                 "name": "Condition 1"
                             },
                             {
@@ -272,12 +366,25 @@
                                     ],
                                     "type": "LOGICAL"
                                 },
-                                "nextElementId": 5,
+                                "nextElementId": 13,
                                 "name": "Condition 2"
                             }
                         ],
                         "elseElementId": 4,
                         "type": "EVALUATE_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 12,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "CODING",
+                    "action": {
+                        "code": "\r\nlet quantity = parseInt(attributeApi.get(\"PlantQuantity\")) || 0;\r\n\r\nlet totalPrice = quantity * 15;\r\n\r\nif (quantity > 5) {\r\n    totalPrice = totalPrice * 0.90;\r\n}\r\n\r\nattributeApi.set(\"TotalPrice\", totalPrice);",
+                        "language": "JAVASCRIPT",
+                        "nextElementId": 6,
+                        "type": "CODING"
                     }
                 },
                 {
@@ -289,7 +396,7 @@
                     "action": {
                         "messages": [
                             {
-                                "message": "The plant is {{PlantType}}",
+                                "message": "The plant is {{PlantType}} and costs {{TotalPrice}}",
                                 "type": "TEXT"
                             }
                         ],
@@ -304,9 +411,22 @@
                     "diagramY": 100,
                     "type": "GO_TO_DIALOG",
                     "action": {
-                        "dialogId": 403028,
-                        "shareAttributes": false,
+                        "dialogId": 935674,
+                        "shareAttributes": true,
                         "type": "GO_TO_DIALOG"
+                    }
+                },
+                {
+                    "id": 13,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "CODING",
+                    "action": {
+                        "code": "\r\nlet quantity = parseInt(attributeApi.get(\"PlantQuantity\")) || 0;\r\n\r\nlet totalPrice = quantity * 20;\r\n\r\nif (quantity > 5) {\r\n    totalPrice = totalPrice * 0.90;\r\n}\r\n\r\nattributeApi.set(\"TotalPrice\", totalPrice);",
+                        "language": "JAVASCRIPT",
+                        "nextElementId": 5,
+                        "type": "CODING"
                     }
                 },
                 {
@@ -318,7 +438,7 @@
                     "action": {
                         "messages": [
                             {
-                                "message": "The plant is {{PlantType}}",
+                                "message": "The plant is {{PlantType}} and costs {{TotalPrice}}",
                                 "type": "TEXT"
                             }
                         ],
@@ -333,8 +453,8 @@
                     "diagramY": 100,
                     "type": "GO_TO_DIALOG",
                     "action": {
-                        "dialogId": 403028,
-                        "shareAttributes": false,
+                        "dialogId": 935674,
+                        "shareAttributes": true,
                         "type": "GO_TO_DIALOG"
                     }
                 },
@@ -376,8 +496,43 @@
             "internalId": 935674,
             "botId": 705324,
             "type": "REGULAR",
-            "name": "Online site",
+            "name": "CollectData",
+            "diagramX": 463,
+            "diagramY": 177,
             "elements": [
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "COMPONENT",
+                    "action": {
+                        "componentSender": "81b5b0cd-e363-4179-b8ab-c3bc7e297c55",
+                        "componentChannel": "OPEN_CHANNEL",
+                        "inputAttributes": [],
+                        "outputAttributes": [
+                            {
+                                "attributeName": "Address",
+                                "attributeId": 830064
+                            },
+                            {
+                                "attributeName": "City",
+                                "attributeId": 365516
+                            },
+                            {
+                                "attributeName": "CAP",
+                                "attributeId": 129081
+                            }
+                        ],
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 1,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 1,
+                        "type": "COMPONENT"
+                    }
+                },
                 {
                     "id": 1,
                     "name": "",
@@ -387,55 +542,7 @@
                     "action": {
                         "messages": [
                             {
-                                "message": "You can also order from our site",
-                                "type": "TEXT"
-                            }
-                        ],
-                        "nextElementId": 2,
-                        "type": "SEND_OPEN_CHANNEL"
-                    }
-                },
-                {
-                    "id": 2,
-                    "name": "",
-                    "diagramX": -200,
-                    "diagramY": 100,
-                    "type": "API_CALL",
-                    "action": {
-                        "url": "https://dummyjson.com/test",
-                        "method": "GET",
-                        "headers": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "contentType": "JSON",
-                        "bodyType": "KEY_VALUE",
-                        "nextElementId": 3,
-                        "maxRetryCount": 0,
-                        "fallback": {
-                            "fallbackAction": "CONTINUE_DIALOG",
-                            "messages": [
-                                {
-                                    "text": ""
-                                }
-                            ],
-                            "sendAsVoice": false
-                        },
-                        "type": "API_CALL"
-                    }
-                },
-                {
-                    "id": 3,
-                    "name": "",
-                    "diagramX": -200,
-                    "diagramY": 100,
-                    "type": "SEND_MESSAGE",
-                    "action": {
-                        "messages": [
-                            {
-                                "message": "No API found",
+                                "message": "Adress data collected: {{Address}},{{City}},{{CAP}}",
                                 "type": "TEXT"
                             }
                         ],
@@ -450,13 +557,13 @@
                     "diagramY": 100,
                     "type": "GO_TO_DIALOG",
                     "action": {
-                        "dialogId": 403028,
+                        "dialogId": 774844,
                         "shareAttributes": false,
                         "type": "GO_TO_DIALOG"
                     }
                 }
             ],
-            "startElementId": 1,
+            "startElementId": 5,
             "order": 2,
             "restricted": false
         },
@@ -465,6 +572,8 @@
             "botId": 705324,
             "type": "REGULAR",
             "name": "Feedback",
+            "diagramX": 915,
+            "diagramY": 89,
             "elements": [
                 {
                     "id": 5,
@@ -525,6 +634,114 @@
             "startElementId": 5,
             "order": 3,
             "restricted": false
+        },
+        {
+            "internalId": 774844,
+            "botId": 705324,
+            "type": "REGULAR",
+            "name": "Order management",
+            "elements": [
+                {
+                    "id": 1,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Sending the order to the warehouse...",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 2,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "API_CALL",
+                    "action": {
+                        "url": "https://api.magazzino-finto.com/ordine",
+                        "method": "POST",
+                        "headers": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "contentType": "JSON",
+                        "bodyType": "EDITOR",
+                        "bodyItems": [
+                            {
+                                "key": "{{PlantQuantity}}",
+                                "value": "{{PlantQuantity}}"
+                            },
+                            {
+                                "key": "{{PlantType}}",
+                                "value": "{{PlantType}}"
+                            },
+                            {
+                                "key": "URL"
+                            }
+                        ],
+                        "bodyText": "{\r\n  \"plant_type\": \"{{PlantType}}\",\r\n  \"quantity\": \"{{Quantity}}\",\r\n  \"callback_url\": \"https://api2.infobip.com/bots/webhook/{{sessionId}}\" \r\n}",
+                        "nextElementId": 3,
+                        "maxRetryCount": 0,
+                        "fallback": {
+                            "fallbackAction": "CONTINUE_DIALOG",
+                            "sendAsVoice": false
+                        },
+                        "type": "API_CALL"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "WEBHOOK",
+                    "action": {
+                        "method": "GET",
+                        "collectAttributes": [],
+                        "nextElementId": 4,
+                        "timeout": {
+                            "isEnabled": true,
+                            "inputType": "INPUT_VALUE",
+                            "durationSeconds": 10
+                        },
+                        "timeoutFallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 403028,
+                            "messages": [
+                                {
+                                    "text": "WEBHOOK timeout"
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "type": "WEBHOOK"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 403028,
+                        "shareAttributes": false,
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 1,
+            "order": 4,
+            "restricted": false
         }
     ],
     "dialogGroupRequests": [],
@@ -553,6 +770,80 @@
             "outputAttribute": false,
             "fixedAttribute": false,
             "type": "REGULAR"
+        },
+        {
+            "internalId": 326820,
+            "botId": 705324,
+            "name": "PlantQuantity",
+            "dataType": "NUMBER",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "value": {
+                "number": 2,
+                "type": "NUMBER"
+            },
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 26468,
+            "botId": 705324,
+            "name": "TotalPrice",
+            "dataType": "NUMBER",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 830064,
+            "botId": 705324,
+            "name": "Address",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 365516,
+            "botId": 705324,
+            "name": "City",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 129081,
+            "botId": 705324,
+            "name": "CAP",
+            "dataType": "NUMBER",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
         }
     ],
     "keywordRequests": [
@@ -570,6 +861,17 @@
             "name": "Online Site",
             "synonyms": {
                 "data": []
+            }
+        },
+        {
+            "internalId": 976688,
+            "botId": 705324,
+            "name": "Track order",
+            "synonyms": {
+                "data": [
+                    "order track",
+                    "track"
+                ]
             }
         }
     ],

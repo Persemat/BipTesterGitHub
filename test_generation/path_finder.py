@@ -1,5 +1,8 @@
 import networkx as nx
-from test_generation.utils.mock_registry import DATATYPE_MOCKS
+
+from test_generation.utils.load_json import _load_mock_registry
+
+DATATYPE_MOCKS = _load_mock_registry()
 
 class TestPathFinder:
     def __init__(self, g_nodes, g_adj, nx_graph):
@@ -115,7 +118,9 @@ class TestPathFinder:
                 if c_type == "FALLBACK" and source_data.get("specific_type") == "GET_ATTRIBUTE":
                     
                     data_type = source_data.get("data_type", "TEXT").lower()
-                    mock_info = DATATYPE_MOCKS.get(data_type, DATATYPE_MOCKS["text"])
+                    
+                    default_mock = DATATYPE_MOCKS.get("text", {"valid": "Generic_Text", "invalid": None})
+                    mock_info = DATATYPE_MOCKS.get(data_type, default_mock)
                     
                     # Cut the dead branch if no invalid mock data exists for this data type
                     if mock_info["invalid"] is None:

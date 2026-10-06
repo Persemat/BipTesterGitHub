@@ -7,7 +7,7 @@ Any random string
 *Welcome to Green Hub*
 
 #bot
-*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"}]}}*
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
 #me
 Plant advice
@@ -22,7 +22,24 @@ Plant advice
 Rose
 
 #bot
-*The plant is Rose*
+*How many of them?*
+
+#me
+Generic_Text_326820
+
+#bot
+*The plant is Rose and costs Rose*
+
+#bot
+*Welcome to Green Hub*
+
+#bot
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
+
+PAUSE 15000
+
+#bot
+UTT_TIMEOUT_1_4
 
 #bot
 *Thanks for choosing GreenHub! -> Rose*

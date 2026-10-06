@@ -1,0 +1,50 @@
+{
+  "DATATYPE_MOCKS": {
+    "number": {"valid": "12345", "invalid": "Not_a_number"},
+    "phone number": {"valid": "+393331234567", "invalid": "call_me_maybe"},
+    "boolean": {"valid": "true", "invalid": "perhaps"},
+    "date": {"valid": "2026-10-02", "invalid": "tomorrow_morning"},
+    "url": {"valid": "https://www.infobip.com", "invalid": "not-a-link"},
+    "email": {"valid": "test@example.com", "invalid": "invalid_email_format"},
+    "list": {"valid": "1", "invalid": "Not_in_list"},
+    "json": {"valid": "{\"key\": \"value\"}", "invalid": "Just plain text"},
+    "xml": {"valid": "<tag>value</tag>", "invalid": "Just plain text"},
+
+    "audio": {
+      "valid": "MEDIA https://www.w3schools.com/html/horse.mp3", 
+      "invalid": "Text_instead_of_audio"
+    },
+    "document": {
+      "valid": "MEDIA https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", 
+      "invalid": "Text_instead_of_doc"
+    },
+    "image": {
+      "valid": "MEDIA https://dummyimage.com/300x200/000/fff.png&text=Test+Image", 
+      "invalid": "Text_instead_of_image"
+    },
+    "video": {
+      "valid": "MEDIA https://www.w3schools.com/html/mov_bbb.mp4", 
+      "invalid": "Text_instead_of_video"
+    },
+
+    "receive location": {
+      "valid": "LOCATION 45.76,9.81", 
+      "invalid": "Text_instead_of_location"
+    },
+    "send location": {
+      "valid": "LOCATION 45.76,9.81", 
+      "invalid": "Text_instead_of_location"
+    },
+    "contacts": {
+      "valid": "BEGIN:VCARD\\nVERSION:3.0\\nN:Test;User;;;\\nFN:Test User\\nTEL;TYPE=CELL:+393331234567\\nEND:VCARD", 
+      "invalid": "Text_instead_of_contact"
+    },
+
+    "message": {"valid": "Generic message input", "invalid": null},
+    "text": {"valid": "Generic text input", "invalid": null},
+    "csat_feedback": {"valid": "Great support, thank you!", "invalid": null}
+  },
+  "CUSTOM_VALIDATIONS": {
+     "regex_example": "RSSMRA85M01H501Z"
+  }
+}

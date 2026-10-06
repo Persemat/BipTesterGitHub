@@ -1,0 +1,191 @@
+{
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A24239E44A4D49E640515903594A04485E5E5EB50D2038C745C7F212C3F517F4EB47A8371F36631B6A327885FFB7A3F931873FD172239CEB718DEE3E4B942F0B91BF1EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
+    "botRequest": {
+        "name": "Collect_Address",
+        "channel": "OPEN_CHANNEL",
+        "language": "ENGLISH",
+        "sessionTimeout": 5,
+        "voiceSettings": {
+            "voiceEnabled": false,
+            "textToSpeechSettings": {},
+            "speechToTextSettings": {}
+        },
+        "sendCallbackDataInPublicAnswersEvents": false,
+        "senders": [],
+        "senderConfiguration": {},
+        "botType": "COMPONENT",
+        "sendTypingIndicator": false
+    },
+    "dialogRequests": [
+        {
+            "internalId": 1,
+            "botId": 724050,
+            "type": "DEFAULT",
+            "name": "Default",
+            "intentId": 1,
+            "elements": [
+                {
+                    "id": 1,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [
+                            {
+                                "text": "What is your address?"
+                            }
+                        ],
+                        "attributeId": 840140,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 1,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 2,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [
+                            {
+                                "text": "What is your city?"
+                            }
+                        ],
+                        "attributeId": 555268,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 1,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 3,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [
+                            {
+                                "text": "What is your CAP?"
+                            }
+                        ],
+                        "attributeId": 658737,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 1,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 4,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "CLOSE_SESSION",
+                    "action": {
+                        "type": "CLOSE_SESSION"
+                    }
+                }
+            ],
+            "startElementId": 1,
+            "order": 0,
+            "restricted": false
+        }
+    ],
+    "dialogGroupRequests": [],
+    "intentRequests": [
+        {
+            "internalId": 1,
+            "botId": 724050,
+            "name": "Default",
+            "phrases": [],
+            "importantWords": [],
+            "attributeIds": [],
+            "default": true
+        }
+    ],
+    "attributeRequests": [
+        {
+            "internalId": 840140,
+            "botId": 724050,
+            "name": "Address",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": true,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 555268,
+            "botId": 724050,
+            "name": "City",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": true,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 658737,
+            "botId": 724050,
+            "name": "CAP",
+            "dataType": "NUMBER",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": true,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        }
+    ],
+    "keywordRequests": [],
+    "customAttributeTypes": [],
+    "testCases": [],
+    "dependencies": {
+        "conversationTags": [],
+        "extensionElements": [],
+        "exchangeElements": []
+    }
+}
