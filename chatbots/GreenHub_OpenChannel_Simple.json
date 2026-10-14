@@ -1,5 +1,5 @@
 {
-    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242AA85AC0D3846E83EDF72865F27C91F205EB50D2038C745C7F212C3F517F4EB47CBE5554E61D0772FCD02064EFAE34CE20A3FF13BA6CFEE3F88BFFB61F31E86951EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB479241FA8C41CE296D5035060D8F701E90A545B42CC64572D07347205E22C4BF2E1EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
     "botRequest": {
         "name": "GreenHub_simple",
         "channel": "OPEN_CHANNEL",
@@ -23,7 +23,7 @@
             "type": "DEFAULT",
             "name": "Default",
             "diagramX": 12,
-            "diagramY": 89,
+            "diagramY": 59,
             "intentId": 1,
             "elements": [
                 {
@@ -241,8 +241,9 @@
             "botId": 705324,
             "type": "REGULAR",
             "name": "Plant Advice",
-            "diagramX": 463,
+            "diagramX": 462,
             "diagramY": 12,
+            "intentId": 636419,
             "elements": [
                 {
                     "id": 1,
@@ -274,7 +275,8 @@
                             }
                         ],
                         "attributeId": 352393,
-                        "customValidation": false,
+                        "customValidation": true,
+                        "customValidationRegex": "-",
                         "repeat": {
                             "count": 0,
                             "messages": [],
@@ -497,8 +499,8 @@
             "botId": 705324,
             "type": "REGULAR",
             "name": "CollectData",
-            "diagramX": 463,
-            "diagramY": 177,
+            "diagramX": 913,
+            "diagramY": 47,
             "elements": [
                 {
                     "id": 5,
@@ -572,8 +574,8 @@
             "botId": 705324,
             "type": "REGULAR",
             "name": "Feedback",
-            "diagramX": 915,
-            "diagramY": 89,
+            "diagramX": 1813,
+            "diagramY": 47,
             "elements": [
                 {
                     "id": 5,
@@ -600,8 +602,28 @@
                                 "type": "TEXT"
                             }
                         ],
-                        "nextElementId": 3,
+                        "nextElementId": 6,
                         "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "COMPONENT",
+                    "action": {
+                        "componentSender": "1facad9e-41ec-4802-a8e5-8a71a5a48e85",
+                        "componentChannel": "CHANNEL_AGNOSTIC",
+                        "inputAttributes": [],
+                        "outputAttributes": [],
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 1,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 3,
+                        "type": "COMPONENT"
                     }
                 },
                 {
@@ -640,6 +662,8 @@
             "botId": 705324,
             "type": "REGULAR",
             "name": "Order management",
+            "diagramX": 1363,
+            "diagramY": 47,
             "elements": [
                 {
                     "id": 1,
@@ -754,6 +778,36 @@
             "importantWords": [],
             "attributeIds": [],
             "default": true
+        },
+        {
+            "internalId": 636419,
+            "botId": 705324,
+            "name": "Plant advice",
+            "phrases": [
+                "Could you give me some advice on which plant to buy?",
+                "I want a plant, but I don’t know which type to pick. Can you help me decide?",
+                "I’m looking to buy a plant, but I’m not sure which one. Any suggestions?",
+                "I want to get a plant, but I don’t know where to start. Can you help?",
+                "Which plant should I buy if I want something that doesn’t need much sunlight?",
+                "Can you suggest a good houseplant for my home?",
+                "Can you guide me in choosing a suitable plant?",
+                "What’s a good plant to start with?",
+                "Can you help me choose a plant?",
+                "Which plants are easy to take care of?",
+                "Please suggest some plants for someone who’s never owned one before.",
+                "Do you have any recommendations for a low-maintenance plant?",
+                "What plant do you recommend for a beginner?",
+                "I’m not sure which plant to get, can you give me some tips?",
+                "Can you help me find the right plant for my space?",
+                "I need some plant advice before making a purchase. Can you assist?",
+                "I’m planning to buy a plant, but I’m unsure which one is best. Any advice?",
+                "What plants would you advise for someone new to gardening?",
+                "What kind of plant would be good for indoors?",
+                "What plants do you think are good for beginners?"
+            ],
+            "importantWords": [],
+            "attributeIds": [],
+            "default": false
         }
     ],
     "attributeRequests": [

@@ -19,6 +19,7 @@ from rendering.renderer import ChatbotRenderer
 from test_generation.path_finder import TestPathFinder
 from test_generation.botium_translator import BotiumTranslator
 from parsing.parsing_utils import load_components
+from test_generation.utils.load_json import _load_mock_registry
 
 
 def main():
@@ -40,30 +41,10 @@ def main():
         components_dir = "chatbots/components"
     )
 
-    # --- INIZIO BLOCCO DI DEBUG AGGRESSIVO ---
-    print("\n" + "!"*60)
-    print(f"DEBUG LOADER: Ho caricato {len(comp_dict)} componenti in memoria.")
-    print(f"DEBUG CHIAVI: {list(comp_dict.keys())}")
-    print("!"*60 + "\n")
-    
-    if not comp_dict:
-        raise ValueError("CRASH VOLONTARIO: Il dizionario dei componenti è vuoto! "
-                         "Il Loader non trova il file di registro o i file JSON dei componenti.")
-    # --- FINE BLOCCO DI DEBUG AGGRESSIVO ---
-
-
-
     # Initialize Parser and process nodes
     parser = ChatbotParser(json_data, component_jsons=comp_dict)
     #Trigger the parsing process to build the graph and extract attributes
     parser.process_all_elements()
-
-    print("\n--- DEBUG NODI COMPONENTE ---")
-    for n_id, n_data in parser.G.nodes(data=True):
-        if str(n_id).startswith("COMP_"):
-            print(f"NODO: {n_id}")
-            print(json.dumps(n_data, indent=4))
-            print("-" * 30)
 
     # Print Graph verification metrics
     print("=" * 50)
@@ -75,10 +56,11 @@ def main():
     if parser.G.has_node("943568_2"):
         node_data = parser.G.nodes["943568_2"]
         print(json.dumps(node_data, indent=4))
-    
+    """
     print("\n--- EDGES AND TRANSITIONS ---")
     for u, v, data in parser.G.edges(data=True):
         print(f"Edge from [{u}] to [{v}] with data: {data}")
+    """
 
     # Print Graph memory structures for debugging
     print("\n" + "=" * 60)
@@ -93,7 +75,7 @@ def main():
     # Extract exact O(1) routing structure
     adjacency_dict = nx.to_dict_of_dicts(parser.G)
     print(json.dumps(adjacency_dict, indent=4, ensure_ascii=False))
-    """
+    
     # 3. Path Generation
     print("\nStarting Botium test generation engine...")
     nodes_dict = dict(parser.G.nodes(data=True))
@@ -101,17 +83,19 @@ def main():
 
     path_finder = TestPathFinder(nodes_dict, adj_dict, parser.G)
     paths_found = path_finder.generate_paths(start_node="USER_ENTRY")
-
+    """
     print(f"\n{'=' * 50}")
     print(f" TOTAL PATHS GENERATED: {len(paths_found)}")
     print(f"{'=' * 50}")
     
     # Print the paths to the terminal for observability
     render_paths(paths_found)
-    
+    """
     # 4. Botium Translation
 
-    translator = BotiumTranslator(nodes_dict)
+    DATATYPE_MOCKS = _load_mock_registry()
+
+    translator = BotiumTranslator(nodes_dict, mock_data=DATATYPE_MOCKS, attributes=parser.attributes)
 
     # Output directory management
     output_folder = os.path.join("botium", "spec", "generated_tests")
@@ -140,7 +124,7 @@ def main():
     
 
     print(f"✅ Generation completed! Created {len(paths_found)} .convo.txt files and 1 .utterances.txt file.")
-"""
+
     # 5. Graph Rendering
     print("Starting Graphviz rendering engine...")
     graph = ChatbotRenderer(parser.G, parser.attributes)

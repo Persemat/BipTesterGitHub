@@ -4,11 +4,12 @@ import re
 from importlib.resources import path
 
 class BotiumTranslator:
-    def __init__(self, nodes_dict, mock_data=None):
+    def __init__(self, nodes_dict, mock_data=None, attributes=None):
         # Dictionary to store all discovered bursts: { "BURST_ID": ["phrase 1", "phrase 2"] }
         self.global_utterances = {}
         self.nodes = nodes_dict
         self.mock_data = mock_data or {}
+        self.attributes = attributes or {}
 
     def extract_constraints_from_logic_tree(self, logic_tree):
         """
@@ -32,6 +33,10 @@ class BotiumTranslator:
                 constraints[attr_id] = value
                 
             # (Optional) Handle mathematical operators here if needed in the future
+            #TODO Qui potrebbe esserci una logica, o una chiamata a una funzione che la gestisce, 
+            # che permetta il salvataggio di valori che soddifino le condizioni per tutti i possibili operatori disppnibili dall'interfaccia.
+            # questo probabilmente dipenderà anche dal tipo di dato che si sta trattando, quindi potrebbe essere necessario passare anche il tipo di dato come parametro.
+
             elif operator in ["GREATER_THAN", "GREATER_OR_EQUAL"]:
                 try: constraints[attr_id] = str(int(value) + 1)
                 except: constraints[attr_id] = value
@@ -63,9 +68,9 @@ class BotiumTranslator:
                 
         return path_constraints
 
-    def get_message(self, node_data, node_id, path_constraints=None):
+    def get_message(self, node_data, node_id, session_variables=None):
         """Extracts the visible text from the bot's response node."""
-        path_constraints = path_constraints or {}
+        session_variables = session_variables or {}
         macro_type = node_data.get("macro_type")
         spec_type = node_data.get("specific_type")
         content = node_data.get("content", {})
@@ -80,9 +85,13 @@ class BotiumTranslator:
                 cleaned_msgs = []
                 for msg in msgs:
                     temp_msg = msg
-                    for attr_id, value in path_constraints.items():
-                        temp_msg = re.sub(r'\{\{.*?\}\}', value, temp_msg)
-                    temp_msg = re.sub(r'\{\{.*?\}\}', '', temp_msg)
+                    # 1. Replace variables if their current runtime value is known in the session
+                    for key, value in session_variables.items():
+                        pattern = r'\{\{\s*' + re.escape(str(key)) + r'\s*\}\}'
+                        temp_msg = re.sub(pattern, str(value), temp_msg)
+
+                    # Convert remaining (unknown) variables to a wildcard '*' for Botium loose matching
+                    temp_msg = re.sub(r'\{\{.*?\}\}', '*', temp_msg)
                     cleaned_msgs.append(temp_msg)
 
                 # If there's only one message, return it as a standard text string; if multiple, create an Utterance reference
@@ -97,9 +106,11 @@ class BotiumTranslator:
                 payload = content.get("payload", {})
                 json_string = json.dumps(payload, separators=(',', ':'))
                 
-                for attr_id, val in path_constraints.items():
-                    json_string = re.sub(r'\{\{.*?\}\}', val, json_string)
-                    
+                for attr_id, val in session_variables.items():
+                    # Find and replace the specific attribute placeholder with its corresponding value
+                    pattern = r'\{\{\s*' + re.escape(str(attr_id)) + r'\s*\}\}'
+                    json_string = re.sub(pattern, str(val), json_string)
+
                 json_string = re.sub(r'\{\{.*?\}\}', '*', json_string)
                 return json_string
                 
@@ -111,13 +122,16 @@ class BotiumTranslator:
                 if not questions:
                     return None
                 
-                # Clean the questions by replacing attribute placeholders with path_constraints
+                # Clean the questions by replacing attribute placeholders with session_variables
                 cleaned_questions = []
                 for q in questions:
                     temp_q = q
-                    for attr_id, value in path_constraints.items():
-                        temp_q = re.sub(r'\{\{.*?\}\}', value, temp_q)
-                    temp_q = re.sub(r'\{\{.*?\}\}', '', temp_q)
+                    for attr_id, value in session_variables.items():
+                        # Find and replace the specific attribute placeholder with its corresponding value
+                        pattern = r'\{\{\s*' + re.escape(str(attr_id)) + r'\s*\}\}'
+                        temp_q = re.sub(pattern, str(value), temp_q)
+
+                    temp_q = re.sub(r'\{\{.*?\}\}', '*', temp_q)
                     cleaned_questions.append(temp_q)
 
                 # Generate an utterance if there are multiple variants for the question
@@ -142,35 +156,34 @@ class BotiumTranslator:
             spec_type = source_node_data.get("specific_type")
             
             # Handling component-specific default inputs to prevent validation errors
-            if c_type in ["AUTO", "[Auto]", "DEFAULT"] or edge_data.get("condition") == "[Auto]": 
+            if c_type in ["AUTO", "[Auto]", "DEFAULT", "Enter Sub-Flow", "EVALUATION"] or edge_data.get("condition") == "[Auto]": 
+
                 
-                if spec_type == "CSAT":
-                    return "4"  # Default valid CSAT score
+                    if spec_type == "CSAT":
+                        return "4"  # Default valid CSAT score
         
-                if spec_type == "GET_ATTRIBUTE":
-                    attrs = source_node_data.get("attributes_defined", [])
-                    data_type = source_node_data.get("data_type", "TEXT")
+                    if spec_type == "GET_ATTRIBUTE":
+                        attrs = source_node_data.get("attributes_defined", [])
+                        data_type = source_node_data.get("data_type", "TEXT")
                     
-                    if attrs:
-                        attr_id = str(attrs[0])
+                        if attrs:
+                            attr_id = str(attrs[0])
                         
-                        # Check if a specific constraint was extracted earlier in the path; if so, use it
-                        if attr_id in path_constraints:
-                            return path_constraints[attr_id]
+                            # Check if a specific constraint was extracted earlier in the path; if so, use it
+                            if attr_id in path_constraints:
+                                return path_constraints[attr_id]
                             
-                        # Map the data type to a normalized form for lookup in the mock registry
-                        normalized_type = data_type.lower()
+                            # Map the data type to a normalized form for lookup in the mock registry
+                            normalized_type = data_type.lower()
                         
-                        # Retrieve the valid mock value for this data type from the mock registry
-                        mock_value = self.mock_data.get(normalized_type, {}).get("valid")
+                            # Retrieve the valid mock value for this data type from the mock registry
+                            mock_value = self.mock_data.get(normalized_type, {}).get("valid")
                         
-                        if mock_value:
-                            return mock_value
+                            if mock_value:
+                                return mock_value
                             
-                        # If no specific mock value exists, return a generic placeholder for the attribute
-                        return f"Generic_Text_{attr_id}"
-                        
-                    return "Generic_Text_Input"
+                            # If no specific mock value exists, return a generic placeholder for the attribute
+                            return mock_value or f"Generic_Text_{attr_id}"
 
         if c_type == "KEYWORD_COMPARE":
             synonyms = edge_data.get("synonyms", [])
@@ -234,6 +247,14 @@ class BotiumTranslator:
         turns = []
         current_turn = {"user": None, "bot_responses": []}
 
+        # Session Tracker: Maintain a dictionary of session variables to simulate stateful interactions
+        session_variables = {}
+        for attr_id, val in path_constraints.items():
+            attr_name = self.attributes.get(str(attr_id), {}).get("name")
+            if attr_name:
+                session_variables[attr_name] = val
+            session_variables[str(attr_id)] = val
+
         for step in path:
             edge = step["edge_data"]
             target_data = step["target_data"]
@@ -242,6 +263,17 @@ class BotiumTranslator:
             # Calculate user action required to traverse the edge
             user_action = self.get_user_input(edge, source_data, path_constraints)
             
+           # SESSION TRACKER UPDATE: If the user just typed an input for an attribute, 
+            # save it in the short-term memory so the bot can print it later.
+            if user_action and source_data and source_data.get("specific_type") == "GET_ATTRIBUTE":
+                attrs = source_data.get("attributes_defined", [])
+                if attrs:
+                    attr_id = str(attrs[0])
+                    attr_name = self.attributes.get(attr_id, {}).get("name")
+                    if attr_name:
+                        session_variables[attr_name] = user_action
+                    session_variables[attr_id] = user_action
+
             # Turn-taking management: close the current turn if a new user action occurs
             if user_action:
                 if current_turn["bot_responses"] or current_turn["user"]:
@@ -321,7 +353,7 @@ class BotiumTranslator:
                             
             # Calculate bot response from the target node
             target_node_id = step.get("target", "UNKNOWN")
-            bot_msg = self.get_message(target_data, target_node_id, path_constraints)
+            bot_msg = self.get_message(target_data, target_node_id, session_variables)
 
             if bot_msg:
                 current_turn["bot_responses"].append(bot_msg)

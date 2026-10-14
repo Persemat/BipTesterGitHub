@@ -1,0 +1,37 @@
+Test_Path_10
+
+#me
+Any random string
+
+#bot
+*Welcome to Green Hub*
+
+#bot
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
+
+#me
+Plant advice
+
+#bot
+*Our experts are here! Which plant are we talking about?*
+
+#bot
+*Write the type of the plant*
+
+#me
+Generic text input
+
+#bot
+*How many of them?*
+
+#me
+Test_Invalid_Input_For_Fallback
+
+#bot
+*Thanks for choosing GreenHub! -> Generic text input*
+
+#bot
+*How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*
+
+#me
+4

@@ -88,6 +88,8 @@ class ChatbotParser:
         # Extract the component name to create a unique prefix for its nodes
         comp_name = comp_json.get("botRequest", {}).get("name", "UnnamedComponent")
         prefix = f"COMP_{comp_name}"
+
+        self.attributes.update(self._build_attribute(comp_json))
         
         # Find the starting node of the component
         start_node_id = None
@@ -315,13 +317,17 @@ class ChatbotParser:
 
         return intents
 
-    def _build_attribute(self):
+    def _build_attribute(self, json_source=None):
         """
-        Extracts all globally defined variables from the JSON.
-        Returns a dictionary mapping internal IDs to metadata (type, scope, sensitivity).
+        Extracts all globally defined variables from a given JSON.
+        If no JSON is provided, it defaults to the main chatbot data.
         """
+        # Se non gli passo nulla, usa il JSON principale del chatbot
+        if json_source is None:
+            json_source = self.data
+
         attributes = {}
-        attribute_list = self.data.get("attributeRequests", [])
+        attribute_list = json_source.get("attributeRequests", [])
         
         for attr in attribute_list:
             attr_id = str(attr["internalId"]) 

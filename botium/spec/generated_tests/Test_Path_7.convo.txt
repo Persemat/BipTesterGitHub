@@ -10,7 +10,25 @@ Any random string
 *{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
 #me
-Online Site
+Plant advice
+
+#bot
+*Our experts are here! Which plant are we talking about?*
+
+#bot
+*Write the type of the plant*
+
+#me
+Ficus
+
+#bot
+*How many of them?*
+
+#me
+12345
+
+#bot
+*The plant is Ficus and costs *
 
 #bot
 *Welcome to Green Hub*
@@ -24,7 +42,7 @@ PAUSE 15000
 UTT_TIMEOUT_1_4
 
 #bot
-*Thanks for choosing GreenHub! ->*
+*Thanks for choosing GreenHub! -> Ficus*
 
 #bot
 *How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*

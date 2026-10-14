@@ -13,6 +13,7 @@ class TestPathFinder:
         self.adj = g_adj
         self.G = nx_graph
         self.all_test_paths = []
+        self.global_visited_edges = set()
 
         # Identify leaf nodes (nodes with no outgoing edges, representing the end of a conversation)
         self.leaf_nodes = [n for n in self.G.nodes() if self.G.out_degree(n) == 0]
@@ -106,9 +107,27 @@ class TestPathFinder:
             self.all_test_paths.append(list(current_path))
             return
 
-        # 2. EXPLORE BRANCHES: Iterate over all outgoing edges from the current node
+        # Identify unvisited edges from the current node to avoid redundant exploration
+        unvisited_edges = []
         for target_node, edges in self.adj[current_node].items():
             for edge_index, edge_data in edges.items():
+                edge_sig = (current_node, target_node, edge_index)
+                if edge_sig not in self.global_visited_edges:
+                    unvisited_edges.append((target_node, edge_index, edge_data, edge_sig))
+
+        # If all outgoing edges have been visited, attempt to find an escape route to a leaf node
+        if not unvisited_edges:
+            escape_route = self.get_escape_path(current_node)
+            if escape_route:
+                self.all_test_paths.append(list(current_path) + escape_route)
+            else:
+                self.all_test_paths.append(list(current_path))
+            return
+
+        # 2. EXPLORE BRANCHES: Iterate over all outgoing edges from the current node
+        for target_node, edge_index, edge_data, edge_sig in unvisited_edges:
+                
+                self.global_visited_edges.add(edge_sig)
 
                 c_type = edge_data.get("condition_type", "")
                 source_data = self.nodes.get(current_node, {})

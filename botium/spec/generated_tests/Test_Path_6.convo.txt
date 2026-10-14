@@ -19,16 +19,61 @@ Plant advice
 *Write the type of the plant*
 
 #me
-Generic_Text_352393
+Ficus
 
 #bot
 *How many of them?*
 
 #me
+12345
+
+#bot
+*The plant is Ficus and costs *
+
+#bot
+*What is your address?*
+
+#me
+Generic text input
+
+#bot
+*What is your city?*
+
+#me
+Generic text input
+
+#bot
+*What is your CAP?*
+
+#me
 Test_Invalid_Input_For_Fallback
 
 #bot
-*Thanks for choosing GreenHub! ->*
+*What is your address?*
+
+#me
+Generic text input
+
+#bot
+*What is your city?*
+
+#me
+Generic text input
+
+#bot
+*What is your CAP?*
+
+#me
+12345
+
+#bot
+*Adress data collected: Generic text input,Generic text input,12345*
+
+#bot
+*Sending the order to the warehouse...*
+
+#bot
+*Thanks for choosing GreenHub! -> Ficus*
 
 #bot
 *How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*
