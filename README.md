@@ -43,38 +43,51 @@ BipTester/
 ├── mock_registry.json        # Registro dei dati fittizi per l'injection
 └── main.py                   # Script principale di orchestrazione
 --- 
-
 ## Installazione
 
-- Clona repository in locale: 
-    git clone git@gitlab.com:securitychatbot/infobip-persico.git
+- **Clona la repository in locale e accedi alla cartella:** 
+  ```bash
+  git clone git@gitlab.com:securitychatbot/infobip-persico.git
+  cd infobip-persico
+Crea l'ambiente virtuale:
 
-    cd infobip-persico
-- Crea l'ambiente virtuale:
-    python -m venv .venv
-- Attiva l'ambiente e installa le dipendenze necessarie:
-    .venv\Scripts\activate  (Windows)
-    source .venv/bin/activate   (macOS/linux)
+Bash
+python -m venv .venv
+Attiva l'ambiente:
+Su Windows:
 
-    pip install -r requirements.txt
-- Installa Botium CLI:
-    npm install -g botium-cli
+Bash
+.venv\Scripts\activate
+Su macOS / Linux:
 
-## Esecuzione test E2E (momentanea)
+Bash
+source .venv/bin/activate
+Installa le dipendenze Python necessarie:
 
-- Apri terminale:
-    ngrok http 3000
+Bash
+pip install -r requirements.txt
+Installa Botium CLI (dipendenza Node.js):
 
-- Copia l'url pubblico generato e incollalo nel campo response webhook del file botium.json:
-        "responseWebhook": {
-          "url": " inserisci qua l'url "
-        }
+Bash
+npm install -g botium-cli
+Esecuzione test E2E (momentanea)
+Avvia il tunnel di rete: Apri un terminale ed esegui:
 
-- Apri un secondo terminale, entra nella cartella "botium" del progetto e fai partire il proxy:
-    npm run start-proxy
+Bash
+ngrok http 3000
+Configura l'endpoint: Copia l'URL pubblico generato da ngrok (es. [https://xyz.ngrok.app](https://xyz.ngrok.app)) e incollalo nel campo responseWebhook all'interno del file botium/botium.json:
 
-- Apri un'altro terminale, vai nella cartella botium e esegui:
-    npm run test-e2e
+JSON
+"responseWebhook": {
+  "url": "inserisci_qui_l_url_di_ngrok"
+}
+Avvia il Proxy locale: Apri un secondo terminale, assicurati di entrare nella cartella botium del progetto e fai partire il proxy per intercettare le risposte di Infobip:
 
+Bash
+cd botium
+npm run start-proxy
+Esegui la suite di test: Apri un terzo terminale, vai sempre nella cartella botium ed esegui il collaudo E2E:
 
-
+Bash
+cd botium
+npm run test-e2e
