@@ -42,52 +42,74 @@ BipTester/
 ├── rendering/                # Modulo di supporto per la generazione visiva del grafo
 ├── mock_registry.json        # Registro dei dati fittizi per l'injection
 └── main.py                   # Script principale di orchestrazione
---- 
+ ```
 ## Installazione
 
 - **Clona la repository in locale e accedi alla cartella:** 
   ```bash
   git clone git@gitlab.com:securitychatbot/infobip-persico.git
   cd infobip-persico
+  ```
 Crea l'ambiente virtuale:
 
-Bash
+```Bash
 python -m venv .venv
+```
+
 Attiva l'ambiente:
+
 Su Windows:
 
-Bash
+```Bash
 .venv\Scripts\activate
+```
 Su macOS / Linux:
 
-Bash
+```Bash
 source .venv/bin/activate
+```
 Installa le dipendenze Python necessarie:
 
-Bash
+```Bash
 pip install -r requirements.txt
+```
+
 Installa Botium CLI (dipendenza Node.js):
 
-Bash
+```Bash
 npm install -g botium-cli
+```
 Esecuzione test E2E (momentanea)
+
 Avvia il tunnel di rete: Apri un terminale ed esegui:
 
-Bash
+```Bash
 ngrok http 3000
-Configura l'endpoint: Copia l'URL pubblico generato da ngrok (es. [https://xyz.ngrok.app](https://xyz.ngrok.app)) e incollalo nel campo responseWebhook all'interno del file botium/botium.json:
+```
 
-JSON
+Configura l'endpoint: 
+
+Copia l'URL pubblico generato da ngrok (es. [https://xyz.ngrok.app](https://xyz.ngrok.app)) e incollalo nel campo responseWebhook all'interno del file botium/botium.json:
+
+```JSON
 "responseWebhook": {
   "url": "inserisci_qui_l_url_di_ngrok"
 }
-Avvia il Proxy locale: Apri un secondo terminale, assicurati di entrare nella cartella botium del progetto e fai partire il proxy per intercettare le risposte di Infobip:
+```
 
-Bash
+Avvia il Proxy locale: 
+
+Apri un secondo terminale, assicurati di entrare nella cartella botium del progetto e fai partire il proxy per intercettare le risposte di Infobip:
+
+```Bash
 cd botium
 npm run start-proxy
-Esegui la suite di test: Apri un terzo terminale, vai sempre nella cartella botium ed esegui il collaudo E2E:
+```
+Esegui la suite di test: 
 
-Bash
+Apri un terzo terminale, vai sempre nella cartella botium ed esegui il collaudo E2E:
+
+```Bash
 cd botium
 npm run test-e2e
+```
