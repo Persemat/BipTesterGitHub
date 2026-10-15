@@ -1,7 +1,8 @@
-# BipTester 🤖🧪
-**Automated Model-Based E2E Testing Framework for Infobip Chatbots.**
+<img src="https://www.infobip.com/developers/wp-content/uploads/2023/03/Infobip_logo_favicon.png" alt="Testo alternativo" width="30">  
 
-BipTester è un framework automatizzato che traduce la logica visiva dei chatbot creati sulla piattaforma **Infobip Answers** (esportati in formato JSON) in suite di test E2E eseguibili meccanicamente tramite **Botium**. 
+# Automated Model-Based E2E Testing Framework for Infobip Chatbots 
+
+Questo progetto consiste in un framework automatizzato che traduce la logica visiva dei chatbot creati sulla piattaforma **Infobip Answers** (esportati in formato JSON) in suite di test E2E eseguibili meccanicamente tramite **Botium**. 
 
 Attraverso la modellazione del bot in un grafo matematico, il tool garantisce la copertura dei percorsi conversazionali, validando a runtime gli stati del bot su canali asincroni live (Open Channel / Webhooks).
 
@@ -20,7 +21,7 @@ Attraverso la modellazione del bot in un grafo matematico, il tool garantisce la
 ## 🛠️ Prerequisiti
 
 Prima di iniziare, assicurati di avere installato sulla tua macchina:
-- **Python 3.8+** (per il motore di parsing e generazione BipTester)
+- **Python 3.8+** (per il motore di parsing e generazione test)
 - **Node.js 16+** (per eseguire l'ambiente Botium CLI e il reverse proxy)
 - Accesso a un bot Infobip configurato con **Open Channel** 
 - Account ngrok 
@@ -30,13 +31,14 @@ Prima di iniziare, assicurati di avere installato sulla tua macchina:
 ## 📂 Struttura del Progetto
 
 ```text
-BipTester/
-├── chatbots/                 # 📥 Inserire qui l'export JSON del bot
+FrameworkTestInfobip/
+├── chatbots/                 # Inserire qui l'export JSON del bot
 │   └── components/           # Sottomoduli/Componenti JSON collegati
 ├── botium/                   # ⚙️ Ambiente di esecuzione Node.js
 │   ├── botium.json           # File di configurazione del connettore (Webhook URL)
-│   └── botiumwork/           # Risultati e logs temporanei di Botium
-├── output/                   # 📤 Destinazione dei file .convo.txt generati
+├── spec/
+│   ├── generatedTests/       # Destinazione dei file .convo.txt generati
+        └── utterances/        # Destinazione file di Utterances        
 ├── parsing/                  # Modulo Parser (Estrazione e modellazione a grafo)
 ├── test_generation/          # Modulo Translator & PathFinder
 ├── rendering/                # Modulo di supporto per la generazione visiva del grafo
@@ -50,66 +52,62 @@ BipTester/
   git clone git@gitlab.com:securitychatbot/infobip-persico.git
   cd infobip-persico
   ```
-Crea l'ambiente virtuale:
+- **Crea l'ambiente virtuale:**
 
-```Bash
-python -m venv .venv
-```
+  ```Bash
+  python -m venv .venv
+  ```
 
-Attiva l'ambiente:
+  - **Attiva l'ambiente:**
 
-Su Windows:
+    - **Su Windows:**
 
-```Bash
-.venv\Scripts\activate
-```
-Su macOS / Linux:
+    ```Bash
+    .venv\Scripts\activate
+    ```
+    - **Su macOS / Linux:**
 
-```Bash
-source .venv/bin/activate
-```
-Installa le dipendenze Python necessarie:
+    ```Bash
+    source .venv/bin/activate
+    ```
+  - **Installa le dipendenze Python necessarie e Botium CLI :**
 
-```Bash
-pip install -r requirements.txt
-```
+  ```Bash
+  pip install -r requirements.txt
+  
+  npm install -g botium-cli
+  ```
+- **Esecuzione test E2E (momentanea)**
 
-Installa Botium CLI (dipendenza Node.js):
+  - **Avvia il tunnel di rete: Apri un terminale ed esegui:**
 
-```Bash
-npm install -g botium-cli
-```
-Esecuzione test E2E (momentanea)
+  ```Bash
+  ngrok http 3000
+  ```
 
-Avvia il tunnel di rete: Apri un terminale ed esegui:
+    - **Configura l'endpoint:** 
 
-```Bash
-ngrok http 3000
-```
+      Copia l'URL pubblico generato da ngrok (es. [https://xyz.ngrok.app](https://xyz.ngrok.app)) e incollalo nel campo responseWebhook all'interno del file botium/botium.json:
 
-Configura l'endpoint: 
+      ```JSON
+      "responseWebhook": {
+      "url": "inserisci_qui_l_url_di_ngrok"
+      }
+      ```
 
-Copia l'URL pubblico generato da ngrok (es. [https://xyz.ngrok.app](https://xyz.ngrok.app)) e incollalo nel campo responseWebhook all'interno del file botium/botium.json:
+  - **Avvia il Proxy locale:** 
 
-```JSON
-"responseWebhook": {
-  "url": "inserisci_qui_l_url_di_ngrok"
-}
-```
+    Apri un secondo terminale, assicurati di entrare nella cartella botium del progetto e fai partire il proxy per intercettare le risposte di Infobip:
 
-Avvia il Proxy locale: 
+    ```Bash
+    cd botium
+    npm run start-proxy
+    ```
+  - **Esegui la suite di test:** 
 
-Apri un secondo terminale, assicurati di entrare nella cartella botium del progetto e fai partire il proxy per intercettare le risposte di Infobip:
+    Apri un terzo terminale, vai sempre nella cartella botium ed esegui il collaudo E2E:
 
-```Bash
-cd botium
-npm run start-proxy
-```
-Esegui la suite di test: 
-
-Apri un terzo terminale, vai sempre nella cartella botium ed esegui il collaudo E2E:
-
-```Bash
-cd botium
-npm run test-e2e
-```
+    ```Bash
+    cd botium
+    npm run test-e2e
+    ```
