@@ -1,7 +1,7 @@
 Test_Path_8
 
 #me
-Any random string
+default
 
 #bot
 *Welcome to Green Hub*
@@ -19,7 +19,7 @@ Plant advice
 *Write the type of the plant*
 
 #me
-Rose
+Generic text input
 
 #bot
 *How many of them?*
@@ -28,21 +28,10 @@ Rose
 12345
 
 #bot
-*The plant is Rose and costs *
+*No plants available*
 
 #bot
-*Welcome to Green Hub*
-
-#bot
-*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
-
-PAUSE 15000
-
-#bot
-UTT_TIMEOUT_1_4
-
-#bot
-*Thanks for choosing GreenHub! -> Rose*
+*Thanks for choosing GreenHub!*
 
 #bot
 *How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*

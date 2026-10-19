@@ -1,7 +1,7 @@
 Test_Path_3
 
 #me
-Any random string
+default
 
 #bot
 *Welcome to Green Hub*
@@ -9,27 +9,53 @@ Any random string
 #bot
 *{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
-PAUSE 15000
+#me
+Plant advice
 
 #bot
-UTT_TIMEOUT_1_4
+*Our experts are here! Which plant are we talking about?*
 
 #bot
-*Thanks for choosing GreenHub! -> *
+*Write the type of the plant*
+
+#me
+Ficus
 
 #bot
-*Welcome to Green Hub*
+*How many of them?*
+
+#me
+12345
 
 #bot
-*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
-
-PAUSE 15000
+*The plant is Ficus and costs *
 
 #bot
-UTT_TIMEOUT_1_4
+*What is your address?*
+
+#me
+Generic text input
 
 #bot
-*Thanks for choosing GreenHub! -> *
+*What is your city?*
+
+#me
+Generic text input
+
+#bot
+*What is your CAP?*
+
+#me
+12345
+
+#bot
+*Adress data collected: Generic text input,Generic text input,12345*
+
+#bot
+*Sending the order to the warehouse...*
+
+#bot
+*Thanks for choosing GreenHub!*
 
 #bot
 *How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*

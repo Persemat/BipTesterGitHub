@@ -1,7 +1,7 @@
 Test_Path_9
 
 #me
-Any random string
+default
 
 #bot
 *Welcome to Green Hub*
@@ -25,13 +25,10 @@ Generic text input
 *How many of them?*
 
 #me
-12345
+Test_Invalid_Input_For_Fallback
 
 #bot
-*No plants available*
-
-#bot
-*Thanks for choosing GreenHub! -> Generic text input*
+*Thanks for choosing GreenHub!*
 
 #bot
 *How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*

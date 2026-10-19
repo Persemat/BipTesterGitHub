@@ -210,7 +210,7 @@ class BotiumTranslator:
             if phrases:
                 return phrases[0]
             else:
-                return "Any random string"
+                return "default"
             
         elif c_type == "TIMEOUT":
             # Retrieve the configured timeout duration from the parser's edge metadata.

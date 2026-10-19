@@ -5,7 +5,7 @@
   "main": "inbound-hook.js",
   "scripts": {
     "start-proxy": "node proxy.js",
-    "test-e2e": "botium-cli run --config ./botium.json --convos ./spec"
+    "test-e2e": "botium-cli run --config ./botium.json --convos  ./spec"
   },
   "keywords": [],
   "author": "",

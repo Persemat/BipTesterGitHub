@@ -1,7 +1,7 @@
 Test_Path_4
 
 #me
-Any random string
+default
 
 #bot
 *Welcome to Green Hub*
@@ -55,7 +55,7 @@ Generic text input
 *Sending the order to the warehouse...*
 
 #bot
-*Thanks for choosing GreenHub! -> Ficus*
+*Thanks for choosing GreenHub!*
 
 #bot
 *How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*

@@ -34,8 +34,7 @@ digraph {
 	subgraph cluster_MAIN_403028 {
 		color=blue fontname=Helvetica label="Feedback - 403028" style=dashed
 		"403028_5" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">DELAY</FONT></TD></TR><TR><TD>Waits for: <B>1 sec</B></TD></TR></TABLE>>]
-		"403028_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Thanks for choosing GreenHub! -&gt; {{PlantType}}</TD></TR></TABLE>>]
-		"403028_6" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">COMPONENT</FONT></TD></TR><TR><TD>Executes Sub-Flow</TD></TR></TABLE>>]
+		"403028_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Thanks for choosing GreenHub! </TD></TR></TABLE>>]
 		"403028_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">CSAT</FONT></TD></TR><TR><TD><FONT POINT-SIZE="10"><B>Question:</B> <I>&quot;How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good&quot;</I></FONT></TD></TR><TR><TD BGCOLOR="#F5F5F5"><FONT POINT-SIZE="10">Scale: SCORING_1_5</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="10">Max Repeats: 1</FONT></TD></TR></TABLE>>]
 		"403028_4" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#C9CCD2"><B>END FLOW</B><BR/><FONT POINT-SIZE="10">Close Session</FONT></TD></TR></TABLE>>]
 	}
@@ -65,8 +64,11 @@ digraph {
 	USER_ENTRY -> "1_8" [label="Default Dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
 	USER_ENTRY -> "202234_1" [label="NLP Match:
 [Plant advice]" color=dodgerblue fontcolor=dodgerblue fontsize=10 style=bold]
+	USER_ENTRY -> "403028_5" [label="NLP Match:
+[Feedback]" color=dodgerblue fontcolor=dodgerblue fontsize=10 style=bold]
 	"1_8" -> "1_1" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"202234_1" -> "202234_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"403028_5" -> "403028_1" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"1_1" -> "1_7" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"1_7" -> "1_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"1_3" -> "1_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
@@ -78,7 +80,6 @@ digraph {
 555799" color=gray fontcolor=gray fontsize=10 style=solid]
 	"1_4" -> "1_9" [label="User input:
 [order track | track]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"403028_5" -> "403028_1" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"1_5" -> "202234_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
 	"1_6" -> "935674_5" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
 	"1_9" -> "1_10" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
@@ -111,9 +112,7 @@ digraph {
 	"935674_1" -> "935674_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"935674_4" -> "774844_1" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
 	"774844_1" -> "774844_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"403028_1" -> "403028_6" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"403028_6" -> "403028_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"403028_6" -> "1_8" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
+	"403028_1" -> "403028_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"403028_3" -> "403028_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"774844_2" -> "774844_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"774844_3" -> "774844_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]

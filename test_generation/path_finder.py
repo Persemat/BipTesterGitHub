@@ -51,41 +51,68 @@ class TestPathFinder:
     def get_escape_path(self, start_node):
         """
         Calculates the shortest valid route from a looped node to a leaf node.
-        This ensures tests don't hang indefinitely upon encountering an infinite loop.
+        Uses a weighted Dijkstra approach to prefer already visited edges,
+        preventing the escape route from consuming unvisited test paths.
         """
         if not self.leaf_nodes:
             return []
 
+        # 1. Dynamic weight assignment (Cost 1 = already visited, Cost 1000 = unexplored)
+        for u, v, key, data in self.G.edges(keys=True, data=True):
+            # Signature of the edge: node pair and edge key that uniquely identifies it in a MultiDiGraph
+            edge_sig = (u, v, key)
+            if edge_sig in self.global_visited_edges:
+                self.G[u][v][key]['weight'] = 1     
+            else:
+                self.G[u][v][key]['weight'] = 1000  
+
         shortest_path_nodes = None
         min_length = float('inf')
 
-        # Iterate over all leaf nodes to find the globally shortest exit route
+        # 2. Search for the minimum cost path (Weighted Dijkstra) to any leaf node
         for leaf in self.leaf_nodes:
             try:
-                # Use NetworkX's built-in Dijkstra/BFS algorithm for unweighted shortest path
-                path = nx.shortest_path(self.G, source=start_node, target=leaf)
-                if len(path) < min_length:
-                    min_length = len(path)
+                # NetworkX automatically uses Dijkstra when weight='weight' is specified
+                path = nx.shortest_path(self.G, source=start_node, target=leaf, weight='weight')
+                
+                # Calculate the actual total cost of this path on the MultiDiGraph
+                path_cost = 0
+                for i in range(len(path) - 1):
+                    u = path[i]
+                    v = path[i+1]
+                    # Get the weight of the cheapest edge between u and v
+                    min_edge_weight = min(self.G[u][v][k].get('weight', 1000) for k in self.G[u][v])
+                    path_cost += min_edge_weight
+                
+                if path_cost < min_length:
+                    min_length = path_cost
                     shortest_path_nodes = path
             except nx.NetworkXNoPath:
-                # If a specific leaf is unreachable from this node, skip it
                 continue
 
-        # If no escape path is found or the path is trivial, return an empty list
         if not shortest_path_nodes or len(shortest_path_nodes) < 2:
             return []
 
         escape_steps = []
-        # Convert the list of node IDs (e.g., ['A', 'B', 'C']) into standard step dictionaries
+        
+        # 3. Step-by-step path reconstruction
         for i in range(len(shortest_path_nodes) - 1):
             u = shortest_path_nodes[i]
             v = shortest_path_nodes[i+1]
             
-            # Retrieve the specific edge attributes connecting 'u' to 'v'
+            best_edge_key = None
+            best_weight = float('inf')
             edge_data = {}
+            
+            # Ensure extraction of the exact edge with the lowest weight
             if u in self.adj and v in self.adj[u]:
-                first_edge_key = list(self.adj[u][v].keys())[0]
-                edge_data = self.adj[u][v][first_edge_key]
+                for key, data in self.adj[u][v].items():
+                    w = data.get('weight', 1000)
+                    if w < best_weight:
+                        best_weight = w
+                        best_edge_key = key
+                
+                edge_data = self.adj[u][v][best_edge_key]
                 
             step = {
                 "source": u,
@@ -96,7 +123,7 @@ class TestPathFinder:
             escape_steps.append(step)
 
         return escape_steps
-
+    
     def dfs(self, current_node, current_path, visited):
         """
         Recursive Depth-First Search algorithm with backtracking, loop breaking, and pruning.

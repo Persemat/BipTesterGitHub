@@ -1,7 +1,7 @@
 Test_Path_1
 
 #me
-Any random string
+default
 
 #bot
 *Welcome to Green Hub*
@@ -33,7 +33,7 @@ PAUSE 15000
 UTT_TIMEOUT_1_4
 
 #bot
-*Thanks for choosing GreenHub! -> *
+*Thanks for choosing GreenHub!*
 
 #bot
 *How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*
