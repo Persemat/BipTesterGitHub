@@ -10,18 +10,10 @@ default
 *{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
 #me
-Online Site
+order track
 
 #bot
-*Welcome to Green Hub*
-
-#bot
-*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
-
-PAUSE 15000
-
-#bot
-UTT_TIMEOUT_1_4
+*Authenticated! Your order is arriving.*
 
 #bot
 *Thanks for choosing GreenHub!*

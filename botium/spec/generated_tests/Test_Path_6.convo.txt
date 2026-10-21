@@ -19,7 +19,7 @@ Plant advice
 *Write the type of the plant*
 
 #me
-Ficus
+Rose
 
 #bot
 *How many of them?*
@@ -28,18 +28,31 @@ Ficus
 12345
 
 #bot
-*The plant is Ficus and costs *
+*The plant is Rose and costs *
 
 #bot
-*Welcome to Green Hub*
+*What is your address?*
+
+#me
+Generic text input
 
 #bot
-*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
+*What is your city?*
 
-PAUSE 15000
+#me
+Generic text input
 
 #bot
-UTT_TIMEOUT_1_4
+*What is your CAP?*
+
+#me
+12345
+
+#bot
+*Adress data collected: Generic text input,Generic text input,12345*
+
+#bot
+*Sending the order to the warehouse...*
 
 #bot
 *Thanks for choosing GreenHub!*

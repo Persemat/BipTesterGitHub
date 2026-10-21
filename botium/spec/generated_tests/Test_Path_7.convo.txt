@@ -19,7 +19,7 @@ Plant advice
 *Write the type of the plant*
 
 #me
-Rose
+Generic text input
 
 #bot
 *How many of them?*
@@ -28,18 +28,7 @@ Rose
 12345
 
 #bot
-*The plant is Rose and costs *
-
-#bot
-*Welcome to Green Hub*
-
-#bot
-*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
-
-PAUSE 15000
-
-#bot
-UTT_TIMEOUT_1_4
+*No plants available*
 
 #bot
 *Thanks for choosing GreenHub!*
