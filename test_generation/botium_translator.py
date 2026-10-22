@@ -210,7 +210,7 @@ class BotiumTranslator:
             if phrases:
                 return phrases[0]
             else:
-                return "Any random string"
+                return "default"
             
         elif c_type == "TIMEOUT":
             # Retrieve the configured timeout duration from the parser's edge metadata.
@@ -355,6 +355,12 @@ class BotiumTranslator:
             target_node_id = step.get("target", "UNKNOWN")
             bot_msg = self.get_message(target_data, target_node_id, session_variables)
 
+            # Handle special cases like Webhook nodes that require a wait time before the bot responds
+            if source_data and source_data.get("specific_type") == "WEBHOOK":
+                timeout_sec = source_data.get("content", {}).get("timeout_duration", 10)
+                timeout_ms = (timeout_sec + 2) * 1000 
+                current_turn["bot_responses"].append(f"WAITFORBOT {timeout_ms}")
+
             if bot_msg:
                 current_turn["bot_responses"].append(bot_msg)
 
@@ -388,10 +394,16 @@ class BotiumTranslator:
                 # System label references remain plain text to allow Utterance expansion
                 if response.startswith("UTT_"):
                     convo_lines.append(f"#bot\n{response}\n")
+                elif response.startswith("WAITFORBOT"):
+                    convo_lines.append(f"{response}\n")
                 else:
                     # Clean the response text to ensure it doesn't have unwanted newlines or excessive spaces
                     clean_response = re.sub(r'[\r\n]+', '*', response)
                     clean_response = re.sub(r' +', ' ', clean_response).strip()
+
+                    # Remove any leading or trailing wildcards that may have been introduced during cleaning
+                    clean_response = re.sub(r'\s+\*', '*', clean_response)
+                    clean_response = re.sub(r'\*\s+', '*', clean_response)
                     
                     # Wrap standard text in wildcards for resilient pattern matching
                     raw_formatted = f"*{clean_response}*"

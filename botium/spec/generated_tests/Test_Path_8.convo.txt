@@ -1,7 +1,7 @@
 Test_Path_8
 
 #me
-Any random string
+default
 
 #bot
 *Welcome to Green Hub*
@@ -10,39 +10,42 @@ Any random string
 *{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
 #me
-Plant advice
+Online Site
 
 #bot
-*Our experts are here! Which plant are we talking about?*
-
-#bot
-*Write the type of the plant*
+*What is your address?*
 
 #me
-Rose
+Generic text input
 
 #bot
-*How many of them?*
+*What is your city?*
+
+#me
+Generic text input
+
+#bot
+*What is your CAP?*
 
 #me
 12345
 
 #bot
-*The plant is Rose and costs *
+*Adress data collected: Generic text input,Generic text input,12345*
 
 #bot
-*Welcome to Green Hub*
+*Sending the order to the warehouse...*
 
 #bot
-*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
+*Session id:*
 
-PAUSE 15000
-
-#bot
-UTT_TIMEOUT_1_4
+WAITFORBOT 22000
 
 #bot
-*Thanks for choosing GreenHub! -> Rose*
+*If API worked this is the value:*
+
+#bot
+*Thanks for choosing GreenHub!*
 
 #bot
 *How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*

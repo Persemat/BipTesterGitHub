@@ -1,5 +1,5 @@
 {
-    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB479241FA8C41CE296D5035060D8F701E90A545B42CC64572D07347205E22C4BF2E1EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB479720F94D6680DFF253D708971179B6935402A3AF6FC8B5831BCF4B60D9AF09381EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
     "botRequest": {
         "name": "GreenHub_simple",
         "channel": "OPEN_CHANNEL",
@@ -275,7 +275,7 @@
                             }
                         ],
                         "attributeId": 352393,
-                        "customValidation": true,
+                        "customValidation": false,
                         "customValidationRegex": "-",
                         "repeat": {
                             "count": 0,
@@ -528,7 +528,7 @@
                         ],
                         "fallback": {
                             "fallbackAction": "GO_TO_DIALOG",
-                            "goToDialogId": 1,
+                            "goToDialogId": 202234,
                             "sendAsVoice": false
                         },
                         "nextElementId": 1,
@@ -576,6 +576,7 @@
             "name": "Feedback",
             "diagramX": 1813,
             "diagramY": 47,
+            "intentId": 955824,
             "elements": [
                 {
                     "id": 5,
@@ -598,32 +599,12 @@
                     "action": {
                         "messages": [
                             {
-                                "message": "Thanks for choosing GreenHub! -> {{PlantType}}",
+                                "message": "Thanks for choosing GreenHub! ",
                                 "type": "TEXT"
                             }
                         ],
-                        "nextElementId": 6,
-                        "type": "SEND_OPEN_CHANNEL"
-                    }
-                },
-                {
-                    "id": 6,
-                    "name": "",
-                    "diagramX": -400,
-                    "diagramY": 200,
-                    "type": "COMPONENT",
-                    "action": {
-                        "componentSender": "1facad9e-41ec-4802-a8e5-8a71a5a48e85",
-                        "componentChannel": "CHANNEL_AGNOSTIC",
-                        "inputAttributes": [],
-                        "outputAttributes": [],
-                        "fallback": {
-                            "fallbackAction": "GO_TO_DIALOG",
-                            "goToDialogId": 1,
-                            "sendAsVoice": false
-                        },
                         "nextElementId": 3,
-                        "type": "COMPONENT"
+                        "type": "SEND_OPEN_CHANNEL"
                     }
                 },
                 {
@@ -689,8 +670,8 @@
                     "diagramY": 100,
                     "type": "API_CALL",
                     "action": {
-                        "url": "https://api.magazzino-finto.com/ordine",
-                        "method": "POST",
+                        "url": "https://jsonplaceholder.typicode.com/posts/1",
+                        "method": "GET",
                         "headers": [
                             {
                                 "key": "Content-Type",
@@ -713,7 +694,14 @@
                             }
                         ],
                         "bodyText": "{\r\n  \"plant_type\": \"{{PlantType}}\",\r\n  \"quantity\": \"{{Quantity}}\",\r\n  \"callback_url\": \"https://api2.infobip.com/bots/webhook/{{sessionId}}\" \r\n}",
-                        "nextElementId": 3,
+                        "collectAttributes": [
+                            {
+                                "attributeId": 198860,
+                                "extractionPath": "$.name"
+                            }
+                        ],
+                        "nextElementId": 6,
+                        "timeoutSeconds": 10,
                         "maxRetryCount": 0,
                         "fallback": {
                             "fallbackAction": "CONTINUE_DIALOG",
@@ -723,31 +711,72 @@
                     }
                 },
                 {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Session id: {{sessionId}}",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 3,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
                     "id": 3,
                     "name": "",
                     "diagramX": -200,
                     "diagramY": 100,
                     "type": "WEBHOOK",
                     "action": {
-                        "method": "GET",
-                        "collectAttributes": [],
-                        "nextElementId": 4,
+                        "method": "POST",
+                        "collectAttributes": [
+                            {
+                                "attributeId": 30875,
+                                "extractionPath": "$.status"
+                            }
+                        ],
+                        "nextElementId": 5,
+                        "webhookUrlType": "PATH_PARAM_SESSION_ID",
+                        "sessionIdParamName": "",
                         "timeout": {
                             "isEnabled": true,
                             "inputType": "INPUT_VALUE",
-                            "durationSeconds": 10
+                            "durationSeconds": 20
                         },
                         "timeoutFallback": {
-                            "fallbackAction": "GO_TO_DIALOG",
+                            "fallbackAction": "CONTINUE_DIALOG",
                             "goToDialogId": 403028,
                             "messages": [
                                 {
-                                    "text": "WEBHOOK timeout"
+                                    "text": ""
                                 }
                             ],
                             "sendAsVoice": false
                         },
                         "type": "WEBHOOK"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "If API worked this is the value: {{fakename}} ",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 4,
+                        "type": "SEND_OPEN_CHANNEL"
                     }
                 },
                 {
@@ -804,6 +833,38 @@
                 "What plants would you advise for someone new to gardening?",
                 "What kind of plant would be good for indoors?",
                 "What plants do you think are good for beginners?"
+            ],
+            "importantWords": [],
+            "attributeIds": [],
+            "default": false
+        },
+        {
+            "internalId": 955824,
+            "botId": 705324,
+            "name": "Feedback",
+            "phrases": [
+                "How do I give a feedback for the service provided?",
+                "Can you tell me how to give feedback?",
+                "I'd like to provide some feedback about the support I received.",
+                "Is there a place to provide feedback on this platform?",
+                "I want to submit my feedback about the assistance.",
+                "I would like to leave some feedback.",
+                "Please let me know how to write feedback.",
+                "I want to give an opinion about the online help.",
+                "Is there a way to share my thoughts on the service?",
+                "Where can I write feedback about the website?",
+                "How do I submit feedback about the service?",
+                "I want to provide an evaluation of the online assistance.",
+                "Can I write a review or feedback about this site?",
+                "Can I give feedback regarding my experience here?",
+                "Can I tell you what I think about the assistance I received?",
+                "I'd like to share my feedback on the online support.",
+                "How can I evaluate the help I got online?",
+                "I want to give feedback on how the site works.",
+                "I want to write feedback regarding my visit to this site.",
+                "How can i give a feedback?",
+                "Where can I leave comments about the service?",
+                "I wantto give a feedback of the site"
             ],
             "importantWords": [],
             "attributeIds": [],
@@ -890,6 +951,34 @@
             "botId": 705324,
             "name": "CAP",
             "dataType": "NUMBER",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 198860,
+            "botId": 705324,
+            "name": "fakename",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 30875,
+            "botId": 705324,
+            "name": "OrderState",
+            "dataType": "TEXT",
             "scope": "GLOBAL",
             "visibleToAgent": false,
             "sensitive": false,

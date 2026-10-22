@@ -1,7 +1,7 @@
 Test_Path_5
 
 #me
-Any random string
+default
 
 #bot
 *Welcome to Green Hub*
@@ -19,7 +19,7 @@ Plant advice
 *Write the type of the plant*
 
 #me
-Ficus
+Rose
 
 #bot
 *How many of them?*
@@ -28,7 +28,7 @@ Ficus
 12345
 
 #bot
-*The plant is Ficus and costs *
+*The plant is Rose and costs*
 
 #bot
 *What is your address?*
@@ -55,7 +55,15 @@ Generic text input
 *Sending the order to the warehouse...*
 
 #bot
-*Thanks for choosing GreenHub! -> Ficus*
+*Session id:*
+
+WAITFORBOT 22000
+
+#bot
+*If API worked this is the value:*
+
+#bot
+*Thanks for choosing GreenHub!*
 
 #bot
 *How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*
