@@ -273,7 +273,7 @@ def map_webhook(d_id, e_id, element):
     content = {
         "method": action.get("method", "GET"),
         "timeout_enabled": timeout.get("isEnabled", False),
-        "timeout_duration": timeout.get("durationSeconds", 0)
+        "timeout_duration": timeout.get("durationSeconds", 10)
     }
     
     transitions = []
@@ -282,13 +282,18 @@ def map_webhook(d_id, e_id, element):
     t_fallback = action.get("timeoutFallback", {})
     if t_fallback:
         f_action = t_fallback.get("fallbackAction", "UNKNOWN")
-        f_edge_data = {"condition_type": "TIMEOUT_FALLBACK", "action": f_action}
-        
-        f_msgs = [msg.get("text", "") for msg in t_fallback.get("messages", []) if msg.get("text")]
-        if f_msgs:
-            f_edge_data["messages_list"] = f_msgs
-            
+
         if f_action == "GO_TO_DIALOG":
+            f_edge_data = {
+                "condition_type": "TIMEOUT_FALLBACK", 
+                "action": f_action
+            }
+
+            f_msgs = [msg.get("text", "") for msg in t_fallback.get("messages", []) if msg.get("text")]
+            if f_msgs:
+                f_edge_data["messages_list"] = f_msgs
+        
+    
             target_dialog = t_fallback.get("goToDialogId")
             if target_dialog:
                 f_edge_data["target_dialog_id"] = target_dialog

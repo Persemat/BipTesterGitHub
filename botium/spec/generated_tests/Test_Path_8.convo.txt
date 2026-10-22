@@ -10,22 +10,39 @@ default
 *{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
 #me
-Plant advice
+Online Site
 
 #bot
-*Our experts are here! Which plant are we talking about?*
-
-#bot
-*Write the type of the plant*
+*What is your address?*
 
 #me
 Generic text input
 
 #bot
-*How many of them?*
+*What is your city?*
 
 #me
-Test_Invalid_Input_For_Fallback
+Generic text input
+
+#bot
+*What is your CAP?*
+
+#me
+12345
+
+#bot
+*Adress data collected: Generic text input,Generic text input,12345*
+
+#bot
+*Sending the order to the warehouse...*
+
+#bot
+*Session id:*
+
+WAITFORBOT 22000
+
+#bot
+*If API worked this is the value:*
 
 #bot
 *Thanks for choosing GreenHub!*

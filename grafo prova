@@ -47,8 +47,10 @@ digraph {
 	subgraph cluster_MAIN_774844 {
 		color=blue fontname=Helvetica label="Order management - 774844" style=dashed
 		"774844_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Sending the order to the warehouse...</TD></TR></TABLE>>]
-		"774844_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">API_CALL</FONT></TD></TR><TR><TD><B>POST</B> Request</TD></TR></TABLE>>]
-		"774844_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">WEBHOOK</FONT></TD></TR><TR><TD>Method: <B>GET</B></TD></TR><TR><TD><FONT POINT-SIZE="9">Timeout: 10s</FONT></TD></TR></TABLE>>]
+		"774844_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">API_CALL</FONT></TD></TR><TR><TD><B>GET</B> Request</TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Attributes defined: [fakename 🌐]</FONT></TD></TR></TABLE>>]
+		"774844_6" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Session id: {{sessionId}}</TD></TR></TABLE>>]
+		"774844_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">WEBHOOK</FONT></TD></TR><TR><TD>Method: <B>POST</B></TD></TR><TR><TD><FONT POINT-SIZE="9">Timeout: 20s</FONT></TD></TR></TABLE>>]
+		"774844_5" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>If API worked this is the value: {{fakename}} </TD></TR></TABLE>>]
 		"774844_4" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">GO_TO_DIALOG</FONT></TD></TR><TR><TD>Jumps to dialog: <B>403028</B></TD></TR></TABLE>>]
 	}
 	subgraph cluster_COMP_Collect_Address {
@@ -110,8 +112,9 @@ digraph {
 	"774844_1" -> "774844_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"403028_1" -> "403028_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"403028_3" -> "403028_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"774844_2" -> "774844_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"774844_3" -> "774844_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"774844_3" -> "403028_5" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
+	"774844_2" -> "774844_6" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"774844_6" -> "774844_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"774844_3" -> "774844_5" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"774844_5" -> "774844_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"774844_4" -> "403028_5" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
 }

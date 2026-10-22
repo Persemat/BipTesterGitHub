@@ -19,7 +19,7 @@ Plant advice
 *Write the type of the plant*
 
 #me
-Ficus
+Rose
 
 #bot
 *How many of them?*
@@ -28,25 +28,7 @@ Ficus
 12345
 
 #bot
-*The plant is Ficus and costs *
-
-#bot
-*What is your address?*
-
-#me
-Generic text input
-
-#bot
-*What is your city?*
-
-#me
-Generic text input
-
-#bot
-*What is your CAP?*
-
-#me
-Test_Invalid_Input_For_Fallback
+*The plant is Rose and costs*
 
 #bot
 *What is your address?*
@@ -71,6 +53,14 @@ Generic text input
 
 #bot
 *Sending the order to the warehouse...*
+
+#bot
+*Session id:*
+
+WAITFORBOT 22000
+
+#bot
+*If API worked this is the value:*
 
 #bot
 *Thanks for choosing GreenHub!*

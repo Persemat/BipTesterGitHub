@@ -1,5 +1,5 @@
 {
-    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB475DA204772B4EA1FF41B1ADC532855148FD3112585BADDD24FDFE5970546BC6CD1EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB479720F94D6680DFF253D708971179B6935402A3AF6FC8B5831BCF4B60D9AF09381EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
     "botRequest": {
         "name": "GreenHub_simple",
         "channel": "OPEN_CHANNEL",
@@ -528,7 +528,7 @@
                         ],
                         "fallback": {
                             "fallbackAction": "GO_TO_DIALOG",
-                            "goToDialogId": 1,
+                            "goToDialogId": 202234,
                             "sendAsVoice": false
                         },
                         "nextElementId": 1,
@@ -670,8 +670,8 @@
                     "diagramY": 100,
                     "type": "API_CALL",
                     "action": {
-                        "url": "https://api.magazzino-finto.com/ordine",
-                        "method": "POST",
+                        "url": "https://jsonplaceholder.typicode.com/posts/1",
+                        "method": "GET",
                         "headers": [
                             {
                                 "key": "Content-Type",
@@ -694,7 +694,14 @@
                             }
                         ],
                         "bodyText": "{\r\n  \"plant_type\": \"{{PlantType}}\",\r\n  \"quantity\": \"{{Quantity}}\",\r\n  \"callback_url\": \"https://api2.infobip.com/bots/webhook/{{sessionId}}\" \r\n}",
-                        "nextElementId": 3,
+                        "collectAttributes": [
+                            {
+                                "attributeId": 198860,
+                                "extractionPath": "$.name"
+                            }
+                        ],
+                        "nextElementId": 6,
+                        "timeoutSeconds": 10,
                         "maxRetryCount": 0,
                         "fallback": {
                             "fallbackAction": "CONTINUE_DIALOG",
@@ -704,31 +711,72 @@
                     }
                 },
                 {
+                    "id": 6,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Session id: {{sessionId}}",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 3,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
                     "id": 3,
                     "name": "",
                     "diagramX": -200,
                     "diagramY": 100,
                     "type": "WEBHOOK",
                     "action": {
-                        "method": "GET",
-                        "collectAttributes": [],
-                        "nextElementId": 4,
+                        "method": "POST",
+                        "collectAttributes": [
+                            {
+                                "attributeId": 30875,
+                                "extractionPath": "$.status"
+                            }
+                        ],
+                        "nextElementId": 5,
+                        "webhookUrlType": "PATH_PARAM_SESSION_ID",
+                        "sessionIdParamName": "",
                         "timeout": {
                             "isEnabled": true,
                             "inputType": "INPUT_VALUE",
-                            "durationSeconds": 10
+                            "durationSeconds": 20
                         },
                         "timeoutFallback": {
-                            "fallbackAction": "GO_TO_DIALOG",
+                            "fallbackAction": "CONTINUE_DIALOG",
                             "goToDialogId": 403028,
                             "messages": [
                                 {
-                                    "text": "WEBHOOK timeout"
+                                    "text": ""
                                 }
                             ],
                             "sendAsVoice": false
                         },
                         "type": "WEBHOOK"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "If API worked this is the value: {{fakename}} ",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 4,
+                        "type": "SEND_OPEN_CHANNEL"
                     }
                 },
                 {
@@ -903,6 +951,34 @@
             "botId": 705324,
             "name": "CAP",
             "dataType": "NUMBER",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 198860,
+            "botId": 705324,
+            "name": "fakename",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 30875,
+            "botId": 705324,
+            "name": "OrderState",
+            "dataType": "TEXT",
             "scope": "GLOBAL",
             "visibleToAgent": false,
             "sensitive": false,

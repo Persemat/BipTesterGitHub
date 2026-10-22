@@ -25,10 +25,7 @@ Generic text input
 *How many of them?*
 
 #me
-12345
-
-#bot
-*No plants available*
+Test_Invalid_Input_For_Fallback
 
 #bot
 *Thanks for choosing GreenHub!*

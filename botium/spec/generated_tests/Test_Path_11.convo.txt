@@ -1,22 +1,7 @@
 Test_Path_11
 
 #me
-Could you give me some advice on which plant to buy?
-
-#bot
-*Our experts are here! Which plant are we talking about?*
-
-#bot
-*Write the type of the plant*
-
-#me
-Generic text input
-
-#bot
-*How many of them?*
-
-#me
-Test_Invalid_Input_For_Fallback
+How do I give a feedback for the service provided?
 
 #bot
 *Thanks for choosing GreenHub!*
