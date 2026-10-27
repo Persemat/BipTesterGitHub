@@ -1,22 +1,25 @@
 Test_Path_10
 
 #me
-Could you give me some advice on which plant to buy?
+default
 
 #bot
-*Our experts are here! Which plant are we talking about?*
+*Welcome to Green Hub*
 
 #bot
-*Write the type of the plant*
+*Type your favorite type of plant*
 
 #me
 Generic text input
 
 #bot
-*How many of them?*
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
 #me
-Test_Invalid_Input_For_Fallback
+order track
+
+#bot
+*Authenticated! Your order is arriving.*
 
 #bot
 *Thanks for choosing GreenHub!*

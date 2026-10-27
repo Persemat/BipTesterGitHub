@@ -1,6 +1,6 @@
-import hashlib
 import json
 import re
+import rstr
 from importlib.resources import path
 
 class BotiumTranslator:
@@ -165,22 +165,27 @@ class BotiumTranslator:
                     if spec_type == "GET_ATTRIBUTE":
                         attrs = source_node_data.get("attributes_defined", [])
                         data_type = source_node_data.get("data_type", "TEXT")
-                    
+                        content = source_node_data.get("content", {})
+                        regex_pattern = content.get("validation_regex")
+
                         if attrs:
                             attr_id = str(attrs[0])
                         
                             # Check if a specific constraint was extracted earlier in the path; if so, use it
                             if attr_id in path_constraints:
                                 return path_constraints[attr_id]
+
+                            if regex_pattern:
+                                try:
+                                    return rstr.xeger(regex_pattern)
+                                except Exception as e:
+                                    print(f"Error generating string from regex '{regex_pattern}': {e}")
+                                    return f"Generic_Text_{attr_id}"
                             
                             # Map the data type to a normalized form for lookup in the mock registry
                             normalized_type = data_type.lower()
-                        
                             # Retrieve the valid mock value for this data type from the mock registry
                             mock_value = self.mock_data.get(normalized_type, {}).get("valid")
-                        
-                            if mock_value:
-                                return mock_value
                             
                             # If no specific mock value exists, return a generic placeholder for the attribute
                             return mock_value or f"Generic_Text_{attr_id}"
@@ -203,7 +208,8 @@ class BotiumTranslator:
             return phrases[0] if phrases else "Hello"
             
         elif c_type == "FALLBACK":
-            return "Test_Invalid_Input_For_Fallback"
+            # Invalid input to trigger fallback even if regex validation is present
+            return "INVALID_INPUT_!@#_123"
             
         elif c_type == "DEFAULT":
             phrases = edge_data.get("phrases", [])
@@ -249,19 +255,23 @@ class BotiumTranslator:
 
         # Session Tracker: Maintain a dictionary of session variables to simulate stateful interactions
         session_variables = {}
-        for attr_id, val in path_constraints.items():
-            attr_name = self.attributes.get(str(attr_id), {}).get("name")
-            if attr_name:
-                session_variables[attr_name] = val
-            session_variables[str(attr_id)] = val
 
         for step in path:
             edge = step["edge_data"]
             target_data = step["target_data"]
             source_data = self.nodes.get(step["source"]) if step["source"] else None
 
-            # Calculate user action required to traverse the edge
-            user_action = self.get_user_input(edge, source_data, path_constraints)
+            source_skipped = False
+            if source_data and source_data.get("specific_type") == "GET_ATTRIBUTE":
+                if source_data.get("content", {}).get("skip_if_filled"):
+                    attrs = source_data.get("attributes_defined", [])
+                    if attrs and str(attrs[0]) in session_variables:
+                        source_skipped = True
+
+            if source_skipped:
+                user_action = None
+            else:
+                user_action = self.get_user_input(edge, source_data, path_constraints)
             
            # SESSION TRACKER UPDATE: If the user just typed an input for an attribute, 
             # save it in the short-term memory so the bot can print it later.
@@ -351,9 +361,19 @@ class BotiumTranslator:
                         else:
                             current_turn["bot_responses"].append(timeout_msgs[0])
                             
-            # Calculate bot response from the target node
-            target_node_id = step.get("target", "UNKNOWN")
-            bot_msg = self.get_message(target_data, target_node_id, session_variables)
+            target_skipped = False
+            if target_data and target_data.get("specific_type") == "GET_ATTRIBUTE":
+                if target_data.get("content", {}).get("skip_if_filled"):
+                    attrs = target_data.get("attributes_defined", [])
+                    if attrs and str(attrs[0]) in session_variables:
+                        target_skipped = True
+
+            # If the next node is skipped due to a filled attribute, we don't want to generate a bot message for it. Otherwise, fetch the bot's response from the target node.
+            if target_skipped:
+                bot_msg = None
+            else:
+                target_node_id = step.get("target", "UNKNOWN")
+                bot_msg = self.get_message(target_data, target_node_id, session_variables)
 
             # Handle special cases like Webhook nodes that require a wait time before the bot responds
             if source_data and source_data.get("specific_type") == "WEBHOOK":

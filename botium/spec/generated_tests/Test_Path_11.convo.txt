@@ -1,7 +1,22 @@
 Test_Path_11
 
 #me
-How do I give a feedback for the service provided?
+Could you give me some advice on which plant to buy?
+
+#bot
+*Our experts are here! Which plant are we talking about?*
+
+#bot
+*Write the type of the plant*
+
+#me
+Generic text input
+
+#bot
+*How many of them?*
+
+#me
+INVALID_INPUT_!@#_123
 
 #bot
 *Thanks for choosing GreenHub!*

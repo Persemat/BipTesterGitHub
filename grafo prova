@@ -7,6 +7,7 @@ digraph {
 		color=blue fontname=Helvetica label="Default - 1" style=dashed
 		"1_8" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">AUTHENTICATION</FONT></TD></TR><TR><TD>Timeout: <B>5 min</B></TD></TR></TABLE>>]
 		"1_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Welcome to Green Hub</TD></TR></TABLE>>]
+		"1_12" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">GET_ATTRIBUTE</FONT></TD></TR><TR><TD><FONT POINT-SIZE="10"><I>&quot;Type your favorite type of  plant&quot;</I></FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Attributes defined: [PlantType 🌐]</FONT></TD></TR></TABLE>>]
 		"1_7" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">DELAY</FONT></TD></TR><TR><TD>Waits for: <B>1 sec</B></TD></TR></TABLE>>]
 		"1_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">JSON</FONT></TD></TR><TR><TD>Custom JSON Component</TD></TR></TABLE>>]
 		"1_4" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">PROCESS_USER_INPUT</FONT></TD></TR><TR><TD>NLP Enabled: False</TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="10">Max Repeats: 1</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="10">Repeat Messages:<BR/>&#8226; Input not recognised<BR/>&#8226; Repeat message</FONT></TD></TR></TABLE>>]
@@ -19,7 +20,7 @@ digraph {
 	subgraph cluster_MAIN_202234 {
 		color=blue fontname=Helvetica label="Plant Advice - 202234" style=dashed
 		"202234_1" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#E8F5E9"><B>SEND_MESSAGE</B><BR/><FONT POINT-SIZE="10">TEXT</FONT></TD></TR><TR><TD>Our experts are here! Which plant are we talking about?</TD></TR></TABLE>>]
-		"202234_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">GET_ATTRIBUTE</FONT></TD></TR><TR><TD><FONT POINT-SIZE="10"><I>&quot;Write the type of the plant&quot;</I></FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Attributes defined: [PlantType 🌐]</FONT></TD></TR></TABLE>>]
+		"202234_2" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">GET_ATTRIBUTE</FONT></TD></TR><TR><TD><FONT POINT-SIZE="10"><I>&quot;Write the type of the plant&quot;</I></FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Attributes defined: [PlantType 🌐]</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="10">Max Repeats: 2</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="10">Repeat Messages:<BR/>&#8226; write the type!!<BR/>&#8226; Hurry up!</FONT></TD></TR></TABLE>>]
 		"202234_10" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFFF80"><B>RECEIVE_INPUT</B><BR/><FONT POINT-SIZE="10">GET_ATTRIBUTE</FONT></TD></TR><TR><TD><FONT POINT-SIZE="10"><I>&quot;How many of them?&quot;</I></FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Attributes defined: [PlantQuantity 🌐]</FONT></TD></TR></TABLE>>]
 		"202234_3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">EVALUATE_ATTRIBUTE</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Evaluates: [PlantType 🌐]</FONT></TD></TR></TABLE>>]
 		"202234_12" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#FFC080"><B>ACTION</B><BR/><FONT POINT-SIZE="10">CODING</FONT></TD></TR><TR><TD>Executes <B>JAVASCRIPT</B> script</TD></TR><TR><TD BGCOLOR="#E8F5E9"><FONT POINT-SIZE="9"> Reads: [ID:PlantQuantity]</FONT></TD></TR><TR><TD BGCOLOR="#FFF9C4"><FONT POINT-SIZE="9"> Writes: [ID:TotalPrice]</FONT></TD></TR></TABLE>>]
@@ -71,7 +72,8 @@ digraph {
 	"1_8" -> "1_1" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"202234_1" -> "202234_2" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"403028_5" -> "403028_1" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
-	"1_1" -> "1_7" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"1_1" -> "1_12" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"1_12" -> "1_7" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"1_7" -> "1_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"1_3" -> "1_4" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"1_4" -> "1_8" [label="Fallback Trigger" color=gray fontcolor=gray fontsize=10 style=dashed]
@@ -89,6 +91,7 @@ digraph {
 	"1_10" -> "1_11" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"1_11" -> "403028_5" [label="Change dialog" color=gray fontcolor=gray fontsize=10 style=dashed]
 	"202234_2" -> "202234_10" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
+	"202234_2" -> "1_8" [label="Timeout: 15s" color=gray fontcolor=gray fontsize=10 style=dashed]
 	"202234_10" -> "202234_3" [label="[Auto]" color=gray fontcolor=gray fontsize=10 style=solid]
 	"202234_10" -> "403028_5" [label="Fallback Trigger" color=gray fontcolor=gray fontsize=10 style=dashed]
 	"202234_3" -> "202234_12" [label="Condition 1" color=gray fontcolor=gray fontsize=10 style=solid]

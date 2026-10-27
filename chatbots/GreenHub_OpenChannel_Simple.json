@@ -1,5 +1,5 @@
 {
-    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB479720F94D6680DFF253D708971179B6935402A3AF6FC8B5831BCF4B60D9AF09381EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB474D462216F7464BF22153783C0766516F4FAC4948FBFD423073AA9417AEEACCEF1EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
     "botRequest": {
         "name": "GreenHub_simple",
         "channel": "OPEN_CHANNEL",
@@ -52,8 +52,36 @@
                                 "type": "TEXT"
                             }
                         ],
-                        "nextElementId": 7,
+                        "nextElementId": 12,
                         "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 12,
+                    "name": "",
+                    "diagramX": -600,
+                    "diagramY": 300,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [
+                            {
+                                "text": "Type your favorite type of  plant"
+                            }
+                        ],
+                        "attributeId": 352393,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 1,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 7,
+                        "type": "GET_ATTRIBUTE"
                     }
                 },
                 {
@@ -269,6 +297,7 @@
                     "diagramY": 100,
                     "type": "GET_ATTRIBUTE",
                     "action": {
+                        "skipIfAttributeFilled": true,
                         "questions": [
                             {
                                 "text": "Write the type of the plant"
@@ -276,15 +305,48 @@
                         ],
                         "attributeId": 352393,
                         "customValidation": false,
-                        "customValidationRegex": "-",
+                        "customValidationRegex": "",
                         "repeat": {
-                            "count": 0,
-                            "messages": [],
+                            "count": 2,
+                            "messages": [
+                                {
+                                    "text": "write the type!!"
+                                },
+                                {
+                                    "text": "Hurry up!"
+                                }
+                            ],
                             "sendAsVoice": false
                         },
                         "fallback": {
                             "fallbackAction": "GO_TO_DIALOG",
                             "goToDialogId": 1,
+                            "messages": [
+                                {
+                                    "text": ""
+                                },
+                                {
+                                    "text": "Didn't catch it"
+                                },
+                                {
+                                    "text": "Didn't understand, try again."
+                                }
+                            ],
+                            "sendAsVoice": false
+                        },
+                        "timeout": {
+                            "isEnabled": true,
+                            "inputType": "INPUT_VALUE",
+                            "durationSeconds": 15
+                        },
+                        "timeoutFallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 1,
+                            "messages": [
+                                {
+                                    "text": "Timeout !"
+                                }
+                            ],
                             "sendAsVoice": false
                         },
                         "nextElementId": 10,
@@ -305,6 +367,7 @@
                         ],
                         "attributeId": 326820,
                         "customValidation": false,
+                        "customValidationRegex": "()",
                         "repeat": {
                             "count": 0,
                             "messages": [],

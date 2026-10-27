@@ -7,42 +7,39 @@ default
 *Welcome to Green Hub*
 
 #bot
+*Type your favorite type of plant*
+
+#me
+Generic text input
+
+#bot
 *{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
 #me
-Online Site
+Plant advice
 
 #bot
-*What is your address?*
+*Our experts are here! Which plant are we talking about?*
+
+#bot
+*Timeout !*
+
+#bot
+*Welcome to Green Hub*
+
+#bot
+*Type your favorite type of plant*
 
 #me
 Generic text input
 
 #bot
-*What is your city?*
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
-#me
-Generic text input
-
-#bot
-*What is your CAP?*
-
-#me
-12345
+PAUSE 15000
 
 #bot
-*Adress data collected: Generic text input,Generic text input,12345*
-
-#bot
-*Sending the order to the warehouse...*
-
-#bot
-*Session id:*
-
-WAITFORBOT 22000
-
-#bot
-*If API worked this is the value:*
+UTT_TIMEOUT_1_4
 
 #bot
 *Thanks for choosing GreenHub!*

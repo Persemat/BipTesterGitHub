@@ -7,6 +7,12 @@ default
 *Welcome to Green Hub*
 
 #bot
+*Type your favorite type of plant*
+
+#me
+Generic text input
+
+#bot
 *{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
 PAUSE 15000

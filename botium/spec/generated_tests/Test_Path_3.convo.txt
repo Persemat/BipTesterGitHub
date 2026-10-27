@@ -7,6 +7,12 @@ default
 *Welcome to Green Hub*
 
 #bot
+*Type your favorite type of plant*
+
+#me
+Ficus
+
+#bot
 *{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
 #me
@@ -14,12 +20,6 @@ Plant advice
 
 #bot
 *Our experts are here! Which plant are we talking about?*
-
-#bot
-*Write the type of the plant*
-
-#me
-Ficus
 
 #bot
 *How many of them?*
@@ -46,10 +46,10 @@ Generic text input
 *What is your CAP?*
 
 #me
-12345
+48018
 
 #bot
-*Adress data collected: Generic text input,Generic text input,12345*
+*Adress data collected: Generic text input,Generic text input,48018*
 
 #bot
 *Sending the order to the warehouse...*

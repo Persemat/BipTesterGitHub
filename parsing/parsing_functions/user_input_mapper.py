@@ -131,6 +131,11 @@ def map_get_attribute(d_id, e_id, element, attributes_dict=None):
 
     # Add specific Get Attribute logic
     content["questions"] = [q.get("text", "") for q in action.get("questions", []) if q.get("text")]
+
+    # Extraction of attributes for regex validation and skip if attributes is filled value
+    custom_validation = action.get("customValidation", False)
+    content["validation_regex"] = action.get("customValidationRegex", "") if custom_validation else None
+    content["skip_if_filled"] = action.get("skipIfAttributeFilled", False)
     
     attr_defined = []
     attr_id = action.get("attributeId")

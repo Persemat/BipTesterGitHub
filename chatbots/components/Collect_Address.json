@@ -1,5 +1,5 @@
 {
-    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A24239E44A4D49E640515903594A04485E5E5EB50D2038C745C7F212C3F517F4EB47A8371F36631B6A327885FFB7A3F931873FD172239CEB718DEE3E4B942F0B91BF1EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A24239E44A4D49E640515903594A04485E5E5EB50D2038C745C7F212C3F517F4EB47344754CAC76CF72DBAE8E38780455304D07711D6EA63CF7EDD0B7E88E2A1073A1EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
     "botRequest": {
         "name": "Collect_Address",
         "channel": "OPEN_CHANNEL",
@@ -22,6 +22,8 @@
             "botId": 724050,
             "type": "DEFAULT",
             "name": "Default",
+            "diagramX": 12,
+            "diagramY": 12,
             "intentId": 1,
             "elements": [
                 {
@@ -93,7 +95,8 @@
                             }
                         ],
                         "attributeId": 658737,
-                        "customValidation": false,
+                        "customValidation": true,
+                        "customValidationRegex": "^\\d{5}$",
                         "repeat": {
                             "count": 0,
                             "messages": [],
