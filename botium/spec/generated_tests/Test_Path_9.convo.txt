@@ -34,10 +34,10 @@ Generic text input
 *What is your CAP?*
 
 #me
-76908
+54032
 
 #bot
-*Adress data collected: Generic text input,Generic text input,76908*
+*Adress data collected: Generic text input,Generic text input,54032*
 
 #bot
 *Sending the order to the warehouse...*

@@ -1,5 +1,5 @@
 {
-    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB474D462216F7464BF22153783C0766516F4FAC4948FBFD423073AA9417AEEACCEF1EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242F52AC72B10CD7018D1FB1E94AF9DA4EF5EB50D2038C745C7F212C3F517F4EB47D0B0C289BB9FE53D863A8C6126F2C33E4795473E40C3F6EC16710A6C4FF57A591EC54D5AF4097FFA873BD82B37D618C475CD1CA487EFFFE696532804510FB8B1B3505329361CFF91773642DAA3F3013203F09316A112F96D40FC1F2EFE66D271",
     "botRequest": {
         "name": "GreenHub_simple",
         "channel": "OPEN_CHANNEL",
@@ -378,6 +378,34 @@
                             "goToDialogId": 403028,
                             "sendAsVoice": false
                         },
+                        "nextElementId": 14,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 14,
+                    "name": "",
+                    "diagramX": -400,
+                    "diagramY": 200,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [
+                            {
+                                "text": "Write your phone number"
+                            }
+                        ],
+                        "attributeId": 604387,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 202234,
+                            "sendAsVoice": false
+                        },
                         "nextElementId": 3,
                         "type": "GET_ATTRIBUTE"
                     }
@@ -398,9 +426,9 @@
                                             "operator": "AND",
                                             "conditions": [
                                                 {
-                                                    "attributeId": 352393,
-                                                    "operator": "EQUAL",
-                                                    "value": "Ficus",
+                                                    "attributeId": 235481,
+                                                    "operator": "LESS_THAN",
+                                                    "value": "2027-09-30",
                                                     "type": "ATTRIBUTE_COMPARE"
                                                 }
                                             ],
@@ -420,9 +448,9 @@
                                             "operator": "AND",
                                             "conditions": [
                                                 {
-                                                    "attributeId": 352393,
-                                                    "operator": "EQUAL",
-                                                    "value": "Rose",
+                                                    "attributeId": 604387,
+                                                    "operator": "STARTS_WITH",
+                                                    "value": "324",
                                                     "type": "ATTRIBUTE_COMPARE"
                                                 }
                                             ],
@@ -433,6 +461,27 @@
                                 },
                                 "nextElementId": 13,
                                 "name": "Condition 2"
+                            },
+                            {
+                                "condition": {
+                                    "operator": "OR",
+                                    "conditions": [
+                                        {
+                                            "operator": "AND",
+                                            "conditions": [
+                                                {
+                                                    "attributeId": 64928,
+                                                    "operator": "NOT_NULL",
+                                                    "type": "ATTRIBUTE_COMPARE"
+                                                }
+                                            ],
+                                            "type": "LOGICAL"
+                                        }
+                                    ],
+                                    "type": "LOGICAL"
+                                },
+                                "nextElementId": 15,
+                                "name": "Condition 3"
                             }
                         ],
                         "elseElementId": 4,
@@ -465,20 +514,18 @@
                                 "type": "TEXT"
                             }
                         ],
-                        "nextElementId": 7,
+                        "nextElementId": 19,
                         "type": "SEND_OPEN_CHANNEL"
                     }
                 },
                 {
-                    "id": 7,
+                    "id": 19,
                     "name": "",
                     "diagramX": -200,
                     "diagramY": 100,
-                    "type": "GO_TO_DIALOG",
+                    "type": "CLOSE_SESSION",
                     "action": {
-                        "dialogId": 935674,
-                        "shareAttributes": true,
-                        "type": "GO_TO_DIALOG"
+                        "type": "CLOSE_SESSION"
                     }
                 },
                 {
@@ -503,24 +550,49 @@
                     "action": {
                         "messages": [
                             {
-                                "message": "The plant is {{PlantType}} and costs {{TotalPrice}}",
+                                "message": "Phone number condition triggered",
                                 "type": "TEXT"
                             }
                         ],
-                        "nextElementId": 8,
+                        "nextElementId": 18,
                         "type": "SEND_OPEN_CHANNEL"
                     }
                 },
                 {
-                    "id": 8,
+                    "id": 18,
                     "name": "",
                     "diagramX": -200,
                     "diagramY": 100,
-                    "type": "GO_TO_DIALOG",
+                    "type": "CLOSE_SESSION",
                     "action": {
-                        "dialogId": 935674,
-                        "shareAttributes": true,
-                        "type": "GO_TO_DIALOG"
+                        "type": "CLOSE_SESSION"
+                    }
+                },
+                {
+                    "id": 15,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Boolean branch triggered",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 16,
+                        "type": "SEND_OPEN_CHANNEL"
+                    }
+                },
+                {
+                    "id": 16,
+                    "name": "",
+                    "diagramX": -200,
+                    "diagramY": 100,
+                    "type": "CLOSE_SESSION",
+                    "action": {
+                        "type": "CLOSE_SESSION"
                     }
                 },
                 {
@@ -536,20 +608,18 @@
                                 "type": "TEXT"
                             }
                         ],
-                        "nextElementId": 9,
+                        "nextElementId": 17,
                         "type": "SEND_OPEN_CHANNEL"
                     }
                 },
                 {
-                    "id": 9,
+                    "id": 17,
                     "name": "",
                     "diagramX": -200,
                     "diagramY": 100,
-                    "type": "GO_TO_DIALOG",
+                    "type": "CLOSE_SESSION",
                     "action": {
-                        "dialogId": 403028,
-                        "shareAttributes": false,
-                        "type": "GO_TO_DIALOG"
+                        "type": "CLOSE_SESSION"
                     }
                 }
             ],
@@ -1042,6 +1112,256 @@
             "botId": 705324,
             "name": "OrderState",
             "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 604387,
+            "botId": 705324,
+            "name": "PhoneNumber_type",
+            "dataType": "PHONE_NUMBER",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "value": {
+                "phoneNumber": "1234567890",
+                "type": "PHONE_NUMBER"
+            },
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 64928,
+            "botId": 705324,
+            "name": "Boolean_type",
+            "dataType": "BOOLEAN",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "value": {
+                "booleanValue": true,
+                "type": "BOOLEAN"
+            },
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 235481,
+            "botId": 705324,
+            "name": "Date_Type",
+            "dataType": "DATE",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "value": {
+                "date": "2027-06-18",
+                "type": "DATE"
+            },
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 869988,
+            "botId": 705324,
+            "name": "SendLocation_type",
+            "dataType": "LOCATION",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 481189,
+            "botId": 705324,
+            "name": "Url_Type",
+            "dataType": "URL",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 78517,
+            "botId": 705324,
+            "name": "Emai_type",
+            "dataType": "EMAIL",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 483886,
+            "botId": 705324,
+            "name": "List_type",
+            "dataType": "LIST",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 146604,
+            "botId": 705324,
+            "name": "JSON_type",
+            "dataType": "JSON",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 147719,
+            "botId": 705324,
+            "name": "XML_type",
+            "dataType": "XML",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 606063,
+            "botId": 705324,
+            "name": "XML_list",
+            "dataType": "XML_LIST",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 419146,
+            "botId": 705324,
+            "name": "Audio_type",
+            "dataType": "MO_AUDIO",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 150085,
+            "botId": 705324,
+            "name": "Contacts_type",
+            "dataType": "MO_CONTACTS",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 146685,
+            "botId": 705324,
+            "name": "Document_type",
+            "dataType": "MO_DOCUMENT",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 200576,
+            "botId": 705324,
+            "name": "Image_type",
+            "dataType": "MO_IMAGE",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 448294,
+            "botId": 705324,
+            "name": "Receive_location_type",
+            "dataType": "MO_LOCATION",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 931672,
+            "botId": 705324,
+            "name": "Video_type",
+            "dataType": "MO_VIDEO",
+            "scope": "GLOBAL",
+            "visibleToAgent": false,
+            "sensitive": false,
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 154574,
+            "botId": 705324,
+            "name": "Message_type",
+            "dataType": "MO_MESSAGE",
             "scope": "GLOBAL",
             "visibleToAgent": false,
             "sensitive": false,

@@ -2,13 +2,15 @@ import json
 import re
 import rstr
 from importlib.resources import path
+from test_generation.utils.costraints_solver import solve_constraints
 
 class BotiumTranslator:
     def __init__(self, nodes_dict, mock_data=None, attributes=None):
         # Dictionary to store all discovered bursts: { "BURST_ID": ["phrase 1", "phrase 2"] }
         self.global_utterances = {}
         self.nodes = nodes_dict
-        self.mock_data = mock_data or {}
+        raw_mock = mock_data or {}
+        self.mock_data = raw_mock.get("DATATYPE_MOCKS", raw_mock)
         self.attributes = attributes or {}
 
     def extract_constraints_from_logic_tree(self, logic_tree):
@@ -26,30 +28,32 @@ class BotiumTranslator:
         if node_type == "ATTRIBUTE_COMPARE":
             attr_id = str(logic_tree.get("attributeId"))
             operator = logic_tree.get("operator")
-            value = logic_tree.get("value")
+            target_value = logic_tree.get("value")
 
-            # For equality operators, save the exact requested value
-            if operator in ["EQUAL", "CONTAINS", "STARTS_WITH", "ENDS_WITH"]:
-                constraints[attr_id] = value
-                
-            # (Optional) Handle mathematical operators here if needed in the future
-            #TODO Qui potrebbe esserci una logica, o una chiamata a una funzione che la gestisce, 
-            # che permetta il salvataggio di valori che soddifino le condizioni per tutti i possibili operatori disppnibili dall'interfaccia.
-            # questo probabilmente dipenderà anche dal tipo di dato che si sta trattando, quindi potrebbe essere necessario passare anche il tipo di dato come parametro.
+            data_type = self.attributes.get(attr_id, {}).get("type", "TEXT")
+            normalized_type = str(data_type).lower().strip()
 
-            elif operator in ["GREATER_THAN", "GREATER_OR_EQUAL"]:
-                try: constraints[attr_id] = str(int(value) + 1)
-                except: constraints[attr_id] = value
-            elif operator in ["LESS_THAN", "LESS_OR_EQUAL"]:
-                try: constraints[attr_id] = str(int(value) - 1)
-                except: constraints[attr_id] = value
+            mock_value = self.mock_data.get(normalized_type, {}).get("valid", "Generic_Value")
+            # Use the constraint solver to generate a valid value for this attribute
+            
+            solved_value = solve_constraints(operator, target_value, normalized_type, mock_value)
+            constraints[attr_id] = solved_value
 
         # Recursive Case: It's a logical block (AND/OR), dive deeper
         elif node_type == "LOGICAL":
-            for sub_cond in logic_tree.get("conditions", []):
-                sub_constraints = self.extract_constraints_from_logic_tree(sub_cond)
-                # Merge constraints found in lower branches
-                constraints.update(sub_constraints)
+            operator = logic_tree.get("operator")
+            
+            if operator == "AND":
+                for sub_cond in logic_tree.get("conditions", []):
+                    sub_constraints = self.extract_constraints_from_logic_tree(sub_cond)
+                    # Merge constraints found in lower branches
+                    constraints.update(sub_constraints)
+            elif operator == "OR":
+                # For OR, we can choose the first valid branch to satisfy the condition
+                #TODO: Multiple OR branches could be explored for more comprehensive test coverage
+                conditions = logic_tree.get("conditions", [])
+                if conditions:
+                    constraints.update(self.extract_constraints_from_logic_tree(conditions[0]))
 
         return constraints
 
