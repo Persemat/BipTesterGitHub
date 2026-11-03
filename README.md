@@ -77,6 +77,22 @@ FrameworkTestInfobip/
   
   npm install -g botium-cli
   ```
+  - **Configurazione e Setup credenziali**
+    
+    Per ragioni di sicurezza, credenziali sensibili e l'url ngrok non sono tracciate da Git; 
+    di conseguenza configura il tuo ambiente locale in questo modo: 
+    1. Naviga alla cartella 'botium/' e crea il tuo file locale dal template botium.example.json:
+
+    ```bash
+    cp botium/botium.example.json botium/botium.json
+    ```
+
+    2. Sostituisci i placeholders con i tuoi dati relativi a API key, URL Ngrok e Destinazione configurata per il chatbot che testi.
+
+    - **Testing chatbot personale**
+
+    Inserisci l'export del chatbot che vuoi testare nella cartella chatbots. Dopodichè modifica il file main.py sostituendo con il nome del file di export che hai inserito. 
+
 - **Esecuzione test E2E (momentanea)**
 
   - **Avvia il tunnel di rete: Apri un terminale ed esegui:**

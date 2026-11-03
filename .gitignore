@@ -11,4 +11,8 @@ venv/
 # Environment 
 .env
 
+# Botium
+botium/spec/*
+botium/botium.json
+
 tempCodeRunnerFile.py
