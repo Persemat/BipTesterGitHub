@@ -1,48 +1,48 @@
 {
   "DATATYPE_MOCKS": {
-    "number": {"valid": "12345", "invalid": "Not_a_number"},
-    "phone number": {"valid": "+393331234567", "invalid": "call_me_maybe"},
-    "boolean": {"valid": "true", "invalid": "perhaps"},
-    "date": {"valid": "2026-10-02", "invalid": "tomorrow_morning"},
-    "url": {"valid": "https://www.infobip.com", "invalid": "not-a-link"},
-    "email": {"valid": "test@example.com", "invalid": "invalid_email_format"},
-    "list": {"valid": "1", "invalid": "Not_in_list"},
-    "json": {"valid": "{\"key\": \"value\"}", "invalid": "Just plain text"},
-    "xml": {"valid": "<tag>value</tag>", "invalid": "Just plain text"},
+    "NUMBER": {"valid": "12345", "invalid": "Not_a_number"},
+    "PHONE_NUMBER": {"valid": "+393331234567", "invalid": "call_me_maybe"},
+    "BOOLEAN": {"valid": "true", "invalid": "perhaps"},
+    "DATE": {"valid": "2026-10-02", "invalid": "tomorrow_morning"},
+    "URL": {"valid": "https://www.infobip.com", "invalid": "not-a-link"},
+    "EMAIL": {"valid": "test@example.com", "invalid": "invalid_email_format"},
+    "LIST": {"valid": "1", "invalid": "Not_in_list"},
+    "JSON": {"valid": "{\"key\": \"value\"}", "invalid": "Just plain text"},
+    "XML": {"valid": "<tag>value</tag>", "invalid": "Just plain text"},
 
-    "audio": {
+    "MO_AUDIO": {
       "valid": "MEDIA https://www.w3schools.com/html/horse.mp3", 
       "invalid": "Text_instead_of_audio"
     },
-    "document": {
+    "MO_DOCUMENT": {
       "valid": "MEDIA https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", 
       "invalid": "Text_instead_of_doc"
     },
-    "image": {
+    "MO_IMAGE": {
       "valid": "MEDIA https://dummyimage.com/300x200/000/fff.png&text=Test+Image", 
       "invalid": "Text_instead_of_image"
     },
-    "video": {
+    "MO_VIDEO": {
       "valid": "MEDIA https://www.w3schools.com/html/mov_bbb.mp4", 
       "invalid": "Text_instead_of_video"
     },
 
-    "receive location": {
+    "MO_LOCATION": {
       "valid": "LOCATION 45.76,9.81", 
       "invalid": "Text_instead_of_location"
     },
-    "send location": {
+    "LOCATION": {
       "valid": "LOCATION 45.76,9.81", 
       "invalid": "Text_instead_of_location"
     },
-    "contacts": {
+    "MO_CONTACTS": {
       "valid": "BEGIN:VCARD\\nVERSION:3.0\\nN:Test;User;;;\\nFN:Test User\\nTEL;TYPE=CELL:+393331234567\\nEND:VCARD", 
       "invalid": "Text_instead_of_contact"
     },
 
-    "message": {"valid": "Generic message input", "invalid": null},
-    "text": {"valid": "Generic text input", "invalid": null},
-    "csat_feedback": {"valid": "Great support, thank you!", "invalid": null}
+    "MO_MESSAGE": {"valid": "Generic message input", "invalid": null},
+    "TEXT": {"valid": "Generic text input", "invalid": null},
+    "CSAT_FEEDBACK": {"valid": "Great support, thank you!", "invalid": null}
   },
   "CUSTOM_VALIDATIONS": {
      "regex_example": "RSSMRA85M01H501Z"

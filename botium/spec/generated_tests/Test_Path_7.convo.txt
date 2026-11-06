@@ -25,13 +25,28 @@ Plant advice
 *How many of them?*
 
 #me
+12345
+
+#bot
+*Write your phone number*
+
+#me
 INVALID_INPUT_!@#_123
 
 #bot
-*Thanks for choosing GreenHub!*
+*Our experts are here! Which plant are we talking about?*
 
 #bot
-*How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*
+*How many of them?*
 
 #me
-4
+12345
+
+#bot
+*Write your phone number*
+
+#me
++393331234567
+
+#bot
+*Boolean branch triggered*

@@ -2,7 +2,7 @@ import json
 import re
 import rstr
 from importlib.resources import path
-from test_generation.utils.costraints_solver import solve_constraints
+from test_generation.utils.costraints_solver import solve_conjunction
 
 class BotiumTranslator:
     def __init__(self, nodes_dict, mock_data=None, attributes=None):
@@ -10,67 +10,86 @@ class BotiumTranslator:
         self.global_utterances = {}
         self.nodes = nodes_dict
         raw_mock = mock_data or {}
-        self.mock_data = raw_mock.get("DATATYPE_MOCKS", raw_mock)
+        self.mock_registry = raw_mock.get("DATATYPE_MOCKS", raw_mock)
         self.attributes = attributes or {}
 
-    def extract_constraints_from_logic_tree(self, logic_tree):
+    def collect_conditions(self, logic_tree):
         """
-        Search recursively through the logic tree to extract attribute constraints.
-        Returns a dictionary of constraints, e.g., {"130528": "Ficus"}.
+        Flattens a logic tree into the list of (attribute_id, operator, target_value) that
+        must hold for the tree to be true. AND keeps every branch; OR keeps the first one.
         """
-        constraints = {}
         if not logic_tree:
-            return constraints
+            return []
 
         node_type = logic_tree.get("type")
 
         # Base Case: We found the leaf with the actual condition
         if node_type == "ATTRIBUTE_COMPARE":
-            attr_id = str(logic_tree.get("attributeId"))
-            operator = logic_tree.get("operator")
-            target_value = logic_tree.get("value")
-
-            data_type = self.attributes.get(attr_id, {}).get("type", "TEXT")
-            normalized_type = str(data_type).lower().strip()
-
-            mock_value = self.mock_data.get(normalized_type, {}).get("valid", "Generic_Value")
-            # Use the constraint solver to generate a valid value for this attribute
-            
-            solved_value = solve_constraints(operator, target_value, normalized_type, mock_value)
-            constraints[attr_id] = solved_value
+            return [(
+                str(logic_tree.get("attributeId")),
+                logic_tree.get("operator"),
+                logic_tree.get("value"),
+            )]
 
         # Recursive Case: It's a logical block (AND/OR), dive deeper
-        elif node_type == "LOGICAL":
+        if node_type == "LOGICAL":
             operator = logic_tree.get("operator")
-            
+            conditions = logic_tree.get("conditions", [])
+
             if operator == "AND":
-                for sub_cond in logic_tree.get("conditions", []):
-                    sub_constraints = self.extract_constraints_from_logic_tree(sub_cond)
-                    # Merge constraints found in lower branches
-                    constraints.update(sub_constraints)
-            elif operator == "OR":
+                collected = []
+                for sub_cond in conditions:
+                    collected.extend(self.collect_conditions(sub_cond))
+                return collected
+
+            if operator == "OR" and conditions:
                 # For OR, we can choose the first valid branch to satisfy the condition
                 #TODO: Multiple OR branches could be explored for more comprehensive test coverage
-                conditions = logic_tree.get("conditions", [])
-                if conditions:
-                    constraints.update(self.extract_constraints_from_logic_tree(conditions[0]))
+                return self.collect_conditions(conditions[0])
+
+        return []
+
+    def solve_conditions(self, conditions):
+        """
+        Turns (attribute_id, operator, target_value) conditions into one value per attribute.
+        Conditions on the same attribute are solved together, so the value satisfies all of them.
+        Returns a dictionary of constraints, e.g., {"130528": "Ficus"}.
+        """
+        conditions_by_attribute = {}
+        for attr_id, operator, target_value in conditions:
+            conditions_by_attribute.setdefault(attr_id, []).append((operator, target_value))
+
+        constraints = {}
+        for attr_id, attribute_conditions in conditions_by_attribute.items():
+            data_type = self.attributes.get(attr_id, {}).get("type", "TEXT")
+            mock_value = self.mock_registry.get(data_type, {}).get("valid", None)
+
+            # Use the constraint solver to generate a valid value for this attribute
+            constraints[attr_id] = solve_conjunction(attribute_conditions, data_type, mock_value)
 
         return constraints
+
+    def extract_constraints_from_logic_tree(self, logic_tree):
+        """
+        Extracts attribute constraints from a logic tree.
+        Returns a dictionary of constraints, e.g., {"130528": "Ficus"}.
+        """
+        return self.solve_conditions(self.collect_conditions(logic_tree))
 
     def pre_scan_path_constraints(self, path):
         """
         Search ahead through the path to collect future constraints.
         Returns a dictionary, e.g., {"130528": "Ficus"} specific to this test.
+        Every EVALUATION edge of the path contributes: when two of them constrain the same
+        attribute, the value is chosen to satisfy both.
         """
-        path_constraints = {}
+        conditions = []
         for step in path:
             edge = step["edge_data"]
             if edge and edge.get("condition_type") == "EVALUATION":
-                logic_tree = edge.get("logic_tree", {})
-                extracted = self.extract_constraints_from_logic_tree(logic_tree)
-                path_constraints.update(extracted)
-                
-        return path_constraints
+                conditions.extend(self.collect_conditions(edge.get("logic_tree", {})))
+
+        return self.solve_conditions(conditions)
 
     def get_message(self, node_data, node_id, session_variables=None):
         """Extracts the visible text from the bot's response node."""
@@ -92,7 +111,11 @@ class BotiumTranslator:
                     # 1. Replace variables if their current runtime value is known in the session
                     for key, value in session_variables.items():
                         pattern = r'\{\{\s*' + re.escape(str(key)) + r'\s*\}\}'
-                        temp_msg = re.sub(pattern, str(value), temp_msg)
+                        # A replacement function (not a raw string) sidesteps re.sub's own
+                        # backreference syntax: a session value containing "\d", "\1" or "\g<x>"
+                        # (e.g. mock data for a vCard or a value generated from a regex) would
+                        # otherwise crash re.sub or get silently reinterpreted as an escape.
+                        temp_msg = re.sub(pattern, lambda _match, v=value: str(v), temp_msg)
 
                     # Convert remaining (unknown) variables to a wildcard '*' for Botium loose matching
                     temp_msg = re.sub(r'\{\{.*?\}\}', '*', temp_msg)
@@ -113,7 +136,9 @@ class BotiumTranslator:
                 for attr_id, val in session_variables.items():
                     # Find and replace the specific attribute placeholder with its corresponding value
                     pattern = r'\{\{\s*' + re.escape(str(attr_id)) + r'\s*\}\}'
-                    json_string = re.sub(pattern, str(val), json_string)
+                    # See the TEXT branch above: a replacement function avoids re.sub
+                    # reinterpreting backslashes inside `val` as its own escape syntax.
+                    json_string = re.sub(pattern, lambda _match, v=val: str(v), json_string)
 
                 json_string = re.sub(r'\{\{.*?\}\}', '*', json_string)
                 return json_string
@@ -133,7 +158,9 @@ class BotiumTranslator:
                     for attr_id, value in session_variables.items():
                         # Find and replace the specific attribute placeholder with its corresponding value
                         pattern = r'\{\{\s*' + re.escape(str(attr_id)) + r'\s*\}\}'
-                        temp_q = re.sub(pattern, str(value), temp_q)
+                        # See get_message's TEXT branch: a replacement function avoids re.sub
+                        # reinterpreting backslashes inside `value` as its own escape syntax.
+                        temp_q = re.sub(pattern, lambda _match, v=value: str(v), temp_q)
 
                     temp_q = re.sub(r'\{\{.*?\}\}', '*', temp_q)
                     cleaned_questions.append(temp_q)
@@ -186,10 +213,8 @@ class BotiumTranslator:
                                     print(f"Error generating string from regex '{regex_pattern}': {e}")
                                     return f"Generic_Text_{attr_id}"
                             
-                            # Map the data type to a normalized form for lookup in the mock registry
-                            normalized_type = data_type.lower()
                             # Retrieve the valid mock value for this data type from the mock registry
-                            mock_value = self.mock_data.get(normalized_type, {}).get("valid")
+                            mock_value = self.mock_registry.get(data_type).get("valid", None)
                             
                             # If no specific mock value exists, return a generic placeholder for the attribute
                             return mock_value or f"Generic_Text_{attr_id}"
@@ -307,7 +332,7 @@ class BotiumTranslator:
                     turns.append(current_turn)
                     
                     # Fetch the dynamic mock data for the feedback loop
-                    mock_feedback_text = self.mock_data.get("csat_feedback", {}).get("valid", "Great support, thank you!") 
+                    mock_feedback_text = self.mock_registry.valid_value("csat_feedback", default="Great support, thank you!")
                     current_turn = {"user": mock_feedback_text, "bot_responses": []}
                 
                 # 2. Closure: Append thank you message to close the CSAT lifecycle

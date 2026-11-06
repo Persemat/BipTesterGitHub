@@ -83,7 +83,7 @@ def map_process_user_input(d_id, e_id, element):
     transitions, content, _ = extract_common_input_logic(d_id, action)
     rules = action.get("rules", [])
 
-    content["nlp_enabled"] = action.get("nlp_enabled", False)
+    content["nlpEnabled"] = action.get("nlpEnabled", False)
 
     for rule in rules:
         target_id = rule.get("nextElementId")

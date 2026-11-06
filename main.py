@@ -16,7 +16,7 @@ import shutil
 from test_generation.rendering_paths import render_paths
 from parsing.parser import ChatbotParser 
 from rendering.renderer import ChatbotRenderer
-from test_generation.path_finder import TestPathFinder
+from test_generation.path_finder import PathFinder
 from test_generation.botium_translator import BotiumTranslator
 from parsing.parsing_utils import load_components
 from test_generation.utils.load_json import _load_mock_registry
@@ -81,7 +81,7 @@ def main():
     nodes_dict = dict(parser.G.nodes(data=True))
     adj_dict = dict(parser.G.adj)
 
-    path_finder = TestPathFinder(nodes_dict, adj_dict, parser.G)
+    path_finder = PathFinder(nodes_dict, adj_dict, parser.G)
     paths_found = path_finder.generate_paths(start_node="USER_ENTRY")
     """
     print(f"\n{'=' * 50}")

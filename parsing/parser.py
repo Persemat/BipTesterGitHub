@@ -65,8 +65,8 @@ class ChatbotParser:
         whose data type accepts any input (i.e., 'invalid' mock is None).
         """
         if edge_data.get("condition_type") == "FALLBACK" and mapped_node.get("specific_type") == "GET_ATTRIBUTE":
-            data_type = mapped_node.get("data_type", "TEXT").lower()
-            default_mock = self.mock_data.get("text", {"valid": "Generic_Text", "invalid": None})
+            data_type = mapped_node.get("data_type", "TEXT").upper()
+            default_mock = self.mock_data.get("TEXT", {"valid": "Generic_Text", "invalid": None})
             mock_info = self.mock_data.get(data_type, default_mock)
             
             if mock_info.get("invalid") is None:

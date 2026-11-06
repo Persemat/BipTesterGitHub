@@ -1,28 +1,31 @@
 Test_Path_12
 
 #me
-Could you give me some advice on which plant to buy?
+default
 
 #bot
-*Our experts are here! Which plant are we talking about?*
+*Welcome to Green Hub*
 
 #bot
-*Write the type of the plant*
+*Type your favorite type of plant*
 
 #me
 Generic text input
 
 #bot
-*How many of them?*
+*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
 
 #me
-12345
+order track
 
 #bot
-*Write your phone number*
+*Authenticated! Your order is arriving.*
+
+#bot
+*Thanks for choosing GreenHub!*
+
+#bot
+*How would you rate the service?*1 = very bad*2 = poor*3 = avarage*4 = good*5= really good*
 
 #me
-Generic_Text_604387
-
-#bot
-*Boolean branch triggered*
+4

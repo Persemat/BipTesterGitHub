@@ -22,24 +22,10 @@ Plant advice
 *Our experts are here! Which plant are we talking about?*
 
 #bot
-*Timeout !*
-
-#bot
-*Welcome to Green Hub*
-
-#bot
-*Type your favorite type of plant*
+*How many of them?*
 
 #me
-Generic text input
-
-#bot
-*{"custom_type":"BUTTON","content":{"text":"How can I help you?:","options":[{"title":"Plant Advice","payload":"Plant advice"},{"title":"Online Site","payload":"Online site"},{"title":"Track order","payload":"Track order"}]}}*
-
-PAUSE 15000
-
-#bot
-UTT_TIMEOUT_1_4
+INVALID_INPUT_!@#_123
 
 #bot
 *Thanks for choosing GreenHub!*

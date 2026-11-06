@@ -34,28 +34,10 @@ Generic text input
 *What is your CAP?*
 
 #me
-INVALID_INPUT_!@#_123
+85797
 
 #bot
-*What is your address?*
-
-#me
-Generic text input
-
-#bot
-*What is your city?*
-
-#me
-Generic text input
-
-#bot
-*What is your CAP?*
-
-#me
-12089
-
-#bot
-*Adress data collected: Generic text input,Generic text input,12089*
+*Adress data collected: Generic text input,Generic text input,85797*
 
 #bot
 *Sending the order to the warehouse...*

@@ -1,7 +1,7 @@
 import networkx as nx
 
 
-class TestPathFinder:
+class PathFinder:
     def __init__(self, g_nodes, g_adj, nx_graph):
         """
         Initializes the path finder with the NetworkX graph and its properties.
@@ -44,68 +44,56 @@ class TestPathFinder:
     def get_escape_path(self, start_node):
         """
         Calculates the shortest valid route from a looped node to a leaf node.
-        Uses a weighted Dijkstra approach to prefer already visited edges,
-        preventing the escape route from consuming unvisited test paths.
+        Prefer already visited edges without mutating the graph.
+
+        When a cycle is detected during DFS, the test cannot simply stop mid-conversation,
+        otherwise the chatbot session would remain open and corrupt subsequent Botium tests.
+        This method finds an escape route to properly terminate the conversation, strongly
+        preferring already visited edges so unvisited branches are saved for their own dedicated tests.
         """
         if not self.leaf_nodes:
             return []
 
-        for u, v, key, data in self.G.edges(keys=True, data=True):
-            edge_sig = (u, v, key)
-            if edge_sig in self.global_visited_edges:
-                self.G[u][v][key]['weight'] = 1     
-            else:
-                self.G[u][v][key]['weight'] = 1000  
-
+        # Define a custom edge weight function that prioritizes already visited edges
+        def edge_weight(u, v, edges_dict):
+            return min(
+                1 if (u, v, k) in self.global_visited_edges else 1000
+                for k in edges_dict
+            )
+        
         shortest_path_nodes = None
-        min_length = float('inf')
+        min_cost = float('inf')
 
+        # Find the shortest path to any leaf node
         for leaf in self.leaf_nodes:
             try:
-                path = nx.shortest_path(self.G, source=start_node, target=leaf, weight='weight')
-                
-                path_cost = 0
-                for i in range(len(path) - 1):
-                    u = path[i]
-                    v = path[i+1]
-                    min_edge_weight = min(self.G[u][v][k].get('weight', 1000) for k in self.G[u][v])
-                    path_cost += min_edge_weight
-                
-                if path_cost < min_length:
-                    min_length = path_cost
-                    shortest_path_nodes = path
+                cost = nx.shortest_path_length(self.G, source=start_node, target=leaf, weight=edge_weight)
+                if cost < min_cost:
+                    min_cost = cost
+                    shortest_path_nodes = nx.shortest_path(self.G, source=start_node, target=leaf, weight=edge_weight)
             except nx.NetworkXNoPath:
                 continue
+                
 
         if not shortest_path_nodes or len(shortest_path_nodes) < 2:
             return []
 
+        # Build the escape steps based on the shortest path found
         escape_steps = []
         
         for i in range(len(shortest_path_nodes) - 1):
-            u = shortest_path_nodes[i]
-            v = shortest_path_nodes[i+1]
+            u, v = shortest_path_nodes[i], shortest_path_nodes[i + 1]
             
-            best_edge_key = None
-            best_weight = float('inf')
-            edge_data = {}
+            # Take the first visited edge if available, otherwise take the first edge
+            parallel_edges = self.G[u][v]
+            best_key = min(parallel_edges, key=lambda k: 1 if (u, v, k) in self.global_visited_edges else 1000)
             
-            if u in self.adj and v in self.adj[u]:
-                for key, data in self.adj[u][v].items():
-                    w = data.get('weight', 1000)
-                    if w < best_weight:
-                        best_weight = w
-                        best_edge_key = key
-                
-                edge_data = self.adj[u][v][best_edge_key]
-                
-            step = {
+            escape_steps.append({
                 "source": u,
                 "target": v,
-                "edge_data": edge_data,
+                "edge_data": parallel_edges[best_key],
                 "target_data": self.nodes.get(v, {})
-            }
-            escape_steps.append(step)
+            })
 
         return escape_steps
     
