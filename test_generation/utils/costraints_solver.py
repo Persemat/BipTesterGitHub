@@ -19,7 +19,7 @@ DATE_FORMATS = ["%d/%m/%Y", "%Y-%m-%d"]
 def solve_constraints(operator, target_value, data_type="TEXT", mock_value = "Generic_Value"):
     """
     Resolves the Infobip operator by generating a value that satisfies the condition.
-    SUpports TEXT, PHONE NUMBER, NUMBER, BOOLEAN and DATE data types.
+    SUpports TEXT, PHONE NUMBER, NUMBER, BOOLEAN, DATE, LOCATION and URL data types.
     """
 
     data_type = str(data_type).upper().strip()
@@ -108,43 +108,60 @@ def solve_constraints(operator, target_value, data_type="TEXT", mock_value = "Ge
             pass
 
     # 5. PHONE NUMBER type
-    # Must only contain numeric digits to avoid channel validation failures
+    # Must only contain numeric digits (and optional leading +) to avoid channel validation failures
     
     if data_type == "PHONE_NUMBER":
         val_str = str(target_value).strip()
-        if operator == "EQUAL":
+        has_plus = val_str.startswith("+")
+        digits_only = "".join(filter(str.isdigit, val_str))
+        
+        # If the target has no digits, fallback to a safe mock to avoid breaking
+        if not digits_only:
+            return mock_value
+            
+        if operator in ["EQUAL", "IS", "CONTAINS"]:
             return val_str
-        elif operator == "NOT_EQUAL":
-            # Modify the last digit to keep it a valid numeric phone string
-            last_digit = val_str[-1] if val_str and val_str[-1].isdigit() else "0"
+        elif operator in ["NOT_EQUAL", "IS_NOT"]:
+            # Modify the very last digit
+            last_digit = digits_only[-1]
             replacement = "9" if last_digit != "9" else "8"
-            return val_str[:-1] + replacement
-        elif operator == "CONTAINS":
-            return val_str
+            prefix = "+" if has_plus else ""
+            return f"{prefix}{digits_only[:-1]}{replacement}"
         elif operator == "STARTS_WITH":
+            # Append digits to the end
             return f"{val_str}999"
         elif operator == "ENDS_WITH":
-            prefix = "+39" if not val_str.startswith("+") else ""
-            return f"{prefix}123{val_str}"
-    
+            # Prepend a safe prefix, completely avoiding double '+' symbols
+            return f"39123{digits_only}"
+
     # 6. EMAIL (Validated using email address validator)
     
     if data_type == "EMAIL":
-        if "@" in val_str:
-            user_part, domain_part = val_str.split("@", 1)
-        else:
-            user_part, domain_part = "test_user", "example.com"
-
+        val_str = str(target_value).strip()
+        has_at = "@" in val_str
+        
         if operator in ["IS", "EQUAL", "CONTAINS"]:
-            return f"{user_part}@{domain_part}"
+            # Se ha già la @ la teniamo, altrimenti la trasformiamo in un'email
+            return val_str if has_at else f"{val_str}@example.com"
+            
         elif operator in ["IS_NOT", "NOT_EQUAL"]:
-            return f"{user_part}_different@{domain_part}"
+            if has_at:
+                user_part, domain_part = val_str.split("@", 1)
+                return f"{user_part}_different@{domain_part}"
+            else:
+                return f"{val_str}_different@example.com"
+                
         elif operator == "STARTS_WITH":
-            return f"{user_part}suffix@{domain_part}"
+            # Per iniziare con l'email target ed essere valida, aggiungiamo un dominio di terzo livello
+            # Es. test_user@example.com -> test_user@example.com.org
+            return f"{val_str}.org" if has_at else f"{val_str}@example.com"
+            
         elif operator == "ENDS_WITH":
-            # If it must end with domain_part
-            return f"custom_{user_part}@{domain_part}"
+            # Per finire con il target, aggiungiamo un prefisso al dominio o all'utente
+            # Es. test_user@example.com -> info.test_user@example.com
+            return f"info.{val_str}" if has_at else f"info@{val_str}"
 
+        
     # 7. URL (Rules: Validated using URL validator)
 
     if data_type == "URL":
@@ -199,6 +216,7 @@ def solve_constraints(operator, target_value, data_type="TEXT", mock_value = "Ge
 
 
 def _parse_date(value):
+
     """Parses a date written either as DD/MM/YYYY or YYYY-MM-DD; returns (date, format) or (None, None)."""
     text = str(value).strip()[:10]
     for date_format in DATE_FORMATS:
@@ -239,7 +257,7 @@ def satisfies(operator, target_value, candidate, data_type="TEXT"):
     Checks whether `candidate` satisfies "<attribute> <operator> <target_value>".
     Operators the solver does not know are reported as satisfied: there is nothing to verify.
     """
-    data_type = normalize_data_type(data_type).upper()
+    
     candidate_text = "" if candidate is None else str(candidate)
 
     if operator in NULL_OPERATORS:
@@ -318,11 +336,10 @@ def solve_conjunction(conditions, data_type="TEXT", mock_value="Generic_Value"):
         operator, target_value = conditions[0]
         return solve_constraints(operator, target_value, data_type, mock_value)
 
-    normalized_type = normalize_data_type(data_type).upper()
     for candidate in _candidate_values(conditions, data_type, mock_value):
-        if all(satisfies(op, target, candidate, normalized_type) for op, target in conditions):
+        if all(satisfies(op, target, candidate, data_type) for op, target in conditions):
             return candidate
 
-    logger.warning("No single value satisfies all of %s for type %s; using the last condition.", conditions, normalized_type)
+    logger.warning("No single value satisfies all of %s for type %s; using the last condition.", conditions, data_type)
     last_operator, last_target = conditions[-1]
     return solve_constraints(last_operator, last_target, data_type, mock_value)

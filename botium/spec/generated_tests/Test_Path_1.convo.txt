@@ -19,13 +19,13 @@ Generic text input
 INVALID_INPUT_!@#_123
 
 #bot
-UTT_REPEAT_1_4
+UTT_REPEAT_1_4_1
 
 #me
 INVALID_INPUT_!@#_123
 
 #bot
-UTT_FALLBACK_1_4
+UTT_FALLBACK_1_4_1
 
 #bot
 *Welcome to Green Hub*
@@ -42,7 +42,7 @@ Generic text input
 PAUSE 15000
 
 #bot
-UTT_TIMEOUT_1_4
+UTT_TIMEOUT_1_4_1
 
 #bot
 *Thanks for choosing GreenHub!*

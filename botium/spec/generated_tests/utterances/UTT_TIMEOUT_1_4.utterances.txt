@@ -1,4 +1,0 @@
-UTT_TIMEOUT_1_4
-*Timeout here, went to feedback*
-*Ops, timeout.*
-*Timeout triggered*

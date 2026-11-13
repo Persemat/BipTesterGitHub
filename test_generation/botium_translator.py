@@ -91,7 +91,7 @@ class BotiumTranslator:
 
         return self.solve_conditions(conditions)
 
-    def get_message(self, node_data, node_id, session_variables=None):
+    def get_message(self, node_data, node_id, session_variables, path_index):
         """Extracts the visible text from the bot's response node."""
         session_variables = session_variables or {}
         macro_type = node_data.get("macro_type")
@@ -103,6 +103,9 @@ class BotiumTranslator:
                 msgs = content.get("messages_list", [])
                 if not msgs:
                     return None
+
+                # Check if any of the messages contain attribute placeholders (e.g., {{attribute_id}})
+                has_placeholder = any("{{" in m and "}}" in m for m in msgs)
 
                 # Clean the messages by replacing attribute placeholders with actual values from path_constraints
                 cleaned_msgs = []
@@ -125,7 +128,14 @@ class BotiumTranslator:
                 if len(cleaned_msgs) == 1:
                     return cleaned_msgs[0]
                 else:
-                    utt_name = f"UTT_NODE_{node_id}"
+                    # Use index ONLY if there is a placeholder so that the same node 
+                    # in different paths can have different utterances and avoid overwriting the same UTT file. 
+                    # Otherwise, use a static name to avoid creating multiple identical UTT files for the same node.
+                   
+                    if has_placeholder:
+                        utt_name = f"UTT_NODE_{node_id}_{path_index}"
+                    else:
+                        utt_name = f"UTT_NODE_{node_id}"
                     self.global_utterances[utt_name] = cleaned_msgs
                     return utt_name
             
@@ -169,7 +179,7 @@ class BotiumTranslator:
                 if len(cleaned_questions) == 1:
                     return cleaned_questions[0]
                 else:
-                    utt_name = f"UTT_QUESTION_{node_id}"
+                    utt_name = f"UTT_QUESTION_{node_id}_{path_index}"
                     self.global_utterances[utt_name] = cleaned_questions
                     return utt_name
 
@@ -214,7 +224,7 @@ class BotiumTranslator:
                                     return f"Generic_Text_{attr_id}"
                             
                             # Retrieve the valid mock value for this data type from the mock registry
-                            mock_value = self.mock_registry.get(data_type).get("valid", None)
+                            mock_value = self.mock_registry.get(data_type).get("valid", {})
                             
                             # If no specific mock value exists, return a generic placeholder for the attribute
                             return mock_value or f"Generic_Text_{attr_id}"
@@ -269,12 +279,12 @@ class BotiumTranslator:
         path_constraints = self.pre_scan_path_constraints(path)
         
         # 2. Logic Extraction: Process the path and build conversational turns
-        turns = self._process_path_logic(path, path_constraints)
+        turns = self._process_path_logic(path, path_constraints, path_index)
         
         # 3. Syntax Formatting: Convert logical turns into Botium syntax rules
         return self._format_botium_script(turns, path_index)
 
-    def _process_path_logic(self, path, path_constraints):
+    def _process_path_logic(self, path, path_constraints, path_index):
         """
         Iterates through the path, handling turn-taking, CSAT loops, and error/timeout injections.
         Returns a structured list of conversational turns.
@@ -361,7 +371,7 @@ class BotiumTranslator:
                         if repeat_msgs:    
                             # If multiple variants exist, create an Utterance reference
                             if len(repeat_msgs) > 1:
-                                utt_name = f"UTT_REPEAT_{step['source']}"
+                                utt_name = f"UTT_REPEAT_{step['source']}_{path_index}"
                                 self.global_utterances[utt_name] = repeat_msgs
                                 current_turn["bot_responses"].append(utt_name)
                             else:
@@ -374,7 +384,7 @@ class BotiumTranslator:
                     # 2. DEFINITIVE FALLBACK (Attempts exhausted)
                     if fallback_msgs:
                         if len(fallback_msgs) > 1:
-                            utt_name = f"UTT_FALLBACK_{step['source']}"
+                            utt_name = f"UTT_FALLBACK_{step['source']}_{path_index}"
                             self.global_utterances[utt_name] = fallback_msgs
                             current_turn["bot_responses"].append(utt_name)
                         else:
@@ -384,7 +394,7 @@ class BotiumTranslator:
                     timeout_msgs = edge.get("messages_list", [])
                     if timeout_msgs:
                         if len(timeout_msgs) > 1:
-                            utt_name = f"UTT_TIMEOUT_{step['source']}"
+                            utt_name = f"UTT_TIMEOUT_{step['source']}_{path_index}"
                             self.global_utterances[utt_name] = timeout_msgs
                             current_turn["bot_responses"].append(utt_name)
                         else:
@@ -402,7 +412,7 @@ class BotiumTranslator:
                 bot_msg = None
             else:
                 target_node_id = step.get("target", "UNKNOWN")
-                bot_msg = self.get_message(target_data, target_node_id, session_variables)
+                bot_msg = self.get_message(target_data, target_node_id, session_variables, path_index)
 
             # Handle special cases like Webhook nodes that require a wait time before the bot responds
             if source_data and source_data.get("specific_type") == "WEBHOOK":

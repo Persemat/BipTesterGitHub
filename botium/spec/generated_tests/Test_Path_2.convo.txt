@@ -18,7 +18,7 @@ Generic text input
 PAUSE 15000
 
 #bot
-UTT_TIMEOUT_1_4
+UTT_TIMEOUT_1_4_2
 
 #bot
 *Thanks for choosing GreenHub!*
