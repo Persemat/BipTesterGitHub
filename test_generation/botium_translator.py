@@ -12,6 +12,7 @@ class BotiumTranslator:
         raw_mock = mock_data or {}
         self.mock_registry = raw_mock.get("DATATYPE_MOCKS", raw_mock)
         self.attributes = attributes or {}
+        self.unknown_nodes_report = []  # List to track unhandled node types for reporting
 
     def collect_conditions(self, logic_tree):
         """
@@ -182,7 +183,9 @@ class BotiumTranslator:
                     utt_name = f"UTT_QUESTION_{node_id}_{path_index}"
                     self.global_utterances[utt_name] = cleaned_questions
                     return utt_name
-
+        elif macro_type == "UNKNOWN" :
+            self.unknown_nodes_report.append((path_index, node_id, spec_type))
+            return f"TODO_REPLACE_UNKNOWN_NODE_{spec_type}_ID_{node_id}"
         # ACTION, DELAY, or routing nodes do not produce visible text
         return None
 
@@ -224,7 +227,7 @@ class BotiumTranslator:
                                     return f"Generic_Text_{attr_id}"
                             
                             # Retrieve the valid mock value for this data type from the mock registry
-                            mock_value = self.mock_registry.get(data_type).get("valid", {})
+                            mock_value = self.mock_registry.get(data_type).get("valid", {None})
                             
                             # If no specific mock value exists, return a generic placeholder for the attribute
                             return mock_value or f"Generic_Text_{attr_id}"
@@ -455,6 +458,8 @@ class BotiumTranslator:
                     convo_lines.append(f"#bot\n{response}\n")
                 elif response.startswith("WAITFORBOT"):
                     convo_lines.append(f"{response}\n")
+                elif response.startswith("TODO_REPLACE_UNKNOWN_NODE_"):
+                    convo_lines.append(f"#bot\n{response}\n")
                 else:
                     # Clean the response text to ensure it doesn't have unwanted newlines or excessive spaces
                     clean_response = re.sub(r'[\r\n]+', '*', response)

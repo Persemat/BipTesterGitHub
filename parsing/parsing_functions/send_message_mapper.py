@@ -59,7 +59,7 @@ def map_send_message(d_id, e_id, element):
             }
 
             if header:
-                content["header"] = header
+                content["header"] = header_data
             if footer:
                 content["footer"] = footer
         

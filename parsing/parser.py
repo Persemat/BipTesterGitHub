@@ -120,7 +120,7 @@ class ChatbotParser:
     def map_unknown(self, d_id, e_id, element):
         print(f"Skipping or creating temporary map for unhandled element type: {element.get('type')}")
         action = element.get("action", {})
-        next_elem = action.get("nextElementId")
+        next_elem = action.get("nextElementId") or element.get("nextElementId")
         next_combined_id = f"{d_id}_{next_elem}" if next_elem else None
 
         return {

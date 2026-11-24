@@ -1,18 +1,19 @@
-# Node
-node_modules/
-botiumwork/
-
-# Python
-__pycache__/
-*.pyc
-.venv/
-venv/
-
-# Environment 
+# Configuration files
 .env
+botium.json
 
-# Botium
-botium/spec/*
-botium/botium.json
+# Dependencies
+node_modules/
+venv/
+__pycache__/
+*.py[cod]
 
-tempCodeRunnerFile.py
+# Reports and artifacts
+reports/
+mochawesome-report/
+botium/spec/generated_tests/
+chatbot_graph
+chatbot_graph.pdf
+chatbot_graph.png
+
+botiumwork/

@@ -1,0 +1,306 @@
+{
+    "exportMetadata": "324653F0657CBAC1F3DA75FEE5B4A242AA85AC0D3846E83EDF72865F27C91F205EB50D2038C745C7F212C3F517F4EB472FE3C70DE598160AEB636255D696CC3414CA26146EB978E87A87AB91E3182E60B7A61464CC09B16A0C3CF2090C872F7CC3AEDFD9837F2308F7A8BF1BE11E6E9EE43FDB7D03AF56F98022978A49279EC68F7269954DC3565402617C8A78307C6F",
+    "botRequest": {
+        "name": "Sage - Example University WhatsApp Bot",
+        "channel": "WHATSAPP",
+        "escapePhrases": [],
+        "language": "ENGLISH",
+        "sessionTimeout": 30,
+        "sessionEngagementReminders": {},
+        "sendCallbackDataInPublicAnswersEvents": false,
+        "senders": [],
+        "senderConfiguration": {},
+        "botType": "CHATBOT",
+        "sendTypingIndicator": false
+    },
+    "dialogRequests": [
+        {
+            "internalId": 1,
+            "botId": 764604,
+            "type": "DEFAULT",
+            "name": "DEFAULT",
+            "diagramX": 0,
+            "diagramY": 0,
+            "intentId": 1,
+            "elements": [
+                {
+                    "id": 1,
+                    "name": "Call Sage Orchestrator",
+                    "description": "",
+                    "diagramX": 12,
+                    "diagramY": 22,
+                    "type": "EXTENSION",
+                    "action": {
+                        "extensionId": "6b1d9ca4-adef-4d7f-adce-678c02bf09d2",
+                        "functionName": "askAgent",
+                        "inputAttributes": {},
+                        "inputParameters": [
+                            {
+                                "name": "agentId",
+                                "value": {
+                                    "jsonValue": "01m75djknw37hh01f6t0q2ph9f",
+                                    "type": "STRING"
+                                },
+                                "sensitive": false,
+                                "sendAsHeader": false,
+                                "type": "INPUT_VALUE"
+                            },
+                            {
+                                "name": "message",
+                                "value": {
+                                    "jsonValue": "{{lastReceivedMessage}}",
+                                    "type": "STRING"
+                                },
+                                "sensitive": false,
+                                "sendAsHeader": false,
+                                "type": "INPUT_VALUE"
+                            },
+                            {
+                                "name": "sessionId",
+                                "value": {
+                                    "jsonValue": "{{sessionId}}",
+                                    "type": "STRING"
+                                },
+                                "sensitive": false,
+                                "sendAsHeader": false,
+                                "type": "INPUT_VALUE"
+                            },
+                            {
+                                "name": "endUserDestination",
+                                "value": {
+                                    "jsonValue": "{{endUserDestination}}",
+                                    "type": "STRING"
+                                },
+                                "sensitive": false,
+                                "sendAsHeader": false,
+                                "type": "INPUT_VALUE"
+                            }
+                        ],
+                        "collectAttributes": [
+                            {
+                                "attributeId": 2,
+                                "extractionPath": "$.content"
+                            }
+                        ],
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 5,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 2,
+                        "timeoutSeconds": 60,
+                        "type": "EXTENSION"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "Parse Agent JSON",
+                    "description": "",
+                    "diagramX": 462,
+                    "diagramY": 12,
+                    "type": "CODING",
+                    "action": {
+                        "code": "var raw = attributeApi.get('content') || '';\nvar text = raw;\ntry {\n  var parsed = JSON.parse(raw);\n  if (parsed && typeof parsed.response === 'string' && parsed.response) text = parsed.response;\n} catch (e) {}\nattributeApi.set('response', text || 'Sorry, I could not come up with an answer. Please try again.');\n",
+                        "language": "JAVASCRIPT",
+                        "nextElementId": 3,
+                        "type": "CODING"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "Send Agent Response",
+                    "description": "",
+                    "diagramX": 912,
+                    "diagramY": 12,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "{{response}}",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 4,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "Wait for User",
+                    "description": "",
+                    "diagramX": 1362,
+                    "diagramY": 12,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [],
+                        "attributeId": 4,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 1,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 5,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "Loop Back",
+                    "description": "",
+                    "diagramX": 1812,
+                    "diagramY": 12,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 1,
+                        "shareAttributes": true,
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 1,
+            "order": 0,
+            "restricted": false
+        },
+        {
+            "internalId": 5,
+            "botId": 764604,
+            "type": "REGULAR",
+            "name": "error",
+            "diagramX": 0,
+            "diagramY": 0,
+            "elements": [
+                {
+                    "id": 1,
+                    "name": "Error Message",
+                    "description": "",
+                    "diagramX": 12,
+                    "diagramY": 12,
+                    "type": "SEND_MESSAGE",
+                    "action": {
+                        "messages": [
+                            {
+                                "message": "Something went wrong. Please try again.",
+                                "type": "TEXT"
+                            }
+                        ],
+                        "nextElementId": 2,
+                        "type": "SEND_WHATSAPP"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "Wait for User",
+                    "description": "",
+                    "diagramX": 462,
+                    "diagramY": 23,
+                    "type": "GET_ATTRIBUTE",
+                    "action": {
+                        "questions": [],
+                        "attributeId": 4,
+                        "customValidation": false,
+                        "repeat": {
+                            "count": 0,
+                            "messages": [],
+                            "sendAsVoice": false
+                        },
+                        "fallback": {
+                            "fallbackAction": "GO_TO_DIALOG",
+                            "goToDialogId": 1,
+                            "sendAsVoice": false
+                        },
+                        "nextElementId": 3,
+                        "type": "GET_ATTRIBUTE"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "Retry Agent",
+                    "description": "",
+                    "diagramX": 912,
+                    "diagramY": 23,
+                    "type": "GO_TO_DIALOG",
+                    "action": {
+                        "dialogId": 1,
+                        "shareAttributes": true,
+                        "type": "GO_TO_DIALOG"
+                    }
+                }
+            ],
+            "startElementId": 1,
+            "order": 1,
+            "restricted": false
+        }
+    ],
+    "dialogGroupRequests": [],
+    "intentRequests": [
+        {
+            "internalId": 1,
+            "botId": 764604,
+            "name": "Default",
+            "phrases": [],
+            "importantWords": [],
+            "attributeIds": [],
+            "default": true
+        }
+    ],
+    "attributeRequests": [
+        {
+            "internalId": 2,
+            "botId": 764604,
+            "name": "content",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "sensitive": false,
+            "description": "Raw JSON returned by the AI agent connector",
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 3,
+            "botId": 764604,
+            "name": "response",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "sensitive": false,
+            "description": "Parsed text to show the user",
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        },
+        {
+            "internalId": 4,
+            "botId": 764604,
+            "name": "usermessage",
+            "dataType": "TEXT",
+            "scope": "GLOBAL",
+            "sensitive": false,
+            "description": "User reply capture (wait point)",
+            "required": false,
+            "inputAttribute": false,
+            "outputAttribute": false,
+            "fixedAttribute": false,
+            "type": "REGULAR"
+        }
+    ],
+    "keywordRequests": [],
+    "customAttributeTypes": [],
+    "testCases": [],
+    "dependencies": {
+        "conversationTags": [],
+        "extensionElements": [
+            "6b1d9ca4-adef-4d7f-adce-678c02bf09d2"
+        ],
+        "exchangeElements": []
+    }
+}

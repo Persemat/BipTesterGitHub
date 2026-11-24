@@ -1,5 +1,14 @@
 const express = require('express');
 const axios = require('axios');
+require('dotenv').config();
+const WEBHOOK_URL = process.env.WEBHOOK_URL;
+const WEBHOOK_ENDPOINT = process.env.WEBHOOK_ENDPOINT || "/api/botium-webhook";
+const PORT = process.env.PROXY_PORT || 3000;
+
+if (!WEBHOOK_URL) {
+    console.error("[PROXY] ERROR: WEBHOOK_URL is not defined. Make sure to launch the proxy via run_e2e.py!");
+    process.exit(1);
+}
 
 const app = express();
 
@@ -7,7 +16,7 @@ const app = express();
 // preventing Express from stripping out unformatted data.
 app.use(express.text({ type: '*/*' }));
 
-app.post('/api/botium-webhook', async (req, res) => {
+app.post(WEBHOOK_ENDPOINT, async (req, res) => {
     try {
         console.log("---------------------------------------------------");
         console.log("[PROXY] Webhook received from Infobip/Ngrok");
@@ -48,7 +57,7 @@ app.post('/api/botium-webhook', async (req, res) => {
 });
 
 // Start the Proxy Server
-const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`[PROXY] Active and listening on port ${PORT}...`);
+    console.log(`[PROXY] Tunnel Url: ${WEBHOOK_URL}`);
 });

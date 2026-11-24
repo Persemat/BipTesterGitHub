@@ -23,6 +23,7 @@ Attraverso la modellazione del bot in un grafo matematico, il tool garantisce la
 Prima di iniziare, assicurati di avere installato sulla tua macchina:
 - **Python 3.8+** (per il motore di parsing e generazione test)
 - **Node.js 16+** (per eseguire l'ambiente Botium CLI e il reverse proxy)
+- Express.js -> Framework per inoltro richieste 
 - Accesso a un bot Infobip configurato con **Open Channel** 
 - Account ngrok 
 
@@ -103,11 +104,11 @@ FrameworkTestInfobip/
 
     - **Configura l'endpoint:** 
 
-      Copia l'URL pubblico generato da ngrok (es. [https://xyz.ngrok.app](https://xyz.ngrok.app)) e incollalo nel campo responseWebhook all'interno del file botium/botium.json:
+      Copia l'URL pubblico generato da ngrok (es. [https://xyz.ngrok.app](https://xyz.ngrok.app)) e incollalo nel campo responseWebhook all'interno del file botium/botium.json concatenandolo al valore indiciato da SIMPLEREST_INBOUND_ENDPOINT (sotto nello stesso file):
 
       ```JSON
       "responseWebhook": {
-      "url": "inserisci_qui_l_url_di_ngrok"
+      "url": "inserisci_qui_l_url_di_ngrok/SIMPLEREST_INBOUND_ENDPOINT"
       }
       ```
 

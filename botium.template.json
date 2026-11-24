@@ -4,7 +4,7 @@
       "PROJECTNAME": "Automated_Chatbot_Testing_Botium",
       "CONTAINERMODE": "simplerest",
       "SIMPLEREST_METHOD": "POST",
-      "SIMPLEREST_URL": "https://2yv1z6.api.infobip.com/open-channel/1/messages/inbound",
+      "SIMPLEREST_URL": "<INFOBIP_BASE_URL>/open-channel/1/messages/inbound",
       "WAITFORBOTTIMEOUT": 30000,
       "SCRIPTING_MATCHING_MODE": "wildcardIgnoreCase",
       "SIMPLEREST_HEADERS_TEMPLATE": {
